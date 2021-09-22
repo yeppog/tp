@@ -11,7 +11,7 @@ You can reach us at the email `renweilin@u.nus.edu`
 
 ### Hans Sebastian Tirtaputra
 
-<img src="images/advisor.jpg" width="200px">
+<img src="images/advisor.png" width="200px">
 
 [[homepage](https://www.linkedin.com/in/hans-sebastian-tirtaputra/?originalSubdomain=sg)]
 [[github](https://github.com/hansebastian)]
@@ -21,17 +21,17 @@ You can reach us at the email `renweilin@u.nus.edu`
 
 ### Ren Weilin
 
-<img src="images/renweilin.jpg" width="200px">
+<img src="images/wlren.png" width="200px">
 
 [[github](http://github.com/wlren)]
-[[portfolio](team/renweilin.md)]
+[[portfolio](team/wlren.md)]
 
 * Role: Team Lead
 * Responsibilities: Manages the issues and milestones of tP, allocates tasks as well as take on development
 
 ### Jeff Sieu Yong
 
-<img src="images/jeffsieu.jpg" width="200px">
+<img src="images/jeffsieu.png" width="200px">
 
 [[github](http://github.com/jeffsieu)] [[portfolio](team/jeffsieu.md)]
 
@@ -40,10 +40,10 @@ You can reach us at the email `renweilin@u.nus.edu`
 
 ### Chen Mingyi
 
-<img src="images/chenmingyi.png" width="200px">
+<img src="images/mingyi456.png" width="200px">
 
 [[github](https://github.com/mingyi456)]
-[[portfolio](team/chenmingyi.md)]
+[[portfolio](team/mingyi456.md)]
 
 * Role: Developer
 * Responsibilities: Dev Ops
@@ -53,17 +53,17 @@ You can reach us at the email `renweilin@u.nus.edu`
 <img src="images/jonathanlee.png" width="200px">
 
 [[github](https://github.com/yeppog)]
-[[portfolio](team/jonathanlee.md)]
+[[portfolio](team/yeppog.md)]
 
 * Role: Developer
 * Responsibilities: Testing
 
 ### Koh Jia Xian
 
-<img src="images/kohjiaxian.jpg" width="200px">
+<img src="images/koh-jx.png" width="200px">
 
 [[github](https://github.com/koh-jx)]
-[[portfolio](team/kohjiaxian.md)]
+[[portfolio](team/koh-jx.md)]
 
 * Role: Developer
 * Responsibilities: Docs, UI
