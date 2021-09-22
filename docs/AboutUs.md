@@ -9,19 +9,19 @@ You can reach us at the email `renweilin@u.nus.edu`
 
 ## Project team
 
-### Advisor
+### Hans Sebastian Tirtaputra
 
-<img src="images/johndoe.png" width="200px">
+<img src="images/advisor.jpg" width="200px">
 
-[[homepage](http://www.comp.nus.edu.sg/~damithch)]
-[[github](https://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
+[[homepage](https://www.linkedin.com/in/hans-sebastian-tirtaputra/?originalSubdomain=sg)]
+[[github](https://github.com/hansebastian)]
+[[portfolio](team/advisor.md)]
 
 * Role: Project Advisor
 
 ### Ren Weilin
 
-<img src="images/renweilin.png" width="200px">
+<img src="images/renweilin.jpg" width="200px">
 
 [[github](http://github.com/wlren)]
 [[portfolio](team/renweilin.md)]
@@ -31,7 +31,7 @@ You can reach us at the email `renweilin@u.nus.edu`
 
 ### Jeff Sieu Yong
 
-<img src="images/jeffsieu.png" width="200px">
+<img src="images/jeffsieu.jpg" width="200px">
 
 [[github](http://github.com/jeffsieu)] [[portfolio](team/jeffsieu.md)]
 
@@ -60,7 +60,7 @@ You can reach us at the email `renweilin@u.nus.edu`
 
 ### Koh Jia Xian
 
-<img src="images/kohjiaxian.png" width="200px">
+<img src="images/kohjiaxian.jpg" width="200px">
 
 [[github](https://github.com/koh-jx)]
 [[portfolio](team/kohjiaxian.md)]
