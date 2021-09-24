@@ -45,10 +45,13 @@ public class MainWindow extends UiPart<Stage> {
     private StackPane personListPanelPlaceholder;
 
     @FXML
+    private StackPane taskListPanelPlaceholder;
+
+    @FXML
     private StackPane resultDisplayPlaceholder;
 
     @FXML
-    private StackPane statusbarPlaceholder;
+    private StackPane statusBarPlaceholder;
 
     /**
      * Creates a {@code MainWindow} with the given {@code Stage} and {@code Logic}.
@@ -110,14 +113,25 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
+        TaskListPanel taskListPanel = new TaskListPanel(logic.getTaskList());
+        taskListPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
+
+
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
+//        label = new Label("Address Book");
+//        label.setFont(new Font(24));
+//        label.setPadding(new Insets(16, 16, 0, 16));
+//        box = new VBox(label, personListPanel.getRoot());
+//        box.getStyleClass().add("pane-with-border");
+////        box.setPadding(new Insets(16, 16, 0, 16));
+//        box.setSpacing(8);
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
 
         StatusBarFooter statusBarFooter = new StatusBarFooter(logic.getAddressBookFilePath());
-        statusbarPlaceholder.getChildren().add(statusBarFooter.getRoot());
+        statusBarPlaceholder.getChildren().add(statusBarFooter.getRoot());
 
         CommandBox commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
