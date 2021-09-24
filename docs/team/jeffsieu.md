@@ -16,7 +16,7 @@ NA (Enlisted in the RSAF)
 
 ## Projects and Competitions
 
-#### [Multivus](https://github.com/wlren/multiverse)
+#### [Multiverse](https://github.com/wlren/multiverse)
 
 - Co-developed an all-in-one NUS app as part of CP2106 Independent Software Development Project (Orbital 2020).
 
