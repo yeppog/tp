@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
@@ -14,6 +15,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Timestamp;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -120,5 +122,10 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    public static Timestamp parseTimestamp(String timestamp) {
+        requireNonNull(timestamp);
+        return new Timestamp(timestamp);
     }
 }
