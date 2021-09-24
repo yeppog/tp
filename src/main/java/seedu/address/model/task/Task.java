@@ -1,11 +1,11 @@
 package seedu.address.model.task;
 
-import seedu.address.model.tag.Tag;
-
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import seedu.address.model.tag.Tag;
 
 /**
  * Represents a Task in the task list.
@@ -19,6 +19,13 @@ public class Task {
     private final Timestamp timestamp;
     private final Set<Tag> tags = new HashSet<>();
 
+    /**
+     * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
+     * @param title The title of the task
+     * @param description The optional description of the task
+     * @param timestamp The optional timestamp of the task
+     * @param tags The tags of the task
+     */
     public Task(String title, String description, Timestamp timestamp, Set<Tag> tags) {
         requireAllNonNull(title, tags);
 
