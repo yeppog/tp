@@ -50,7 +50,7 @@ You can reach us at the email `renweilin@u.nus.edu`
 
 ### Jonathan Lee Jing Yu
 
-<img src="images/jonathanlee.png" width="200px">
+<img src="images/yeppog.png" width="200px">
 
 [[github](https://github.com/yeppog)]
 [[portfolio](team/yeppog.md)]
