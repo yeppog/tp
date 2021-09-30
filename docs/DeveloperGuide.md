@@ -285,9 +285,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+#### Use case: Delete a person
 
-**MSS**
+##### MSS
 
 1.  User requests to list persons
 2.  AddressBook shows a list of persons
@@ -296,7 +296,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
     Use case ends.
 
-**Extensions**
+##### Extensions
 
 * 2a. The list is empty.
 
@@ -305,6 +305,68 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * 3a. The given index is invalid.
 
     * 3a1. AddressBook shows an error message.
+
+      Use case resumes at step 2.
+
+#### Use case: Add a task
+
+##### MSS
+
+1.  User requests to add a task
+2.  TaskMaster2103 shows an updated list of tasks
+
+    Use case ends.
+
+##### Extensions
+
+* 1a. The task does not contain a title.
+
+    * 3a1. TaskMaster2103 shows an error message.
+
+      Use case resumes at step 1.
+#### Use case: Edit a task
+
+##### MSS
+
+1.  User requests to list tasks
+2.  TaskMaster2103 shows a list of tasks
+3.  User requests to edit a specific task in the list
+4.  TaskMaster2103 edits the task
+
+    Use case ends.
+
+##### Extensions
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. TaskMaster2103 shows an error message.
+
+      Use case resumes at step 2.
+
+#### Use case: Delete a task
+
+##### MSS
+
+1.  User requests to list tasks
+2.  TaskMaster2103 shows a list of tasks
+3.  User requests to delete a specific tasks in the list
+4.  TaskMaster2103 deletes the person
+
+    Use case ends.
+
+##### Extensions
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+    * 3a1. TaskMaster2103 shows an error message.
 
       Use case resumes at step 2.
 
