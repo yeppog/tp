@@ -282,16 +282,67 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `TaskMaster2103` and the **Actor** is the `user`, unless specified otherwise)
 
-#### Use case: Delete a person
+#### Use case: UCP01 - Add a person
 
 ##### MSS
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1. User requests add a person.
+
+2. TaskMaster2103 shows a list of updated tasks.
+
+   Use case ends.
+
+
+##### Extensions
+
+* 1a. An invalid field is specified
+
+  * 1a1. TaskMaster2103 shows an error message.
+
+    Use case resumes at step 1.
+
+#### Use case: UCP02 -  Edit a person
+
+##### MSS
+
+1. User requests to list persons.
+
+2. TaskMaster2103 shows a list of persons.
+
+3. User requests to edit a specific person in the list with the new values of the fields to be updated.
+
+4. TaskMaster2103 updates the specified fields of the person.
+
+   Use case ends.
+
+##### Extensions
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+  * 3a1. TaskMaster2103 shows an error message.
+
+    Use case resumes at step 2.
+
+* 3b1. A field is specified wrongly.
+
+  * 3a1. TaskMaster2103 shows an error message.
+
+    Use case resumes at step 2.
+
+#### Use case: UCP03 - Delete a person
+
+##### MSS
+
+1.  User requests to list persons.
+2.  TaskMaster2103 shows a list of persons.
+3.  User requests to delete a specific person in the list.
+4.  TaskMaster2103 deletes the person.
 
     Use case ends.
 
@@ -303,16 +354,26 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. TaskMaster2103 shows an error message.
 
       Use case resumes at step 2.
 
-#### Use case: Add a task
+#### Use case: UCP04 - Search for a person
 
 ##### MSS
 
-1.  User requests to add a task
-2.  TaskMaster2103 shows an updated list of tasks
+1. User requests to search for a list of keywords.
+
+2. TaskMaster2103 shows a list of people whose names match any of the keywords.
+
+   Use case ends.
+
+#### Use case: UCT01 - Add a task
+
+##### MSS
+
+1.  User requests to add a task.
+2.  TaskMaster2103 shows an updated list of tasks.
 
     Use case ends.
 
@@ -320,17 +381,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 1a. The task does not contain a title.
 
-    * 3a1. TaskMaster2103 shows an error message.
+    * 1a1. TaskMaster2103 shows an error message.
 
       Use case resumes at step 1.
-#### Use case: Edit a task
+#### Use case: UCT02 - Edit a task
 
 ##### MSS
 
-1.  User requests to list tasks
-2.  TaskMaster2103 shows a list of tasks
-3.  User requests to edit a specific task in the list
-4.  TaskMaster2103 edits the task
+1.  User requests to list tasks.
+2.  TaskMaster2103 shows a list of tasks.
+3.  User requests to edit a specific task in the list.
+4.  TaskMaster2103 edits the task.
 
     Use case ends.
 
@@ -346,14 +407,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-#### Use case: Delete a task
+#### Use case: UCT03 - Delete a task
 
 ##### MSS
 
-1.  User requests to list tasks
-2.  TaskMaster2103 shows a list of tasks
-3.  User requests to delete a specific tasks in the list
-4.  TaskMaster2103 deletes the person
+1.  User requests to list tasks.
+2.  TaskMaster2103 shows a list of tasks.
+3.  User requests to delete a specific tasks in the list.
+4.  TaskMaster2103 deletes the person.
 
     Use case ends.
 
