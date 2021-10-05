@@ -374,15 +374,23 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-*{More to be added}*
+2.  Should be able to work on both 32-bit and 64-bit environments.
+3.  A user with above average typing speed of 60 words per minute for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4.  The system should respond within 1 second to any (valid or invalid) command given via typing or GUI.
+5.  The system will store the data in a JSON file locally, and will not have a server component.
+6.  Older versions of locally-stored data should be compatible with newer versions of the app.
+7.  The system should load the locally-stored data within 1 second when the app starts up.
+8.  The app should save any changes to the data immediately when the command is processed, to avoid possible data loss.
+9.  The app should only read the JSON file for the locally-stored list, and nothing else.
+10. The locally-stored data should not exceed 5GB in size, for tasks, tags and templates.
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Locally-stored data**: Data stored under ./data/addressbook.json within the same folder\
+* **Given index (of a task)**: The location of the task in the tasklist. First task is **1**, and increases in ascending order.
+* **Templates**: User-defined preset format for a task
+* **Tags**: User-defined label attached a task to provide identification and/or information
 
 --------------------------------------------------------------------------------------------------------------------
 
