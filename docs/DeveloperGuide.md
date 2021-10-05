@@ -275,26 +275,30 @@ Comprehensive user narrative [here](https://docs.google.com/document/d/1B5kaY-Tr
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                                         | I want to …​                                         | So that I can…​                                         |
-| -------- | --------------------------------------------------------------- | ---------------------------------------------------- | ------------------------------------------------------- |
-| `* * *`  | student                                                         | add tasks into a tasklist                            | keep a list of tasks I need to do                       |
-| `* * *`  | student                                                         | delete tasks                                         | remove tasks that are no longer applicable              |
-| `* * *`  | student with one laptop                                         | access my data locally                               | use the application without an internet connection      |
-| `* * *`  | new user                                                        | use the GUI                                          | use the app easily from the desktop                     |
-| `* * *`  | student who often makes typos                                   | edit tasks                                           | correct tasks that were entered wrongly                 |
-| `* * *`  | student with similar tasks                                      | create skeleton templates                            | add tasks without repeating actions                     |
-| `* * *`  | student with different commitments                              | categorise tasks using tags                          | differentiate whcih tasks belongs to which commitment   |
-| `* * *`  | student with different commitments                              | overview of my tasks by workload                     | I can understand which tasks I need to prioritise       |
-| `* * *`  | student who is forgetful                                        | receive reminders                                    | be reminded for upcoming tasks                          |
-| `* * *`  | student who receives periodic assignments                       | create recurring tasks that repeat at a set interval | save time                                               |
-| `* *`    | student with varying type of tasks                              | attach various files or messages                     | increase convenience of access                          |
-| `* *`    | a veteran user                                                  | have CLI to organise my tasks                        | save time from not having to point and click on the GUI |
-| `* *`    | busy student                                                    | be able to add tasks using CLI                       | save time from not needing to sort my schedule          |
-| `* *`    | student that manages multiple projects across different modules | tag tasks with contacts                              | know who is participating in which meeting or task      |
-| `* *`    | a student who love data and visualisations                      | view previously completed tasks over time            | to gain insights into my producitvity                  |
-| `*`      | student with similar tasks                                      | create custom macros                                 | save time                                               |
-| `*`      | student that is finishing their semester                        | purge data on tasks and templats                     | remove clutter on my app                                |
-| `*`      | student with many tasks                                         | track progress for tasks                             | visualise the time required for each task               |
+| Priority | As a …​                                                          | I want to …​                                                       | So that I can…​                                         |
+| -------- | ---------------------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------- |
+| `* * *`  | student                                                          | add tasks into a tasklist                                          | keep a list of tasks I need to do                       |
+| `* * *`  | student                                                          | delete tasks                                                       | remove tasks that are no longer applicable              |
+| `* * *`  | student with one laptop                                          | access my data locally                                             | use the application without an internet connection      |
+| `* * *`  | new user                                                         | use the GUI                                                        | use the app easily from the desktop                     |
+| `* * *`  | student who often makes typos                                    | edit tasks                                                         | correct tasks that were entered wrongly                 |
+| `* * *`  | student with similar tasks                                       | create skeleton templates                                          | add tasks without repeating actions                     |
+| `* * *`  | student with different commitments                               | categorise tasks using tags                                        | differentiate whcih tasks belongs to which commitment   |
+| `* * *`  | student with different commitments                               | overview of my tasks by workload                                   | understand which tasks I need to prioritise             |
+| `* * *`  | student who is forgetful                                         | receive reminders                                                  | be reminded for upcoming tasks                          |
+| `* * *`  | student who receives periodic assignments                        | create recurring tasks that repeat at a set interval               | save time                                               |
+| `* *`    | student with varying type of tasks                               | attach various files or messages                                   | increase convenience of access                          |
+| `* *`    | a veteran user                                                   | have CLI to organise my tasks                                      | save time from not having to point and click on the GUI |
+| `* *`    | busy student                                                     | be able to add tasks using CLI                                     | save time from not needing to sort my schedule          |
+| `* *`    | student that manages multiple projects across different modules  | tag tasks with contacts                                            | know who is participating in which meeting or task      |
+| `* *`    | a student who love data and visualisations                       | view previously completed tasks over time                          | gain insights into my producitvity                      |
+| `*`      | student with similar tasks                                       | create custom macros                                               | save time                                               |
+| `*`      | student that is finishing their semester                         | purge data on tasks and templates                                  | remove clutter on my app                                |
+| `*`      | student with many tasks                                          | track progress for tasks                                           | visualise the time required for each task               |
+| `*`      | student who has to manage projects with peers                    | create tasks that can be emailed to individuals on my contact list | facilitate quick communication                          |
+| `*`      | student who easily gets bored focusing too much on a single task | shuffle the arrangement of upcoming tasks                          | work on another task with similar priority              |
+| `*`      | student who may make mistakes                                    | undo my changes                                                    | revert any changes if needed                            |
+| `*`      | student who has some tasks of utmost importance                  | designate special tasks that block out a certain time period       | avoid scheduling other tasks that clash with them       |
 
 ### Use cases
 
