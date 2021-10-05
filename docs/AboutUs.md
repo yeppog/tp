@@ -3,9 +3,10 @@ layout: page
 title: About Us
 ---
 
-We are a team based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg).
+We are a team of five based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg).
+We hope to build upon the functionalities of AB3 and make it something unique and meaningful!
 
-You can reach us at the email `renweilin@u.nus.edu`
+For any inquiries, please reach out to us at the email `renweilin@u.nus.edu`
 
 ## Project team
 
@@ -17,7 +18,7 @@ You can reach us at the email `renweilin@u.nus.edu`
 [[github](https://github.com/hansebastian)]
 [[portfolio](team/advisor.md)]
 
-* Role: Project Advisor
+* Role: Project Advisor/Tutor
 
 ### Ren Weilin
 
@@ -27,7 +28,7 @@ You can reach us at the email `renweilin@u.nus.edu`
 [[portfolio](team/wlren.md)]
 
 * Role: Team Lead
-* Responsibilities: Manages the issues and milestones of tP, allocates tasks as well as take on development
+* Responsibilities: Manages the issues and milestones of tP, allocates tasks, software development
 
 ### Jeff Sieu Yong
 
@@ -46,7 +47,7 @@ You can reach us at the email `renweilin@u.nus.edu`
 [[portfolio](team/mingyi456.md)]
 
 * Role: Developer
-* Responsibilities: Dev Ops
+* Responsibilities: Dev Ops, ensuring the CI/CD pipeline of the project is maintained as project progresses
 
 ### Jonathan Lee Jing Yu
 
@@ -56,7 +57,7 @@ You can reach us at the email `renweilin@u.nus.edu`
 [[portfolio](team/yeppog.md)]
 
 * Role: Developer
-* Responsibilities: Testing
+* Responsibilities: Testing and QA, ensuring the project's testing coverage is maintained
 
 ### Koh Jia Xian
 
@@ -66,4 +67,4 @@ You can reach us at the email `renweilin@u.nus.edu`
 [[portfolio](team/koh-jx.md)]
 
 * Role: Developer
-* Responsibilities: Docs, UI
+* Responsibilities: Docs, UI, maintain documentation of project and setting the UI theme of the GUI
