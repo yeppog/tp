@@ -5,7 +5,7 @@ title: Ren Weilin's Project Portfolio Page
 
 ## Technical skills
 
-Programming competencies:  <u>Java</u>, Dart, Python, C#, HTML/CSS, JavaScript
+Programming competencies:  Java, Dart, Python, C#, HTML/CSS, JavaScript, PHP
 
 Technologies: Flutter, Unity, AWS (Cloud Practitioner certified)
 
@@ -13,20 +13,10 @@ Technologies: Flutter, Unity, AWS (Cloud Practitioner certified)
 
 #### Game Development Intern, Rock Nano Global
 
-- Designed and implemented game systems with C# and Unity Editor
-- Coordinated project status with cross-functioning team including art, game design, technology, QA
-- Gained familiarity in Agile methodology, tools such as JIRA and sprint development environment
-- Resolved over 10 bugs and JIRA tasks during project migration from pre-production to production
+- Designed and implemented various components of 3D game with C# and Unity Editor, including inventory and mission systems, greatly enhancing game experience
+- Collaborated closely with cross-functioning team including art, game design, technology and QA to ensure smooth transition of project from pre-production to production status
+- Resolved numerous bugs and JIRA tasks, including a bug which caused development backlog, improved development speed
 
-#### Private Tutor, MathVision
-
-- Mentored over 100 students over course of 3 months on the International Baccalaureate Physics
-  and Chemistry Syllabus, with over 90% students attaining better academic grades
-
-#### Translator, GameHive
-
-- Collaborated with a team of 4 professional translators to contributed to the English to Chinese
-  (Simplified) localization launch of game title “Tap Titans 2”
 
 ## Projects and Competitions
 
