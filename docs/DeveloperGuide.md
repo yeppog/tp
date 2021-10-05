@@ -282,16 +282,67 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is the `TaskMaster2103` and the **Actor** is the `user`, unless specified otherwise)
 
-#### Use case: Delete a person
+#### Use case: UCP01 - Add a person
 
 ##### MSS
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1. User requests add a person.
+
+2. TaskMaster2103 shows a list of updated tasks.
+
+   Use case ends.
+
+
+##### Extensions
+
+* 1a. An invalid field is specified
+
+  * 1a1. TaskMaster2103 shows an error message.
+
+    Use case resumes at step 1.
+
+#### Use case: UCP02 -  Edit a person
+
+##### MSS
+
+1. User requests to list persons.
+
+2. TaskMaster2103 shows a list of persons.
+
+3. User requests to edit a specific person in the list with the new values of the fields to be updated.
+
+4. TaskMaster2103 updates the specified fields of the person.
+
+   Use case ends.
+
+##### Extensions
+
+* 2a. The list is empty.
+
+  Use case ends.
+
+* 3a. The given index is invalid.
+
+  * 3a1. TaskMaster2103 shows an error message.
+
+    Use case resumes at step 2.
+
+* 3b1. A field is specified wrongly.
+
+  * 3a1. TaskMaster2103 shows an error message.
+
+    Use case resumes at step 2.
+
+#### Use case: UCP03 - Delete a person
+
+##### MSS
+
+1.  User requests to list persons.
+2.  TaskMaster2103 shows a list of persons.
+3.  User requests to delete a specific person in the list.
+4.  TaskMaster2103 deletes the person.
 
     Use case ends.
 
@@ -303,16 +354,26 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 3a. The given index is invalid.
 
-    * 3a1. AddressBook shows an error message.
+    * 3a1. TaskMaster2103 shows an error message.
 
       Use case resumes at step 2.
 
-#### Use case: Add a task
+#### Use case: UCP04 - Search for a person
 
 ##### MSS
 
-1.  User requests to add a task
-2.  TaskMaster2103 shows an updated list of tasks
+1. User requests to search for a list of keywords.
+
+2. TaskMaster2103 shows a list of people whose names match any of the keywords.
+
+   Use case ends.
+
+#### Use case: UCT01 - Add a task
+
+##### MSS
+
+1.  User requests to add a task.
+2.  TaskMaster2103 shows an updated list of tasks.
 
     Use case ends.
 
@@ -320,17 +381,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 1a. The task does not contain a title.
 
-    * 3a1. TaskMaster2103 shows an error message.
+    * 1a1. TaskMaster2103 shows an error message.
 
       Use case resumes at step 1.
-#### Use case: Edit a task
+#### Use case: UCT02 - Edit a task
 
 ##### MSS
 
-1.  User requests to list tasks
-2.  TaskMaster2103 shows a list of tasks
-3.  User requests to edit a specific task in the list
-4.  TaskMaster2103 edits the task
+1.  User requests to list tasks.
+2.  TaskMaster2103 shows a list of tasks.
+3.  User requests to edit a specific task in the list.
+4.  TaskMaster2103 edits the task.
 
     Use case ends.
 
@@ -346,14 +407,14 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
-#### Use case: Delete a task
+#### Use case: UCT03 - Delete a task
 
 ##### MSS
 
-1.  User requests to list tasks
-2.  TaskMaster2103 shows a list of tasks
-3.  User requests to delete a specific tasks in the list
-4.  TaskMaster2103 deletes the person
+1.  User requests to list tasks.
+2.  TaskMaster2103 shows a list of tasks.
+3.  User requests to delete a specific tasks in the list.
+4.  TaskMaster2103 deletes the person.
 
     Use case ends.
 
@@ -374,15 +435,23 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 ### Non-Functional Requirements
 
 1.  Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
-2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
-3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-*{More to be added}*
+2.  Should be able to work on both 32-bit and 64-bit environments.
+3.  A user with above average typing speed of 60 words per minute for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+4.  The system should respond within 1 second to any (valid or invalid) command given via typing or GUI.
+5.  The system will store the data in a JSON file locally, and will not have a server component.
+6.  Older versions of locally-stored data should be compatible with newer versions of the app.
+7.  The system should load the locally-stored data within 1 second when the app starts up.
+8.  The app should save any changes to the data immediately when the command is processed, to avoid possible data loss.
+9.  The app should only read the JSON file for the locally-stored list, and nothing else.
+10. The locally-stored data should not exceed 5GB in size, for tasks, tags and templates.
 
 ### Glossary
 
 * **Mainstream OS**: Windows, Linux, Unix, OS-X
-* **Private contact detail**: A contact detail that is not meant to be shared with others
+* **Locally-stored data**: Data stored under ./data/addressbook.json within the same folder\
+* **Given index (of a task)**: The location of the task in the tasklist. First task is **1**, and increases in ascending order.
+* **Templates**: User-defined preset format for a task
+* **Tags**: User-defined label attached a task to provide identification and/or information
 
 --------------------------------------------------------------------------------------------------------------------
 
