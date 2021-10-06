@@ -91,7 +91,7 @@ public interface Model {
      * @param task The task to be added.
      */
     void addTask(Task task);
-    
+
     /**
      * Retrieve task at the specified index.
      * @param index Index of task displayed in the GUI.
