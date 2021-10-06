@@ -7,22 +7,26 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.TaskCommandParser;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
+
+import javax.print.DocFlavor;
 
 /**
  * Adds a task to the task list.
  */
 public class AddTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "add";
+    public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
-    public static final String MESSAGE_USAGE = "task " + COMMAND_WORD
+    public static final String MESSAGE_USAGE = FULL_COMMAND_WORD
             + ": Adds a task with a given title to the task list.\n"
             + "Parameters: title (must be a non-empty string) "
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_TIMESTAMP + "TIMESTAMP] "
             + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + COMMAND_WORD + " Do homework "
+            + "Example: " + FULL_COMMAND_WORD + " Do homework "
             + PREFIX_DESCRIPTION + "Physics assignment "
             + PREFIX_TIMESTAMP + "25/12/2020";
 
