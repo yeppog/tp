@@ -2,8 +2,8 @@ package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 
@@ -89,10 +89,9 @@ public class EditTaskCommand extends TaskCommand {
         String updatedTitle = editTaskDescriptor.getTitle().orElse(taskToEdit.getTitle());
         String updatedDescription = editTaskDescriptor.getDescription().orElse(taskToEdit.getDescription());
         Timestamp updatedTimestamp = editTaskDescriptor.getTimestamp().orElse(taskToEdit.getTimestamp());
-        boolean updatedIsDone = editTaskDescriptor.getIsDone().orElse(taskToEdit.getIsDone());
         Set<Tag> updatedTags = editTaskDescriptor.getTags().orElse(taskToEdit.getTags());
 
-        return new Task(updatedTitle, updatedDescription, updatedTimestamp, updatedTags, updatedIsDone);
+        return new Task(updatedTitle, updatedDescription, updatedTimestamp, updatedTags, taskToEdit.getIsDone());
     }
 
     @Override
@@ -121,8 +120,7 @@ public class EditTaskCommand extends TaskCommand {
         private String title;
         private String description;
         private Timestamp timestamp;
-        private Set<Tag> tags = new HashSet<>();
-        private boolean isDone;
+        private Set<Tag> tags;
 
         public EditTaskDescriptor() {}
 
@@ -135,14 +133,13 @@ public class EditTaskCommand extends TaskCommand {
             setDescription(toCopy.description);
             setTimestamp(toCopy.timestamp);
             setTags(toCopy.tags);
-            setIsDone(toCopy.isDone);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(title, description, timestamp, isDone, tags);
+            return CollectionUtil.isAnyNonNull(title, description, timestamp, tags);
         }
 
         public void setTitle(String title) {
@@ -167,14 +164,6 @@ public class EditTaskCommand extends TaskCommand {
 
         public Optional<Timestamp> getTimestamp() {
             return Optional.ofNullable(timestamp);
-        }
-
-        public void setIsDone(boolean isDone) {
-            this.isDone = isDone;
-        }
-
-        public Optional<Boolean> getIsDone() {
-            return Optional.of(isDone);
         }
 
         /**
@@ -212,7 +201,6 @@ public class EditTaskCommand extends TaskCommand {
             return getTitle().equals(e.getTitle())
                     && getDescription().equals(e.getDescription())
                     && getTimestamp().equals(e.getTimestamp())
-                    && getIsDone().equals(e.getIsDone())
                     && getTags().equals(e.getTags());
         }
     }

@@ -3,8 +3,8 @@ package seedu.address.logic.parser.task;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 
@@ -60,8 +60,6 @@ public class EditTaskCommandParser implements Parser<EditTaskCommand> {
                     .parseTimestamp(argMultimap.getValue(PREFIX_TIMESTAMP).get()));
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editTaskDescriptor::setTags);
-
-        // Ignore isDone field; isDone should only be changed in DoneTaskCommand(Parser)
 
         if (!editTaskDescriptor.isAnyFieldEdited()) {
             throw new ParseException(EditTaskCommand.MESSAGE_NOT_EDITED);
