@@ -17,6 +17,9 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
 
+/**
+ * Parses input arguments and creates a new AddTaskCommand object
+ */
 public class AddTaskCommandParser implements Parser<AddTaskCommand> {
     @Override
     public AddTaskCommand parse(String args) throws ParseException {

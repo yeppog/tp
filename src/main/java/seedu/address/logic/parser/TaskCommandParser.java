@@ -12,6 +12,9 @@ import seedu.address.logic.commands.task.AddTaskCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.task.AddTaskCommandParser;
 
+/**
+ * Parses all task-related commands (those starting with "task") and returns a TaskCommand.
+ */
 public class TaskCommandParser implements Parser<TaskCommand> {
     /**
      * Used for initial separation of command word and args.

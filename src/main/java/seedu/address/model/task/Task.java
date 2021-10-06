@@ -50,4 +50,9 @@ public class Task {
     public Set<Tag> getTags() {
         return tags;
     }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }

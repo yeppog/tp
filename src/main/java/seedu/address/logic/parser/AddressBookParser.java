@@ -69,6 +69,7 @@ public class AddressBookParser {
         case HelpCommand.COMMAND_WORD:
             return new HelpCommand();
 
+        // Every command starting with "task" delegated to TaskCommandParser
         case TaskCommand.COMMAND_WORD:
             return new TaskCommandParser().parse(arguments);
 

@@ -10,6 +10,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
 
+/**
+ * Adds a task to the task list.
+ */
 public class AddTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "add";
     public static final String MESSAGE_SUCCESS = "New task added: %1$s";
@@ -32,6 +35,6 @@ public class AddTaskCommand extends TaskCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         model.addTask(task);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, task.getTitle()));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, task));
     }
 }
