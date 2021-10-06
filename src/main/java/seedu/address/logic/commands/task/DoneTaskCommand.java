@@ -35,11 +35,11 @@ public class DoneTaskCommand extends TaskCommand {
         try {
             task = model.getTaskAtIndex(index.getZeroBased());
         } catch (IndexOutOfBoundsException e) {
-            return new CommandResult(MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+            throw new CommandException(MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        if (task.getDone()) {
-            return new CommandResult(String.format(MESSAGE_ALREADY_DONE, task));
+        if (task.getIsDone()) {
+            throw new CommandException(String.format(MESSAGE_ALREADY_DONE, task));
         }
 
         task.setDone();

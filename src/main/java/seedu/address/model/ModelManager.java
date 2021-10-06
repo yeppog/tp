@@ -147,6 +147,13 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void setTask(int targetIndex, Task editedTask) {
+        requireAllNonNull(tasks.get(targetIndex), editedTask);
+
+        tasks.set(targetIndex, editedTask);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         // short circuit if same object
         if (obj == this) {

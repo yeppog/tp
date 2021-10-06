@@ -93,6 +93,13 @@ public interface Model {
     void addTask(Task task);
 
     /**
+     * Replaces the given task {@code target} with {@code editedTask}.
+     * {@code target} must exist in the task list.
+     * setTask uses targetIndex rather than target Person; This is because tasks may not be unique, unlike persons
+     */
+    void setTask(int targetIndex, Task editedTask);
+
+    /**
      * Retrieve task at the specified index.
      * @param index Index of task displayed in the GUI.
      * @return Task corresponding to the index provided.
