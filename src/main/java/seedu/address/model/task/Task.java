@@ -37,6 +37,15 @@ public class Task {
         this.isDone = false;
     }
 
+    /**
+     * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
+     * Additionally, it also takes in the completion status of the task.
+     * @param title The title of the task
+     * @param description The optional description of the task
+     * @param timestamp The optional timestamp of the task
+     * @param tags The tags of the task
+     * @param isDone The completion status of the task
+     */
     public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean isDone) {
         requireAllNonNull(title, tags);
 
