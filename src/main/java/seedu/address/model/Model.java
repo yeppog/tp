@@ -97,5 +97,5 @@ public interface Model {
      * @param index Index of task displayed in the GUI.
      * @return Task corresponding to the index provided.
      */
-    Task getTaskAtIndex(int index) throws IndexOutOfBoundsException ;
+    Task getTaskAtIndex(int index) throws IndexOutOfBoundsException;
 }
