@@ -142,11 +142,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void completeTask(Task task) {
-        task.setDone();
-    }
-
-    @Override
     public Task getTaskAtIndex(int index) throws IndexOutOfBoundsException {
         return tasks.get(index);
     }

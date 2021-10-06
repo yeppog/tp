@@ -91,13 +91,7 @@ public interface Model {
      * @param task The task to be added.
      */
     void addTask(Task task);
-
-    /**
-     * Completes a given task in the task list.
-     * @param task The task to be completed.
-     */
-    void completeTask(Task task);
-
+    
     /**
      * Retrieve task at the specified index.
      * @param index Index of task displayed in the GUI.

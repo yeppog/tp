@@ -10,7 +10,7 @@ import seedu.address.model.Model;
 import seedu.address.model.task.Task;
 
 /**
- * Adds a task to the task list.
+ * Completes an existing task in the task list.
  */
 public class DoneTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "done";
