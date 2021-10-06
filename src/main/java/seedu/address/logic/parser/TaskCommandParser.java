@@ -6,9 +6,11 @@ import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.task.AddTaskCommand;
+import seedu.address.logic.commands.task.DeleteTaskCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.task.AddTaskCommandParser;
 
@@ -33,6 +35,9 @@ public class TaskCommandParser implements Parser<TaskCommand> {
         switch (commandWord) {
         case AddTaskCommand.COMMAND_WORD:
             return new AddTaskCommandParser().parse(arguments);
+        case DeleteTaskCommand.COMMAND_WORD:
+            return new DeleteTaskCommand(Index.fromOneBased(1));
+
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
