@@ -88,7 +88,14 @@ public interface Model {
 
     /**
      * Adds the given task to the task list.
-     * @param task The task to be added
+     * @param task The task to be added.
      */
     void addTask(Task task);
+
+    /**
+     * Retrieve task at the specified index.
+     * @param index Index of task displayed in the GUI.
+     * @return Task corresponding to the index provided.
+     */
+    Task getTaskAtIndex(int index) throws IndexOutOfBoundsException;
 }
