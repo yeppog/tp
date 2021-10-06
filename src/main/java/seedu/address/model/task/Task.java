@@ -18,7 +18,7 @@ public class Task {
     private final String description;
     private final Timestamp timestamp;
     private final Set<Tag> tags = new HashSet<>();
-    private boolean isDone;
+    private final boolean isDone;
 
     /**
      * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
@@ -35,6 +35,16 @@ public class Task {
         this.timestamp = timestamp;
         this.tags.addAll(tags);
         this.isDone = false;
+    }
+
+    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean isDone) {
+        requireAllNonNull(title, tags);
+
+        this.title = title;
+        this.description = description;
+        this.timestamp = timestamp;
+        this.tags.addAll(tags);
+        this.isDone = isDone;
     }
 
     public String getTitle() {
@@ -55,13 +65,6 @@ public class Task {
 
     public boolean getIsDone() {
         return isDone;
-    }
-
-    /**
-     * TODO Replace setter with EditTaskDescriptor once that and edit command is completed
-     */
-    public void setDone() {
-        isDone = !isDone;
     }
 
     @Override

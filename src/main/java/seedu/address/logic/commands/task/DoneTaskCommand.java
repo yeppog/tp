@@ -42,8 +42,10 @@ public class DoneTaskCommand extends TaskCommand {
             throw new CommandException(String.format(MESSAGE_ALREADY_DONE, task));
         }
 
-        task.setDone();
+        Task completedTask = new Task(task.getTitle(), task.getDescription(), task.getTimestamp(),
+                task.getTags(), !task.getIsDone());
+        model.setTask(index.getZeroBased(), completedTask);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, task));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, completedTask));
     }
 }

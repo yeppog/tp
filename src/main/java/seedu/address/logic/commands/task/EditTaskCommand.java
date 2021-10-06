@@ -92,11 +92,7 @@ public class EditTaskCommand extends TaskCommand {
         boolean updatedIsDone = editTaskDescriptor.getIsDone().orElse(taskToEdit.getIsDone());
         Set<Tag> updatedTags = editTaskDescriptor.getTags().orElse(taskToEdit.getTags());
 
-        Task newTask = new Task(updatedTitle, updatedDescription, updatedTimestamp, updatedTags);
-        if (updatedIsDone) {
-            newTask.setDone();
-        }
-        return newTask;
+        return new Task(updatedTitle, updatedDescription, updatedTimestamp, updatedTags, updatedIsDone);
     }
 
     @Override
