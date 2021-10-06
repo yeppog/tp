@@ -7,11 +7,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.parser.TaskCommandParser;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
-
-import javax.print.DocFlavor;
 
 /**
  * Adds a task to the task list.
