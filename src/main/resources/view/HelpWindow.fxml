@@ -51,7 +51,6 @@
                                         <Label graphicTextGap="0.0" text=" for more information. " />
                                           </children>
                                        </HBox>
-                                       <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copyUrl" prefWidth="70.0" text="Copy URL" />
                                     </children>
                                  </VBox>
                               </children>
