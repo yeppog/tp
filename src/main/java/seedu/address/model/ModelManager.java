@@ -135,6 +135,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public List<Task> getTasks() {
+        return this.tasks;
+    }
+
+    @Override
     public void addTask(Task task) {
         tasks.add(task);
     }

@@ -13,6 +13,7 @@ import seedu.address.logic.commands.task.AddTaskCommand;
 import seedu.address.logic.commands.task.DeleteTaskCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.task.AddTaskCommandParser;
+import seedu.address.logic.parser.task.DeleteTaskCommandParser;
 
 /**
  * Parses all task-related commands (those starting with "task") and returns a TaskCommand.
@@ -36,7 +37,7 @@ public class TaskCommandParser implements Parser<TaskCommand> {
         case AddTaskCommand.COMMAND_WORD:
             return new AddTaskCommandParser().parse(arguments);
         case DeleteTaskCommand.COMMAND_WORD:
-            return new DeleteTaskCommand(Index.fromOneBased(1));
+            return new DeleteTaskCommandParser().parse(arguments);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
