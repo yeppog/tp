@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import jdk.jfr.Timestamp;
 import seedu.address.model.task.Task;
 
 import java.util.Optional;

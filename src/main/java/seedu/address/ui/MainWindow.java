@@ -118,13 +118,6 @@ public class MainWindow extends UiPart<Stage> {
 
 
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
-//        label = new Label("Address Book");
-//        label.setFont(new Font(24));
-//        label.setPadding(new Insets(16, 16, 0, 16));
-//        box = new VBox(label, personListPanel.getRoot());
-//        box.getStyleClass().add("pane-with-border");
-////        box.setPadding(new Insets(16, 16, 0, 16));
-//        box.setSpacing(8);
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
         resultDisplay = new ResultDisplay();
