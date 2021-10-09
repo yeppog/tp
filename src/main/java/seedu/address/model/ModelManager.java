@@ -134,6 +134,8 @@ public class ModelManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    //=========== TaskMaster2103 ============================================================================
+
     @Override
     public List<Task> getTasks() {
         return this.tasks;
@@ -142,6 +144,11 @@ public class ModelManager implements Model {
     @Override
     public void addTask(Task task) {
         tasks.add(task);
+    }
+
+    @Override
+    public Task getTaskAtIndex(int index) throws IndexOutOfBoundsException {
+        return tasks.get(index);
     }
 
     @Override

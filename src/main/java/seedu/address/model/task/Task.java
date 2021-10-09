@@ -18,6 +18,7 @@ public class Task {
     private final String description;
     private final Timestamp timestamp;
     private final Set<Tag> tags = new HashSet<>();
+    private boolean done;
 
     /**
      * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
@@ -33,6 +34,7 @@ public class Task {
         this.description = description;
         this.timestamp = timestamp;
         this.tags.addAll(tags);
+        this.done = false;
     }
 
     public String getTitle() {
@@ -49,6 +51,17 @@ public class Task {
 
     public Set<Tag> getTags() {
         return tags;
+    }
+
+    public boolean getDone() {
+        return done;
+    }
+
+    /**
+     * TODO Replace setter with EditTaskDescriptor once that and edit command is completed
+     */
+    public void setDone() {
+        done = !done;
     }
 
     @Override

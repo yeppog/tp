@@ -9,6 +9,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -149,8 +150,23 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
+        /**
+         * Returns a list of the current tasks.
+         *
+         * @return The list of tasks.
+         */
+        @Override
+        public List<Task> getTasks() {
+            return null;
+        }
+
         @Override
         public void addTask(Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Task getTaskAtIndex(int index) {
             throw new AssertionError("This method should not be called.");
         }
     }
