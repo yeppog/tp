@@ -138,12 +138,17 @@ public class ModelManager implements Model {
     //=========== TaskMaster2103 ============================================================================
 
     @Override
+    public ReadOnlyTaskList getTaskList() {
+        return taskList;
+    }
+
+    @Override
     public void addTask(Task task) {
         taskList.addTask(task);
     }
 
     @Override
-    public ObservableList<Task> getTaskList() {
+    public ObservableList<Task> getFilteredTaskList() {
         return sortedTasks;
     }
 
@@ -167,6 +172,7 @@ public class ModelManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return addressBook.equals(other.addressBook)
+                && taskList.equals(other.taskList)
                 && userPrefs.equals(other.userPrefs)
                 && filteredPersons.equals(other.filteredPersons);
     }

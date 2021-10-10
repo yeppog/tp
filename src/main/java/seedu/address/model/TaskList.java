@@ -23,4 +23,16 @@ public class TaskList implements ReadOnlyTaskList {
     public void addTask(Task task) {
         tasks.add(task);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof TaskList // instanceof handles nulls
+                && tasks.equals(((TaskList) other).tasks));
+    }
+
+    @Override
+    public int hashCode() {
+        return tasks.hashCode();
+    }
 }
