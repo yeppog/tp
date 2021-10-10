@@ -2,6 +2,8 @@ package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.CommandResult;
@@ -9,8 +11,6 @@ import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
-
-import java.util.List;
 
 public class DeleteTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "delete";
@@ -32,7 +32,6 @@ public class DeleteTaskCommand extends TaskCommand {
         this.targetIndex = targetIndex;
     }
 
-
     /**
      * Executes the command and returns the result message.
      *
@@ -53,10 +52,5 @@ public class DeleteTaskCommand extends TaskCommand {
 
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
 
-/*
-        throw new CommandException(MESSAGE_NOT_IMPLEMENTED_YET + " " +
-                deletedTask.toString());
-
- */
     }
 }
