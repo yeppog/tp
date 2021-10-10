@@ -10,6 +10,9 @@ public class TaskListBuilder {
         this.taskList = new TaskList();
     }
 
+    /**
+     * Adds the given task to the task list we are building.
+     */
     public TaskListBuilder withTask(Task task) {
         this.taskList.addTask(task);
         return this;

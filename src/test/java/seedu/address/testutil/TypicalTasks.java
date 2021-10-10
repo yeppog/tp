@@ -1,14 +1,15 @@
 package seedu.address.testutil;
 
-import seedu.address.model.TaskList;
-import seedu.address.model.task.Task;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import seedu.address.model.TaskList;
+import seedu.address.model.task.Task;
+
 public class TypicalTasks {
     public static final Task BUY_GROCERIES = new TaskBuilder().build();
-    public static final Task DO_HOMEWORK = new TaskBuilder().withTitle("Do homework").withDescription("Math, physics and chemistry").build();
+    public static final Task DO_HOMEWORK = new TaskBuilder()
+            .withTitle("Do homework").withDescription("Math, physics and chemistry").build();
 
     /**
      * Returns an {@code AddressBook} with all the typical persons.

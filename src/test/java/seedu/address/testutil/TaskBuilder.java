@@ -1,12 +1,12 @@
 package seedu.address.testutil;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
 import seedu.address.model.util.SampleDataUtil;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class TaskBuilder {
     public static final String DEFAULT_TITLE = "Buy groceries";
@@ -22,6 +22,9 @@ public class TaskBuilder {
     private Set<Tag> tags;
     private boolean isDone;
 
+    /**
+     * Creates a new {@code TaskBuilder} instance initialized with default values.
+     */
     public TaskBuilder() {
         this.title = DEFAULT_TITLE;
         this.description = DEFAULT_DESCRIPTION;
@@ -30,26 +33,41 @@ public class TaskBuilder {
         this.isDone = DEFAULT_IS_DONE;
     }
 
+    /**
+     * Sets the {@code title} of the {@code Task} that we are building.
+     */
     public TaskBuilder withTitle(String title) {
         this.title = title;
         return this;
     }
 
+    /**
+     * Sets the {@code description} of the {@code Task} that we are building.
+     */
     public TaskBuilder withDescription(String description) {
         this.description = description;
         return this;
     }
 
+    /**
+     * Sets the {@code timestamp} of the {@code Task} that we are building.
+     */
     public TaskBuilder withTimestamp(String timestamp) {
         this.timestamp = new Timestamp(timestamp);
         return this;
     }
 
+    /**
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code Task} that we are building.
+     */
     public TaskBuilder withTags(String ... tags) {
         this.tags = SampleDataUtil.getTagSet(tags);
         return this;
     }
 
+    /**
+     * Sets whether the {@code task} we are building is {@code done}.
+     */
     public TaskBuilder withDone(boolean done) {
         this.isDone = done;
         return this;
