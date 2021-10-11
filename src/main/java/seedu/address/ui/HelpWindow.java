@@ -94,9 +94,9 @@ public class HelpWindow extends UiPart<Stage> {
         try {
             Desktop.getDesktop().browse(new URL(USERGUIDE_URL).toURI());
         } catch (MalformedURLException | URISyntaxException e) {
-            System.out.println("Invalid URL");
+            logger.info("HELPWINDOW: OPEN URL Invalid URL");
         } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
+            logger.info("HELPWINDOW: IOEXCEPTION" + ioe.getMessage());
         }
     }
 }
