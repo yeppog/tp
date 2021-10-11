@@ -41,6 +41,7 @@ public class DeleteTaskCommand extends TaskCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+  
         ReadOnlyTaskList taskList = model.getTaskList();
 
         if (targetIndex.getZeroBased() >= taskList.getTasks().size()) {
@@ -49,7 +50,6 @@ public class DeleteTaskCommand extends TaskCommand {
 
         Task deletedTask = model.getTaskAtIndex(targetIndex.getZeroBased());
         model.deleteTask(deletedTask);
-
 
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
 

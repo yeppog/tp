@@ -95,6 +95,13 @@ public interface Model {
     void deleteTask(Task deletedTask);
 
     /**
+     * Returns a list of the current tasks.
+     *
+     * @return the list of tasks
+     */
+    List<Task> getTasks();
+
+    /**
      * Adds the given task to the task list.
      * @param task The task to be added.
      */
