@@ -165,7 +165,6 @@ public class ModelManager implements Model {
     @Override
     public void setTask(int targetIndex, Task editedTask) {
         requireAllNonNull(taskList.getTasks().get(targetIndex), editedTask);
-
         taskList.getTasks().set(targetIndex, editedTask);
     }
 

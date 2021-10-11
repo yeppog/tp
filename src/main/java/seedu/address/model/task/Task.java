@@ -41,8 +41,7 @@ public class Task {
      * @param isDone The completion status of the task
      */
     public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean isDone) {
-        requireAllNonNull(title, tags);
-
+        requireAllNonNull(title);
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;
@@ -65,6 +64,10 @@ public class Task {
 
     public Set<Tag> getTags() {
         return tags;
+    }
+
+    public boolean getDone() {
+        return isDone;
     }
 
     public boolean getIsDone() {
