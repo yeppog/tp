@@ -87,6 +87,13 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
+
+    /**
+     * Deletes the given task. The task must exist in the task list.
+     * @param deletedTask The task to delete
+     */
+    void deleteTask(Task deletedTask);
+
     /**
      * Returns a list of the current tasks.
      *
@@ -111,4 +118,5 @@ public interface Model {
      * @return Task corresponding to the index provided.
      */
     Task getTaskAtIndex(int index) throws IndexOutOfBoundsException;
+
 }
