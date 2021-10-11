@@ -1,5 +1,10 @@
 package seedu.address.ui;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
@@ -15,8 +20,7 @@ import seedu.address.commons.core.LogsCenter;
  */
 public class HelpWindow extends UiPart<Stage> {
 
-    public static final String USERGUIDE_URL = "https://se-education.org/addressbook-level3/UserGuide.html";
-    public static final String HELP_MESSAGE = "Refer to the user guide: " + USERGUIDE_URL;
+    public static final String USERGUIDE_URL = "https://ay2122s1-cs2103-f09-2.github.io/tp/UserGuide.html";
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -34,7 +38,6 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow(Stage root) {
         super(FXML, root);
-        helpMessage.setText(HELP_MESSAGE);
     }
 
     /**
@@ -98,5 +101,19 @@ public class HelpWindow extends UiPart<Stage> {
         final ClipboardContent url = new ClipboardContent();
         url.putString(USERGUIDE_URL);
         clipboard.setContent(url);
+    }
+
+    /**
+     * Open the user's Desktop Browser
+     */
+    @FXML
+    private void openUrl() {
+        try {
+            Desktop.getDesktop().browse(new URL(USERGUIDE_URL).toURI());
+        } catch (MalformedURLException | URISyntaxException e) {
+            System.out.println("Invalid URL");
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
     }
 }

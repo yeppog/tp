@@ -4,13 +4,12 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
@@ -23,27 +22,29 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
+    private final TaskList taskList;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
-    private final List<Task> tasks;
+    private final ObservableList<Task> sortedTasks;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given addressBook, taskList and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyTaskList taskList, ReadOnlyUserPrefs userPrefs) {
         super();
-        requireAllNonNull(addressBook, userPrefs);
+        requireAllNonNull(addressBook, taskList, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
+        this.taskList = new TaskList(taskList);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        tasks = new ArrayList<>();
+        sortedTasks = new SortedList<>(this.taskList.getTasks());
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new TaskList(), new UserPrefs());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -134,21 +135,31 @@ public class ModelManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    @Override
+    public void deleteTask(Task deletedTask) {
+        taskList.removeTask(deletedTask);
+    }
+
     //=========== TaskMaster2103 ============================================================================
 
     @Override
-    public List<Task> getTasks() {
-        return this.tasks;
+    public ReadOnlyTaskList getTaskList() {
+        return taskList;
     }
 
     @Override
     public void addTask(Task task) {
-        tasks.add(task);
+        taskList.addTask(task);
+    }
+
+    @Override
+    public ObservableList<Task> getFilteredTaskList() {
+        return sortedTasks;
     }
 
     @Override
     public Task getTaskAtIndex(int index) throws IndexOutOfBoundsException {
-        return tasks.get(index);
+        return sortedTasks.get(index);
     }
 
     @Override
@@ -166,6 +177,7 @@ public class ModelManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return addressBook.equals(other.addressBook)
+                && taskList.equals(other.taskList)
                 && userPrefs.equals(other.userPrefs)
                 && filteredPersons.equals(other.filteredPersons);
     }
