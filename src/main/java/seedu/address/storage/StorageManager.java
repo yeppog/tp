@@ -84,7 +84,7 @@ public class StorageManager implements Storage {
 
     @Override
     public Path getTaskListFilePath() {
-        return addressBookStorage.getAddressBookFilePath();
+        return taskListStorage.getTaskListFilePath();
     }
 
     @Override

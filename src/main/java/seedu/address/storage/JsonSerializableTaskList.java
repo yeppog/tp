@@ -14,17 +14,17 @@ import seedu.address.model.TaskList;
 import seedu.address.model.task.Task;
 
 /**
- * An Immutable AddressBook that is serializable to JSON format.
+ * An Immutable TaskList that is serializable to JSON format.
  */
 @JsonRootName(value = "taskfile")
 class JsonSerializableTaskList {
 
-    public static final String MESSAGE_DUPLICATE_PERSON = "Task list contains duplicate Task(s).";
+    public static final String MESSAGE_DUPLICATE_TASK = "Task list contains duplicate Task(s).";
 
     private final List<JsonAdaptedTask> tasks = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given persons.
+     * Constructs a {@code JsonSerializableTaskList} with the given tasks.
      */
     @JsonCreator
     public JsonSerializableTaskList(@JsonProperty("tasks") List<JsonAdaptedTask> tasks) {

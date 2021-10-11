@@ -83,7 +83,7 @@ public class MainApp extends Application {
         ReadOnlyAddressBook initialAddressData;
         try {
             addressBookOptional = storage.readAddressBook();
-            if (!addressBookOptional.isPresent()) {
+            if (addressBookOptional.isEmpty()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
             }
             initialAddressData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
@@ -100,10 +100,10 @@ public class MainApp extends Application {
         ReadOnlyTaskList initialTasksData;
         try {
             taskListOptional = storage.readTaskList();
-            if (!taskListOptional.isPresent()) {
+            if (taskListOptional.isEmpty()) {
                 logger.info("Data file not found. Will be starting with empty");
             }
-            initialTasksData = new TaskList();
+            initialTasksData = taskListOptional.orElseGet(TaskList::new);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty TaskList");
             initialTasksData = new TaskList();

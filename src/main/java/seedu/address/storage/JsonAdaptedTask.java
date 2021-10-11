@@ -48,16 +48,26 @@ class JsonAdaptedTask {
      */
     public JsonAdaptedTask(Task source) {
         title = source.getTitle();
-        description = source.getDescription();
-        timestamp = source.getTimestamp().toString();
+        if (source.getDescription() != null) {
+            description = source.getDescription();
+        } else {
+            description = "null";
+        }
+        if (source.getTimestamp() != null) {
+            timestamp = source.getTimestamp().toString();
+        } else {
+            timestamp = "null";
+        }
         if (source.getDone()) {
             isDone = "Done";
         } else {
             isDone = "Not Done";
         }
-        tagged.addAll(source.getTags().stream()
-                .map(JsonAdaptedTag::new)
-                .collect(Collectors.toList()));
+        if (!source.getTags().isEmpty()) {
+            tagged.addAll(source.getTags().stream()
+                    .map(JsonAdaptedTag::new)
+                    .collect(Collectors.toList()));
+        }
     }
 
     /**
@@ -70,18 +80,32 @@ class JsonAdaptedTask {
         for (JsonAdaptedTag tag : tagged) {
             taskTags.add(tag.toModelType());
         }
+        final Set<Tag> modelTags = new HashSet<>(taskTags);
 
         if (title == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "title"));
         }
 
-        final Set<Tag> modelTags = new HashSet<>(taskTags);
-        final Timestamp modelTimeStamp = new Timestamp(timestamp);
-        Task modelTask = new Task(title, description, modelTimeStamp, modelTags);
+        final Timestamp modelTimeStamp;
+        if (timestamp.equals("null")) {
+            modelTimeStamp = null;
+        } else {
+            modelTimeStamp = new Timestamp(timestamp);
+        }
+
+        final String modelDescription;
+        if (description.equals("null")) {
+            modelDescription = null;
+        } else {
+            modelDescription = description;
+        }
+
+        Task modelTask = new Task(title, modelDescription, modelTimeStamp, modelTags);
 
         if (isDone.equals("Done")) {
             modelTask.setDone();
         } else if (isDone.equals("Not Done")) {
+            return modelTask;
         } else {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "isDone"));
         }

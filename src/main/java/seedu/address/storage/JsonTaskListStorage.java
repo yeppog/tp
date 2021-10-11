@@ -49,6 +49,7 @@ public class JsonTaskListStorage implements TaskListStorage {
         Optional<JsonSerializableTaskList> jsonTaskList = JsonUtil.readJsonFile(
                 filePath, JsonSerializableTaskList.class);
         if (!jsonTaskList.isPresent()) {
+            logger.info("here");
             return Optional.empty();
         }
 

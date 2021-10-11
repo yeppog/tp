@@ -28,7 +28,7 @@ public class Task {
      * @param tags The tags of the task
      */
     public Task(String title, String description, Timestamp timestamp, Set<Tag> tags) {
-        requireAllNonNull(title, tags);
+        requireAllNonNull(title);
 
         this.title = title;
         this.description = description;
