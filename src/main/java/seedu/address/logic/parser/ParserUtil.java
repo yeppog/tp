@@ -14,6 +14,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Timestamp;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -120,5 +121,15 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses {@code String timestamp} into a {@code Timestamp}.
+     * @param timestamp The timestamp string to parse
+     * @return A parsed timestamp
+     */
+    public static Timestamp parseTimestamp(String timestamp) {
+        requireNonNull(timestamp);
+        return new Timestamp(timestamp);
     }
 }

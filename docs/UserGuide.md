@@ -187,6 +187,20 @@ Edits an existing task in the task list
 
 `task edit 1 t/CS2103 Week 6 Quiz`
 
+### Completing a task: `task done`
+
+Completes an existing task in the task list
+
+**Format:**
+
+`task done INDEX`
+
+- Completes the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1,2,3 …
+
+**Example:**
+
+`task done 1`
+
 ### Deleting a task: `task delete`
 
 Deletes a specified task from the tasks list by a given index.

@@ -1,11 +1,13 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Task;
 
 /**
  * The API of the Model component.
@@ -84,4 +86,37 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+
+    /**
+     * Deletes the given task. The task must exist in the task list.
+     * @param deletedTask The task to delete
+     */
+    void deleteTask(Task deletedTask);
+
+    /**
+     * Returns a list of the current tasks.
+     *
+     * @return the list of tasks
+     */
+    List<Task> getTasks();
+
+    /**
+     * Adds the given task to the task list.
+     * @param task The task to be added.
+     */
+    void addTask(Task task);
+
+    /** Returns an unmodifiable view of the task list */
+    ObservableList<Task> getFilteredTaskList();
+
+    ReadOnlyTaskList getTaskList();
+
+    /**
+     * Retrieve task at the specified index.
+     * @param index Index of task displayed in the GUI.
+     * @return Task corresponding to the index provided.
+     */
+    Task getTaskAtIndex(int index) throws IndexOutOfBoundsException;
+
 }
