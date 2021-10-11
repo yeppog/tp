@@ -99,16 +99,17 @@ class JsonAdaptedTask {
         } else {
             modelDescription = description;
         }
-
-        Task modelTask = new Task(title, modelDescription, modelTimeStamp, modelTags);
+        boolean modelIsDone;
 
         if (isDone.equals("Done")) {
-            modelTask.setDone();
+            modelIsDone = true;
         } else if (isDone.equals("Not Done")) {
-            return modelTask;
+            modelIsDone = false;
         } else {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "isDone"));
         }
+        Task modelTask = new Task(title, modelDescription, modelTimeStamp, modelTags, modelIsDone);
+
         return modelTask;
     }
 

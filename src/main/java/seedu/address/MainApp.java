@@ -94,8 +94,6 @@ public class MainApp extends Application {
             logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
             initialAddressData = new AddressBook();
         }
-
-
         Optional<ReadOnlyTaskList> taskListOptional;
         ReadOnlyTaskList initialTasksData;
         try {

@@ -14,10 +14,10 @@ public class Timestamp {
         this.timestamp = timestamp;
     }
 
-    // TODO: Create a DateTime representation of timestamps
-
     @Override
     public String toString() {
-        return timestamp;
+        return this.timestamp;
     }
+
+    // TODO: Create a DateTime representation of timestamps
 }

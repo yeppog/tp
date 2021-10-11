@@ -22,13 +22,13 @@ public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
     private final AddressBook addressBook;
+    private final TaskList taskList;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
-    private final TaskList tasks;
     private final ObservableList<Task> sortedTasks;
 
     /**
-     * Initializes a ModelManager with the given addressBook and userPrefs.
+     * Initializes a ModelManager with the given addressBook, taskList and userPrefs.
      */
     public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyTaskList taskList, ReadOnlyUserPrefs userPrefs) {
         super();
@@ -37,10 +37,10 @@ public class ModelManager implements Model {
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
+        this.taskList = new TaskList(taskList);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        this.tasks = new TaskList(taskList);
-        sortedTasks = new SortedList<>(this.tasks.getTasks());
+        sortedTasks = new SortedList<>(this.taskList.getTasks());
     }
 
     public ModelManager() {
@@ -135,16 +135,21 @@ public class ModelManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    @Override
+    public void deleteTask(Task deletedTask) {
+        taskList.removeTask(deletedTask);
+    }
+
     //=========== TaskMaster2103 ============================================================================
 
     @Override
     public ReadOnlyTaskList getTaskList() {
-        return tasks;
+        return taskList;
     }
 
     @Override
     public void addTask(Task task) {
-        tasks.addTask(task);
+        taskList.addTask(task);
     }
 
     @Override
@@ -155,6 +160,12 @@ public class ModelManager implements Model {
     @Override
     public Task getTaskAtIndex(int index) throws IndexOutOfBoundsException {
         return sortedTasks.get(index);
+    }
+
+    @Override
+    public void setTask(int targetIndex, Task editedTask) {
+        requireAllNonNull(taskList.getTasks().get(targetIndex), editedTask);
+        taskList.getTasks().set(targetIndex, editedTask);
     }
 
     @Override
@@ -172,6 +183,7 @@ public class ModelManager implements Model {
         // state check
         ModelManager other = (ModelManager) obj;
         return addressBook.equals(other.addressBook)
+                && taskList.equals(other.taskList)
                 && userPrefs.equals(other.userPrefs)
                 && filteredPersons.equals(other.filteredPersons);
     }
