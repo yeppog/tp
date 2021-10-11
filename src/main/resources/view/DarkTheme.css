@@ -12,21 +12,24 @@
 
 .label-bright {
     -fx-font-size: 11pt;
-    -fx-font-family: "Open Sans Semibold";
+    -fx-font-weight: 600;
+    -fx-font-family: "Open Sans";
     -fx-text-fill: white;
     -fx-opacity: 1;
 }
 
 .label-header {
     -fx-font-size: 32pt;
-    -fx-font-family: "Open Sans Light";
+    -fx-font-weight: 300;
+    -fx-font-family: "Open Sans";
     -fx-text-fill: white;
     -fx-opacity: 1;
 }
 
 .text-field {
     -fx-font-size: 12pt;
-    -fx-font-family: "Open Sans Semibold";
+    -fx-font-weight: 600;
+    -fx-font-family: "Open Sans";
 }
 
 .tab-pane {
@@ -155,6 +158,11 @@
 
 .result-display .label {
     -fx-text-fill: black !important;
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font-family: "Open Sans Light";
 }
 
 .status-bar .label {
@@ -349,4 +357,13 @@
     -fx-border-radius: 2;
     -fx-background-radius: 2;
     -fx-font-size: 11;
+}
+
+
+.label.label-header-small {
+    -fx-font-size: 10pt;
+    -fx-font-family: "Open Sans Extra Bold";
+    -fx-font-weight: 800;
+    -fx-text-fill: white;
+    -fx-opacity: 1;
 }

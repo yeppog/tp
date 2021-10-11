@@ -28,14 +28,27 @@ public class Task {
      * @param tags The tags of the task
      */
     public Task(String title, String description, Timestamp timestamp, Set<Tag> tags) {
+        this(title, description, timestamp, tags, false);
+    }
+
+    /**
+     * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
+     * @param title The title of the task
+     * @param description The optional description of the task
+     * @param timestamp The optional timestamp of the task
+     * @param tags The tags of the task
+     * @param done Whether the task is done
+     */
+    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean done) {
         requireAllNonNull(title, tags);
 
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;
         this.tags.addAll(tags);
-        this.done = false;
+        this.done = done;
     }
+
 
     public String getTitle() {
         return title;
