@@ -53,7 +53,7 @@ public class Task {
         return tags;
     }
 
-    public boolean getisDone() {
+    public boolean getDone() {
         return isDone;
     }
 

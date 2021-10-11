@@ -15,4 +15,9 @@ public class Timestamp {
     }
 
     // TODO: Create a DateTime representation of timestamps
+
+    @Override
+    public String toString() {
+        return timestamp;
+    }
 }
