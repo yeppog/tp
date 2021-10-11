@@ -95,13 +95,6 @@ public interface Model {
     void deleteTask(Task deletedTask);
 
     /**
-     * Returns a list of the current tasks.
-     *
-     * @return the list of tasks
-     */
-    List<Task> getTasks();
-
-    /**
      * Adds the given task to the task list.
      * @param task The task to be added.
      */
@@ -111,6 +104,13 @@ public interface Model {
     ObservableList<Task> getFilteredTaskList();
 
     ReadOnlyTaskList getTaskList();
+
+    /**
+     * Replaces the given task {@code target} with {@code editedTask}.
+     * {@code target} must exist in the task list.
+     * setTask uses targetIndex rather than target Person; This is because tasks may not be unique, unlike persons
+     */
+    void setTask(int targetIndex, Task editedTask);
 
     /**
      * Retrieve task at the specified index.

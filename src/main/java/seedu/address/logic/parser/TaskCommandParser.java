@@ -11,10 +11,12 @@ import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.task.AddTaskCommand;
 import seedu.address.logic.commands.task.DeleteTaskCommand;
 import seedu.address.logic.commands.task.DoneTaskCommand;
+import seedu.address.logic.commands.task.EditTaskCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.task.AddTaskCommandParser;
 import seedu.address.logic.parser.task.DeleteTaskCommandParser;
 import seedu.address.logic.parser.task.DoneTaskCommandParser;
+import seedu.address.logic.parser.task.EditTaskCommandParser;
 
 
 /**
@@ -44,6 +46,9 @@ public class TaskCommandParser implements Parser<TaskCommand> {
 
         case DoneTaskCommand.COMMAND_WORD:
             return new DoneTaskCommandParser().parse(arguments);
+
+        case EditTaskCommand.COMMAND_WORD:
+            return new EditTaskCommandParser().parse(arguments);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

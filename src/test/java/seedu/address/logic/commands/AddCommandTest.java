@@ -151,16 +151,6 @@ public class AddCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
-        /**
-         * Returns a list of the current tasks.
-         *
-         * @return the list of tasks
-         */
-        @Override
-        public List<Task> getTasks() {
-            return null;
-        }
-
         @Override
         public void addTask(Task task) {
             throw new AssertionError("This method should not be called.");
@@ -178,6 +168,16 @@ public class AddCommandTest {
 
         @Override
         public Task getTaskAtIndex(int index) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setTask(int index, Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteTask(Task task) {
             throw new AssertionError("This method should not be called.");
         }
     }
