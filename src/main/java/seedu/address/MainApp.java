@@ -19,15 +19,18 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyTaskList;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.TaskList;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
 import seedu.address.storage.JsonAddressBookStorage;
+import seedu.address.storage.JsonTaskListStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.Storage;
 import seedu.address.storage.StorageManager;
+import seedu.address.storage.TaskListStorage;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
@@ -58,7 +61,8 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
-        storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        TaskListStorage taskListStorage = new JsonTaskListStorage(userPrefs.getTaskListFilePath());
+        storage = new StorageManager(addressBookStorage, userPrefsStorage, taskListStorage);
 
         initLogging(config);
 
@@ -76,23 +80,37 @@ public class MainApp extends Application {
      */
     private Model initModelManager(Storage storage, ReadOnlyUserPrefs userPrefs) {
         Optional<ReadOnlyAddressBook> addressBookOptional;
-        ReadOnlyAddressBook initialData;
+        ReadOnlyAddressBook initialAddressData;
         try {
             addressBookOptional = storage.readAddressBook();
-            if (!addressBookOptional.isPresent()) {
+            if (addressBookOptional.isEmpty()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
             }
-            initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
+            initialAddressData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
         } catch (DataConversionException e) {
             logger.warning("Data file not in the correct format. Will be starting with an empty AddressBook");
-            initialData = new AddressBook();
+            initialAddressData = new AddressBook();
         } catch (IOException e) {
             logger.warning("Problem while reading from the file. Will be starting with an empty AddressBook");
-            initialData = new AddressBook();
+            initialAddressData = new AddressBook();
+        }
+        Optional<ReadOnlyTaskList> taskListOptional;
+        ReadOnlyTaskList initialTasksData;
+        try {
+            taskListOptional = storage.readTaskList();
+            if (taskListOptional.isEmpty()) {
+                logger.info("Data file not found. Will be starting with empty");
+            }
+            initialTasksData = taskListOptional.orElseGet(TaskList::new);
+        } catch (DataConversionException e) {
+            logger.warning("Data file not in the correct format. Will be starting with an empty TaskList");
+            initialTasksData = new TaskList();
+        } catch (IOException e) {
+            logger.warning("Problem while reading from the file. Will be starting with an empty TaskList");
+            initialTasksData = new TaskList();
         }
 
-        // TODO: Add storage functionality for task list
-        return new ModelManager(initialData, new TaskList(), userPrefs);
+        return new ModelManager(initialAddressData, initialTasksData, userPrefs);
     }
 
     private void initLogging(Config config) {
