@@ -90,7 +90,7 @@ public interface Model {
     /**
      * Returns a list of the current tasks.
      *
-     * @return The list of tasks.
+     * @return the list of tasks
      */
     List<Task> getTasks();
 

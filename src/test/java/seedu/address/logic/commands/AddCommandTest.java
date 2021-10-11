@@ -153,7 +153,7 @@ public class AddCommandTest {
         /**
          * Returns a list of the current tasks.
          *
-         * @return The list of tasks.
+         * @return the list of tasks
          */
         @Override
         public List<Task> getTasks() {

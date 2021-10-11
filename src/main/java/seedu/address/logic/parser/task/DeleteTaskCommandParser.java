@@ -13,10 +13,10 @@ public class DeleteTaskCommandParser implements Parser<DeleteTaskCommand> {
 
 
     /**
-     * Parses {@code userInput} into a command and returns it.
+     * Parses {@code userInput} into a new DeleteTaskCommand and returns it.
      *
-     * @param userInput Input entered by user.
-     * @throws ParseException if {@code userInput} does not conform the expected format
+     * @param userInput the input entered by the user
+     * @throws ParseException if {@code userInput} does not conform to the expected format
      */
     @Override
     public DeleteTaskCommand parse(String userInput) throws ParseException {
