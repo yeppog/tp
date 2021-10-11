@@ -124,6 +124,28 @@ public class ParserUtil {
     }
 
     /**
+     * Parses {@code String title} into a trimmed {@code String title}
+     * @param title The title to parse
+     * @return A parsed title
+     */
+    public static String parseTitle(String title) {
+        requireNonNull(title);
+
+        return title.trim();
+    }
+
+    /**
+     * Parses {@code String description} into a trimmed {@code String description}
+     * @param description The description to parse
+     * @return A parsed description
+     */
+    public static String parseDescription(String description) {
+        requireNonNull(description);
+
+        return description.trim();
+    }
+
+    /**
      * Parses {@code String timestamp} into a {@code Timestamp}.
      * @param timestamp The timestamp string to parse
      * @return A parsed timestamp

@@ -164,7 +164,7 @@ Each task has a compulsory title field, and textual description, timestamp, and 
 
 **Format:**
 
-`task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [tag/TAG}`
+`task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG}`
 
 **Example:**
 
@@ -176,7 +176,7 @@ Edits an existing task in the task list
 
 **Format:**
 
-`task edit INDEX [t/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [tag/TAG]…`
+`task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]…`
 
 - Edits the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1,2,3 …
 - At least one of the optional fields must be provided

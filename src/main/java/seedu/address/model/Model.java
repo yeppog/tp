@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -86,6 +87,13 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
+
+    /**
+     * Deletes the given task. The task must exist in the task list.
+     * @param deletedTask The task to delete
+     */
+    void deleteTask(Task deletedTask);
+
     /**
      * Adds the given task to the task list.
      * @param task The task to be added.
@@ -98,9 +106,17 @@ public interface Model {
     ReadOnlyTaskList getTaskList();
 
     /**
+     * Replaces the given task {@code target} with {@code editedTask}.
+     * {@code target} must exist in the task list.
+     * setTask uses targetIndex rather than target Person; This is because tasks may not be unique, unlike persons
+     */
+    void setTask(int targetIndex, Task editedTask);
+
+    /**
      * Retrieve task at the specified index.
      * @param index Index of task displayed in the GUI.
      * @return Task corresponding to the index provided.
      */
     Task getTaskAtIndex(int index) throws IndexOutOfBoundsException;
+
 }
