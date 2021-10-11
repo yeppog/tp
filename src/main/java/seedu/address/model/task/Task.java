@@ -28,13 +28,7 @@ public class Task {
      * @param tags The tags of the task
      */
     public Task(String title, String description, Timestamp timestamp, Set<Tag> tags) {
-        requireAllNonNull(title, tags);
-
-        this.title = title;
-        this.description = description;
-        this.timestamp = timestamp;
-        this.tags.addAll(tags);
-        this.isDone = false;
+        this(title, description, timestamp, tags, false);
     }
 
     /**
@@ -55,6 +49,7 @@ public class Task {
         this.tags.addAll(tags);
         this.isDone = isDone;
     }
+
 
     public String getTitle() {
         return title;
