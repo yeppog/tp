@@ -92,6 +92,11 @@ public interface Model {
      */
     void addTask(Task task);
 
+    /** Returns an unmodifiable view of the task list */
+    ObservableList<Task> getFilteredTaskList();
+
+    ReadOnlyTaskList getTaskList();
+
     /**
      * Retrieve task at the specified index.
      * @param index Index of task displayed in the GUI.

@@ -4,13 +4,12 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
@@ -25,25 +24,27 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
-    private final List<Task> tasks;
+    private final TaskList tasks;
+    private final ObservableList<Task> sortedTasks;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyUserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, ReadOnlyTaskList taskList, ReadOnlyUserPrefs userPrefs) {
         super();
-        requireAllNonNull(addressBook, userPrefs);
+        requireAllNonNull(addressBook, taskList, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        tasks = new ArrayList<>();
+        this.tasks = new TaskList(taskList);
+        sortedTasks = new SortedList<>(this.tasks.getTasks());
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new TaskList(), new UserPrefs());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -137,13 +138,23 @@ public class ModelManager implements Model {
     //=========== TaskMaster2103 ============================================================================
 
     @Override
+    public ReadOnlyTaskList getTaskList() {
+        return tasks;
+    }
+
+    @Override
     public void addTask(Task task) {
-        tasks.add(task);
+        tasks.addTask(task);
+    }
+
+    @Override
+    public ObservableList<Task> getFilteredTaskList() {
+        return sortedTasks;
     }
 
     @Override
     public Task getTaskAtIndex(int index) throws IndexOutOfBoundsException {
-        return tasks.get(index);
+        return sortedTasks.get(index);
     }
 
     @Override
