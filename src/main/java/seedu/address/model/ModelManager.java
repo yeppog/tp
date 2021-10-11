@@ -135,6 +135,11 @@ public class ModelManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    @Override
+    public void deleteTask(Task deletedTask) {
+        taskList.removeTask(deletedTask);
+    }
+
     //=========== TaskMaster2103 ============================================================================
 
     @Override
