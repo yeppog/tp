@@ -46,7 +46,6 @@ public class TaskCard extends UiPart<Region> {
         isCompleted.setText("");
         isCompleted.setSelected(task.getIsDone());
         isCompleted.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
-            System.out.println(newValue);
             Task newTask = new Task(
                 task.getTitle(),
                 task.getDescription(),
