@@ -7,6 +7,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import seedu.address.model.task.Task;
+import seedu.address.ui.exceptions.GuiException;
 
 public class TaskCard extends UiPart<Region> {
     private static final String FXML = "TaskCard.fxml";
@@ -33,7 +34,7 @@ public class TaskCard extends UiPart<Region> {
      * @param task The task to represent
      * @param oneIndex The position of the task in the list in one-based indexing
      */
-    public TaskCard(Task task, int oneIndex) {
+    public TaskCard(Task task, int oneIndex, TaskListPanel.TaskEditor taskEditor) {
         super(FXML);
 
         this.task = task;
@@ -43,6 +44,21 @@ public class TaskCard extends UiPart<Region> {
         description.setText(task.getDescription());
         timestamp.setText(Optional.ofNullable(task.getTimestamp()).map(Object::toString).orElse(""));
         isCompleted.setText("");
-        isCompleted.setSelected(false);
+        isCompleted.setSelected(task.getIsDone());
+        isCompleted.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
+            System.out.println(newValue);
+            Task newTask = new Task(
+                task.getTitle(),
+                task.getDescription(),
+                task.getTimestamp(),
+                task.getTags(),
+                newValue
+            );
+            try {
+                taskEditor.updateTask(task, newTask);
+            } catch (GuiException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

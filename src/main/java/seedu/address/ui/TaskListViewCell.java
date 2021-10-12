@@ -4,6 +4,13 @@ import javafx.scene.control.ListCell;
 import seedu.address.model.task.Task;
 
 public class TaskListViewCell extends ListCell<Task> {
+
+    private final TaskListPanel.TaskEditor taskEditor;
+
+    public TaskListViewCell(TaskListPanel.TaskEditor taskEditor) {
+        this.taskEditor = taskEditor;
+    }
+
     @Override
     protected void updateItem(Task task, boolean empty) {
         super.updateItem(task, empty);
@@ -12,7 +19,7 @@ public class TaskListViewCell extends ListCell<Task> {
             setGraphic(null);
             setText(null);
         } else {
-            setGraphic(new TaskCard(task, getIndex() + 1).getRoot());
+            setGraphic(new TaskCard(task, getIndex() + 1, taskEditor).getRoot());
         }
     }
 }

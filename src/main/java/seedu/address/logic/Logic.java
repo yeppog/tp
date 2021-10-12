@@ -6,11 +6,13 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyTaskList;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
+import seedu.address.ui.exceptions.GuiException;
 
 /**
  * API of the Logic component
@@ -24,6 +26,12 @@ public interface Logic {
      * @throws ParseException If an error occurs during parsing.
      */
     CommandResult execute(String commandText) throws CommandException, ParseException;
+
+    /**
+     * Executes the task list action.
+     * @param action The task list action to execute
+     */
+    void executeGuiAction(GuiAction action) throws GuiException;
 
     /**
      * Returns the AddressBook.
