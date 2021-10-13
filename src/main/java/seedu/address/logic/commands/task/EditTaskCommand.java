@@ -7,11 +7,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.CommandResult;
@@ -62,14 +60,13 @@ public class EditTaskCommand extends TaskCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        List<Task> taskList = model.getFilteredTaskList();
 
-        Task taskToEdit;
-        try {
-            taskToEdit = model.getTaskAtIndex(index.getZeroBased());
-        } catch (IndexOutOfBoundsException e) {
-            return new CommandResult(MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+        if (index.getZeroBased() >= taskList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
+        Task taskToEdit = taskList.get(index.getZeroBased());
         Task editedTask = createEditedTask(taskToEdit, editTaskDescriptor);
 
         // Replace task with edited task
@@ -116,7 +113,7 @@ public class EditTaskCommand extends TaskCommand {
      * Stores the details to edit the task with. Each non-empty field value will replace the
      * corresponding field value of the person.
      */
-    public static class EditTaskDescriptor {
+    public static class     EditTaskDescriptor {
         private String title;
         private String description;
         private Timestamp timestamp;

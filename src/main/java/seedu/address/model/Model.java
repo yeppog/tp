@@ -111,11 +111,5 @@ public interface Model {
      */
     void setTask(int targetIndex, Task editedTask);
 
-    /**
-     * Retrieve task at the specified index.
-     * @param index Index of task displayed in the GUI.
-     * @return Task corresponding to the index provided.
-     */
-    Task getTaskAtIndex(int index) throws IndexOutOfBoundsException;
 
 }

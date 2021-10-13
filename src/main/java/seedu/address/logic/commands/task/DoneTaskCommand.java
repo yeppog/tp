@@ -1,13 +1,17 @@
 package seedu.address.logic.commands.task;
 
+import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
+
+import java.util.List;
 
 /**
  * Completes an existing task in the task list.
@@ -30,14 +34,14 @@ public class DoneTaskCommand extends TaskCommand {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
+        List<Task> taskList = model.getFilteredTaskList();
 
-        Task task;
-        try {
-            task = model.getTaskAtIndex(index.getZeroBased());
-        } catch (IndexOutOfBoundsException e) {
-            throw new CommandException(MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+        if (index.getZeroBased() >= taskList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
+        Task task = taskList.get(index.getZeroBased());
         if (task.getIsDone()) {
             throw new CommandException(String.format(MESSAGE_ALREADY_DONE, task));
         }

@@ -1,6 +1,7 @@
 package seedu.address.testutil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.model.TaskList;
@@ -12,7 +13,7 @@ public class TypicalTasks {
             .withTitle("Do homework").withDescription("Math, physics and chemistry").build();
 
     /**
-     * Returns an {@code AddressBook} with all the typical persons.
+     * Returns an {@code AddressBook} with all the typical tasks.
      */
     public static TaskList getTypicalTaskList() {
         TaskList tl = new TaskList();
@@ -23,6 +24,6 @@ public class TypicalTasks {
     }
 
     public static List<Task> getTypicalTasks() {
-        return new ArrayList<>();
+        return new ArrayList<>(Arrays.asList(BUY_GROCERIES, DO_HOMEWORK));
     }
 }

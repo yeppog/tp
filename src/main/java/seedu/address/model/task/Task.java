@@ -3,6 +3,7 @@ package seedu.address.model.task;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.tag.Tag;
@@ -72,6 +73,19 @@ public class Task {
 
     public boolean getIsDone() {
         return isDone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return isDone == task.isDone && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(timestamp, task.timestamp) && Objects.equals(tags, task.tags);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description, timestamp, tags, isDone);
     }
 
     @Override

@@ -158,11 +158,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public Task getTaskAtIndex(int index) throws IndexOutOfBoundsException {
-        return sortedTasks.get(index);
-    }
-
-    @Override
     public void setTask(int targetIndex, Task editedTask) {
         requireAllNonNull(taskList.getTasks().get(targetIndex), editedTask);
         taskList.getTasks().set(targetIndex, editedTask);
