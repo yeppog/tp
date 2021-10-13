@@ -28,8 +28,8 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
-     * Executes the task list action.
-     * @param action The task list action to execute
+     * Executes the GUI action.
+     * @param action The GUI action to execute
      */
     void executeGuiAction(GuiAction action) throws GuiException;
 
