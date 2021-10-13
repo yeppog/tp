@@ -166,11 +166,6 @@ public class AddCommandTest {
         }
 
         @Override
-        public Task getTaskAtIndex(int index) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
         public void setTask(int index, Task task) {
             throw new AssertionError("This method should not be called.");
         }

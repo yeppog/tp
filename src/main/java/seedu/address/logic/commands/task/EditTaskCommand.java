@@ -1,13 +1,16 @@
 package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
@@ -19,6 +22,8 @@ import seedu.address.model.Model;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
+
+
 
 /**
  * Edits the details of an existing task in the address book.
@@ -113,7 +118,7 @@ public class EditTaskCommand extends TaskCommand {
      * Stores the details to edit the task with. Each non-empty field value will replace the
      * corresponding field value of the person.
      */
-    public static class     EditTaskDescriptor {
+    public static class EditTaskDescriptor {
         private String title;
         private String description;
         private Timestamp timestamp;

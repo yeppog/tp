@@ -111,5 +111,4 @@ public interface Model {
      */
     void setTask(int targetIndex, Task editedTask);
 
-
 }
