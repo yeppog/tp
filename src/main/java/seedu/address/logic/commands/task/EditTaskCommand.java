@@ -23,8 +23,6 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
 
-
-
 /**
  * Edits the details of an existing task in the address book.
  */
