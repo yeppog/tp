@@ -3,6 +3,7 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
@@ -31,6 +32,17 @@ public class TaskBuilder {
         this.timestamp = DEFAULT_TIMESTAMP;
         this.tags = DEFAULT_TAGS;
         this.isDone = DEFAULT_IS_DONE;
+    }
+
+    /**
+     * Initializes the TaskBuilder with the data of {@code taskToCopy}.
+     */
+    public TaskBuilder(Task taskToCopy) {
+        title = taskToCopy.getTitle();
+        description = taskToCopy.getDescription();
+        timestamp = taskToCopy.getTimestamp();
+        isDone = taskToCopy.getIsDone();
+        tags = new HashSet<>(taskToCopy.getTags());
     }
 
     /**

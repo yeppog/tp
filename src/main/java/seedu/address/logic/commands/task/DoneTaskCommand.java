@@ -3,10 +3,12 @@ package seedu.address.logic.commands.task;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Objects;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
@@ -50,5 +52,12 @@ public class DoneTaskCommand extends TaskCommand {
         model.setTask(index.getZeroBased(), completedTask);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, completedTask));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o
+                || (o instanceof DoneTaskCommand
+                && index.equals(((DoneTaskCommand) o).index));
     }
 }

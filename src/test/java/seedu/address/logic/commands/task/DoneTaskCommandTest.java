@@ -1,8 +1,11 @@
 package seedu.address.logic.commands.task;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalTasks.getTypicalTaskList;
 
@@ -55,5 +58,27 @@ class DoneTaskCommandTest {
         DoneTaskCommand doneTaskCommand = new DoneTaskCommand(INDEX_FIRST_PERSON);
         assertCommandFailure(doneTaskCommand, modelAlreadyCompleted,
                 String.format(DoneTaskCommand.MESSAGE_ALREADY_DONE, editedTask));
+    }
+
+    @Test
+    void equals() {
+        DoneTaskCommand doneFirstCommand = new DoneTaskCommand(INDEX_FIRST_PERSON);
+        DoneTaskCommand doneSecondCommand = new DoneTaskCommand(INDEX_SECOND_PERSON);
+
+        // same object -> returns true
+        assertTrue(doneFirstCommand.equals(doneFirstCommand));
+
+        // same values -> returns true
+        DoneTaskCommand doneFirstCommandCopy = new DoneTaskCommand(INDEX_FIRST_PERSON);
+        assertTrue(doneFirstCommand.equals(doneFirstCommandCopy));
+
+        // different types -> returns false
+        assertFalse(doneFirstCommand.equals(1));
+
+        // null -> returns false
+        assertFalse(doneFirstCommand.equals(null));
+
+        // different person -> returns false
+        assertFalse(doneFirstCommand.equals(doneSecondCommand));
     }
 }
