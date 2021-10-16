@@ -31,10 +31,11 @@ class DoneTaskCommandTest {
         DoneTaskCommand doneTaskCommand = new DoneTaskCommand(INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(DoneTaskCommand.MESSAGE_SUCCESS, editedTask);
+        Task task = model.getTaskList().getTasks().get(INDEX_FIRST_PERSON.getZeroBased());
 
         Model expectedModel = new ModelManager(
                 new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
-        expectedModel.setTask(INDEX_FIRST_PERSON.getZeroBased(), editedTask);
+        expectedModel.setTask(task, editedTask);
 
         assertCommandSuccess(doneTaskCommand, model, expectedMessage, expectedModel);
     }
@@ -50,10 +51,11 @@ class DoneTaskCommandTest {
     @Test
     void execute_taskAlreadyCompleted_failure() {
         Task editedTask = new TaskBuilder().withDone(true).build();
+        Task task = model.getTaskList().getTasks().get(INDEX_FIRST_PERSON.getZeroBased());
 
         Model modelAlreadyCompleted = new ModelManager(
                 new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
-        modelAlreadyCompleted.setTask(INDEX_FIRST_PERSON.getZeroBased(), editedTask);
+        modelAlreadyCompleted.setTask(task, editedTask);
 
         DoneTaskCommand doneTaskCommand = new DoneTaskCommand(INDEX_FIRST_PERSON);
         assertCommandFailure(doneTaskCommand, modelAlreadyCompleted,

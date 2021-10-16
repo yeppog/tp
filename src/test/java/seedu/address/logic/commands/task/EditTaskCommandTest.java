@@ -39,10 +39,11 @@ class EditTaskCommandTest {
         EditTaskCommand editTaskCommand = new EditTaskCommand(INDEX_FIRST_PERSON, descriptor);
 
         String expectedMessage = String.format(EditTaskCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask);
+        Task task = model.getTaskList().getTasks().get(INDEX_FIRST_PERSON.getZeroBased());
 
         Model expectedModel = new ModelManager(
                 new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
-        expectedModel.setTask(INDEX_FIRST_PERSON.getZeroBased(), editedTask);
+        expectedModel.setTask(task, editedTask);
 
         assertCommandSuccess(editTaskCommand, model, expectedMessage, expectedModel);
     }
@@ -64,7 +65,7 @@ class EditTaskCommandTest {
 
         Model expectedModel = new ModelManager(
                 new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()) , new UserPrefs());
-        expectedModel.setTask(indexLastTask.getZeroBased(), editedTask);
+        expectedModel.setTask(lastTask, editedTask);
 
         assertCommandSuccess(editTaskCommand, model, expectedMessage, expectedModel);
     }

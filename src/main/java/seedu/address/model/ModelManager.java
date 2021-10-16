@@ -158,10 +158,6 @@ public class ModelManager implements Model {
         return sortedTasks;
     }
 
-    public Task getTaskAtIndex(int index) throws IndexOutOfBoundsException {
-        return sortedTasks.get(index);
-    }
-
     @Override
     public void executeGuiAction(GuiAction action) {
         action.executeWith(addressBook, taskList);
