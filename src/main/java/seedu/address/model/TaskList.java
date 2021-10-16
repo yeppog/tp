@@ -28,6 +28,10 @@ public class TaskList implements ReadOnlyTaskList {
         tasks.remove(deletedTask);
     }
 
+    public void setTask(Task oldTask, Task newTask) {
+        tasks.set(tasks.indexOf(oldTask), newTask);
+    }
+
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

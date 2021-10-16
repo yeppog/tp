@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 
@@ -163,9 +164,14 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void setTask(int targetIndex, Task editedTask) {
-        requireAllNonNull(taskList.getTasks().get(targetIndex), editedTask);
-        taskList.getTasks().set(targetIndex, editedTask);
+    public void executeGuiAction(GuiAction action) {
+        action.executeWith(addressBook, taskList);
+    }
+
+    @Override
+    public void setTask(Task target, Task editedTask) {
+        requireAllNonNull(target, editedTask);
+        taskList.setTask(target, editedTask);
     }
 
     @Override

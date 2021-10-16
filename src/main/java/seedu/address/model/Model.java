@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 
@@ -109,7 +110,7 @@ public interface Model {
      * {@code target} must exist in the task list.
      * setTask uses targetIndex rather than target Person; This is because tasks may not be unique, unlike persons
      */
-    void setTask(int targetIndex, Task editedTask);
+    void setTask(Task target, Task editedTask);
 
     /**
      * Retrieve task at the specified index.
@@ -118,4 +119,5 @@ public interface Model {
      */
     Task getTaskAtIndex(int index) throws IndexOutOfBoundsException;
 
+    void executeGuiAction(GuiAction action);
 }
