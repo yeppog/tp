@@ -73,7 +73,7 @@ public class EditTaskCommand extends TaskCommand {
         Task editedTask = createEditedTask(taskToEdit, editTaskDescriptor);
 
         // Replace task with edited task
-        model.setTask(index.getZeroBased(), editedTask);
+        model.setTask(taskToEdit, editedTask);
 
         // Return with new edited task
         return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS, editedTask));

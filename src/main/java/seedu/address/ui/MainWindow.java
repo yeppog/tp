@@ -16,6 +16,9 @@ import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.AddressBook;
+import seedu.address.model.TaskList;
+import seedu.address.model.task.Task;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -113,9 +116,14 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        TaskListPanel taskListPanel = new TaskListPanel(logic.getFilteredTaskList());
-        taskListPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
+        TaskListPanel.TaskEditor taskEditor = (Task oldTask, Task newTask) -> {
+            logic.executeGuiAction((AddressBook addressBook, TaskList taskList) -> {
+                taskList.setTask(oldTask, newTask);
+            });
+        };
 
+        TaskListPanel taskListPanel = new TaskListPanel(logic.getFilteredTaskList(), taskEditor);
+        taskListPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
 
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());

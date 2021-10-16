@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 
@@ -102,6 +103,7 @@ public interface Model {
     /** Returns an unmodifiable view of the task list */
     ObservableList<Task> getFilteredTaskList();
 
+    /** Returns the TaskList */
     ReadOnlyTaskList getTaskList();
 
     /**
@@ -109,6 +111,11 @@ public interface Model {
      * {@code target} must exist in the task list.
      * setTask uses targetIndex rather than target Person; This is because tasks may not be unique, unlike persons
      */
-    void setTask(int targetIndex, Task editedTask);
+    void setTask(Task target, Task editedTask);
 
+    /**
+     * Executes the given GUI action with the model context.
+     * @param action The GUI action to execute
+     */
+    void executeGuiAction(GuiAction action);
 }
