@@ -8,9 +8,9 @@ import seedu.address.model.task.Task;
 
 public class TaskFilters {
     public static final TaskFilter FILTER_DONE = new TaskFilter("Done", Task::getDone,
-            isInverted -> isInverted ? "Undone" : "Done");
+        isInverted -> isInverted ? "Undone" : "Done");
     public static final Function<Tag, TaskFilter> FILTER_TAG = tag -> new TaskFilter("Tag",
-            task -> task.getTags().contains(tag), isInverted -> (isInverted ? "Not Tagged " : "Tagged ") + tag);
+        task -> task.getTags().contains(tag), isInverted -> (isInverted ? "Not Tagged " : "Tagged ") + tag);
 
 
     public static class TaskFilter {
