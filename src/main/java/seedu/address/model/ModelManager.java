@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -149,6 +150,12 @@ public class ModelManager implements Model {
     @Override
     public void deleteTask(Task deletedTask) {
         taskList.removeTask(deletedTask);
+        recomputeAvailableTaskFilters();
+
+        // If removing this task removed a tag, remove all filters associated with that tag
+        if (selectedTaskFilters.removeIf(filter -> !availableTaskFilters.contains(filter))) {
+            recalculateFilteredTaskList();
+        }
     }
 
     //=========== TaskMaster2103 ============================================================================
@@ -161,6 +168,7 @@ public class ModelManager implements Model {
     @Override
     public void addTask(Task task) {
         taskList.addTask(task);
+        recomputeAvailableTaskFilters();
     }
 
     @Override
@@ -168,18 +176,25 @@ public class ModelManager implements Model {
         return filteredTasks;
     }
 
-    @Override
-    public ObservableList<TaskFilter> getAvailableTaskFilters() {
+    private void recomputeAvailableTaskFilters() {
         Set<Tag> allTaskTags = taskList.getTasks().stream()
                 .map(Task::getTags)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
-        List<TaskFilter> tagFilters = allTaskTags.stream().map(TaskFilters.FILTER_TAG).collect(Collectors.toList());
+        List<TaskFilter> tagFilters = allTaskTags.stream()
+                .map(TaskFilters.FILTER_TAG)
+                .sorted(Comparator.comparing(TaskFilter::toString))
+                .collect(Collectors.toList());
 
         availableTaskFilters.clear();
         availableTaskFilters.add(TaskFilters.FILTER_DONE);
         availableTaskFilters.add(TaskFilters.FILTER_DONE.invert());
         availableTaskFilters.addAll(tagFilters);
+    }
+
+    @Override
+    public ObservableList<TaskFilter> getAvailableTaskFilters() {
+        recomputeAvailableTaskFilters();
         return availableTaskFilters;
     }
 
