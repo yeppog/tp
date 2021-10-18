@@ -34,6 +34,17 @@ public class TaskBuilder {
     }
 
     /**
+     * Initializes the TaskBuilder with the data of {@code taskToCopy}.
+     */
+    public TaskBuilder(Task taskToCopy) {
+        title = taskToCopy.getTitle();
+        description = taskToCopy.getDescription();
+        timestamp = taskToCopy.getTimestamp();
+        isDone = taskToCopy.getIsDone();
+        tags = new HashSet<>(taskToCopy.getTags());
+    }
+
+    /**
      * Sets the {@code title} of the {@code Task} that we are building.
      */
     public TaskBuilder withTitle(String title) {

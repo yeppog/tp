@@ -103,6 +103,7 @@ public interface Model {
     /** Returns an unmodifiable view of the task list */
     ObservableList<Task> getFilteredTaskList();
 
+    /** Returns the TaskList */
     ReadOnlyTaskList getTaskList();
 
     /**
@@ -113,11 +114,8 @@ public interface Model {
     void setTask(Task target, Task editedTask);
 
     /**
-     * Retrieve task at the specified index.
-     * @param index Index of task displayed in the GUI.
-     * @return Task corresponding to the index provided.
+     * Executes the given GUI action with the model context.
+     * @param action The GUI action to execute
      */
-    Task getTaskAtIndex(int index) throws IndexOutOfBoundsException;
-
     void executeGuiAction(GuiAction action);
 }

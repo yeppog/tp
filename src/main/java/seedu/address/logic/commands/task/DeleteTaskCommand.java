@@ -2,13 +2,14 @@ package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyTaskList;
 import seedu.address.model.task.Task;
 
 public class DeleteTaskCommand extends TaskCommand {
@@ -38,14 +39,13 @@ public class DeleteTaskCommand extends TaskCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+        List<Task> taskList = model.getFilteredTaskList();
 
-        ReadOnlyTaskList taskList = model.getTaskList();
-
-        if (targetIndex.getZeroBased() >= taskList.getTasks().size()) {
+        if (targetIndex.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
-        Task deletedTask = model.getTaskAtIndex(targetIndex.getZeroBased());
+        Task deletedTask = taskList.get(targetIndex.getZeroBased());
         model.deleteTask(deletedTask);
 
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));

@@ -1,7 +1,10 @@
 package seedu.address.logic.commands.task;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX;
+import static java.util.Objects.requireNonNull;
 
+import java.util.List;
+
+import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
@@ -30,14 +33,14 @@ public class DoneTaskCommand extends TaskCommand {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
+        requireNonNull(model);
+        List<Task> taskList = model.getFilteredTaskList();
 
-        Task task;
-        try {
-            task = model.getTaskAtIndex(index.getZeroBased());
-        } catch (IndexOutOfBoundsException e) {
-            throw new CommandException(MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+        if (index.getZeroBased() >= taskList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
 
+        Task task = taskList.get(index.getZeroBased());
         if (task.getIsDone()) {
             throw new CommandException(String.format(MESSAGE_ALREADY_DONE, task));
         }
@@ -47,5 +50,12 @@ public class DoneTaskCommand extends TaskCommand {
         model.setTask(task, completedTask);
 
         return new CommandResult(String.format(MESSAGE_SUCCESS, completedTask));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o
+                || (o instanceof DoneTaskCommand
+                && index.equals(((DoneTaskCommand) o).index));
     }
 }
