@@ -63,8 +63,8 @@ public class TaskBuilder {
     /**
      * Sets the {@code timestamp} of the {@code Task} that we are building.
      */
-    public TaskBuilder withTimestamp(String timestamp) {
-        this.timestamp = new Timestamp(timestamp);
+    public TaskBuilder withTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
         return this;
     }
 

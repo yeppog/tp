@@ -3,6 +3,7 @@ package seedu.address.logic.commands.task;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.Objects;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
@@ -49,6 +50,22 @@ public class DeleteTaskCommand extends TaskCommand {
         model.deleteTask(deletedTask);
 
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        DeleteTaskCommand that = (DeleteTaskCommand) o;
+        return Objects.equals(targetIndex, that.targetIndex);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(targetIndex);
     }
 }
