@@ -25,8 +25,8 @@ public class TaskListPanel extends UiPart<Region> {
     @FXML
     private FlowPane filterFlowPane;
 
-    private final ObservableList<TaskFilter> filterOptions;
-    private final ObservableList<TaskFilter> selectedFilters;
+    private final ObservableList<TaskFilter> availableTaskFilters;
+    private final ObservableList<TaskFilter> selectedTaskFilters;
 
     /**
      * Creates a TaskListPanel displaying a given list of tasks.
@@ -34,33 +34,36 @@ public class TaskListPanel extends UiPart<Region> {
      */
     public TaskListPanel(
             ObservableList<Task> taskList,
-            ObservableList<TaskFilter> filterOptions,
-            ObservableList<TaskFilter> selectedFilters,
+            ObservableList<TaskFilter> availableTaskFilters,
+            ObservableList<TaskFilter> selectedTaskFilters,
             Consumer<TaskFilter> addTaskFilter,
             Consumer<TaskFilter> removeTaskFilter,
             TaskEditor taskEditor) {
         super("TaskListPanel.fxml");
-        this.filterOptions = filterOptions;
-        this.selectedFilters = selectedFilters;
+        this.availableTaskFilters = availableTaskFilters;
+        this.selectedTaskFilters = selectedTaskFilters;
 
+        // Initialize task list
         taskListView.setItems(taskList);
         taskListView.setCellFactory(tasks -> new TaskListViewCell(taskEditor));
 
-        filterComboBox.setItems(filterOptions);
+        // Initialize list of available filters
+        filterComboBox.setItems(availableTaskFilters);
         filterComboBox.setCellFactory(taskFilters -> new TaskFilterCell());
         filterComboBox.setPromptText(null);
         filterComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 addTaskFilter.accept(newValue);
 
+                // When a filter is selected, reset the combo box's current selection
                 Platform.runLater(filterComboBox.getSelectionModel()::clearSelection);
             }
         });
 
         // Update FlowPane containing a node for each selected filter
-        selectedFilters.addListener((Observable observable) -> {
+        selectedTaskFilters.addListener((Observable observable) -> {
             filterFlowPane.getChildren().clear();
-            selectedFilters.stream()
+            selectedTaskFilters.stream()
                     .map(taskFilter -> new TaskFilterChip(taskFilter, removeTaskFilter).getRoot())
                     .forEach(filterFlowPane.getChildren()::add);
         });

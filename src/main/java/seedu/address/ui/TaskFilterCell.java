@@ -9,9 +9,9 @@ public class TaskFilterCell extends ComboBoxListCell<TaskFilters.TaskFilter> {
     public void updateItem(TaskFilters.TaskFilter taskFilter, boolean empty) {
         super.updateItem(taskFilter, empty);
 
+        setGraphic(null);
         if (empty || taskFilter == null) {
             setText(null);
-            setGraphic(null);
         } else {
             setText(taskFilter.toString());
         }

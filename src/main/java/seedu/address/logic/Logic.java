@@ -35,10 +35,23 @@ public interface Logic {
      */
     void executeGuiAction(GuiAction action) throws GuiException;
 
+    /**
+     * Adds a task filter to the list of selected filters.
+     * @param taskFilter The task filter to add
+     */
     void addTaskFilter(TaskFilter taskFilter);
-    void removeTaskFilter(TaskFilter taskFilter);
-    void setTaskFilters(List<TaskFilter> taskFilters);
 
+    /**
+     * Removes a task filter from the list of selected filters.
+     * @param taskFilter The task filter to remove
+     */
+    void removeTaskFilter(TaskFilter taskFilter);
+
+    /**
+     * Sets the list of selected task filters.
+     * @param taskFilters The list of task filters to filter by
+     */
+    void setTaskFilters(List<TaskFilter> taskFilters);
 
     /**
      * Returns a list of available task filters.

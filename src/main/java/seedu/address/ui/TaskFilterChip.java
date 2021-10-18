@@ -15,8 +15,6 @@ public class TaskFilterChip extends UiPart<Region> {
     @FXML
     private Button removeButton;
 
-    private Runnable removeTaskFilter;
-
     /**
      * Creates a chip UI element representing a selected task filter
      * @param taskFilter The selected task filter
@@ -25,11 +23,6 @@ public class TaskFilterChip extends UiPart<Region> {
     public TaskFilterChip(TaskFilter taskFilter, Consumer<TaskFilter> removeTaskFilter) {
         super("TaskFilterChip.fxml");
         filterNameLabel.setText(taskFilter.toString());
-        this.removeTaskFilter = () -> removeTaskFilter.accept(taskFilter);
-    }
-
-    @FXML
-    private void onRemoveButtonAction() {
-        this.removeTaskFilter.run();
+        removeButton.setOnAction((actionEvent) -> removeTaskFilter.accept(taskFilter));
     }
 }

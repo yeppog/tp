@@ -7,40 +7,40 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 
 public class TaskFilters {
-    public static final TaskFilter FILTER_DONE = new TaskFilter("Done", Task::getDone,
+    public static final TaskFilter FILTER_DONE = new TaskFilter(Task::getDone,
         isInverted -> isInverted ? "Undone" : "Done");
-    public static final Function<Tag, TaskFilter> FILTER_TAG = tag -> new TaskFilter("Tag",
-        task -> task.getTags().contains(tag), isInverted -> (isInverted ? "Not Tagged " : "Tagged ") + tag);
-
+    public static final Function<Tag, TaskFilter> FILTER_TAG = tag -> new TaskFilter(
+        task -> task.getTags().contains(tag), isInverted -> (isInverted ? "Not tagged " : "Tagged ") + tag);
 
     public static class TaskFilter {
-        private String name;
         private Predicate<Task> predicate;
         private boolean isInverted;
         private Function<Boolean, String> toString;
 
-        private TaskFilter(String name, Predicate<Task> predicate, Function<Boolean, String> toString) {
-            this(name, predicate, toString, false);
+        private TaskFilter(Predicate<Task> predicate, Function<Boolean, String> toString) {
+            this(predicate, toString, false);
         }
 
-        private TaskFilter(String name, Predicate<Task> predicate, Function<Boolean, String> toString,
-                           boolean isInverted) {
-            this.name = name;
+        private TaskFilter(Predicate<Task> predicate, Function<Boolean, String> toString, boolean isInverted) {
             this.predicate = predicate;
             this.toString = toString;
             this.isInverted = isInverted;
         }
 
+        /**
+         * Returns the predicate used to filter tasks.
+         * @return The predicate used to filter tasks
+         */
         public Predicate<Task> getPredicate() {
             return this.predicate;
         }
 
+        /**
+         * Returns a new task filter that accepts tasks not accepted by this task filter, and vice-versa.
+         * @return A new task filter with an inverted predicate
+         */
         public TaskFilter invert() {
-            return new TaskFilter(this.name, predicate.negate(), this.toString, !isInverted);
-        }
-
-        public String getName() {
-            return name;
+            return new TaskFilter(predicate.negate(), this.toString, !isInverted);
         }
 
         @Override

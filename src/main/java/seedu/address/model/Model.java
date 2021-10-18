@@ -117,9 +117,23 @@ public interface Model {
      */
     ObservableList<TaskFilter> getSelectedTaskFilters();
 
+    /**
+     * Adds a task filter to the list of selected filters.
+     * @param taskFilter The task filter to add
+     */
     void addTaskFilter(TaskFilter taskFilter);
+
+    /**
+     * Removes a task filter from the list of selected filters.
+     * @param taskFilter The task filter to remove
+     */
     void removeTaskFilter(TaskFilter taskFilter);
-    void setTaskFilters(List<TaskFilter> taskFilter);
+
+    /**
+     * Sets the list of selected task filters.
+     * @param taskFilters The list of task filters to filter by
+     */
+    void setTaskFilters(List<TaskFilter> taskFilters);
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.

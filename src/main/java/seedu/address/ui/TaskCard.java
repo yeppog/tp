@@ -41,14 +41,15 @@ public class TaskCard extends UiPart<Region> {
 
         this.task = task;
 
-        tags.prefWrapLengthProperty().bind(getRoot().widthProperty().divide(1.5));
-
         name.setText(oneIndex + ".  " + task.getTitle());
-        description.setText(task.getDescription());
+
         if (task.getDescription() == null) {
             description.setVisible(false);
             description.setManaged(false);
+        } else {
+            description.setText(task.getDescription());
         }
+
         if (task.getTags().isEmpty()) {
             tags.setVisible(false);
             tags.setManaged(false);
@@ -57,7 +58,11 @@ public class TaskCard extends UiPart<Region> {
                     .sorted(Comparator.comparing(tag -> tag.tagName))
                     .map(tag -> new Label(tag.tagName))
                     .forEach(tags.getChildren()::add);
+
+            // Set the max width of the tag container related to the width of the task card
+            tags.prefWrapLengthProperty().bind(getRoot().widthProperty().divide(1.5));
         }
+
         if (task.getTimestamp() == null) {
             timestamp.setVisible(false);
             timestamp.setManaged(false);
@@ -65,6 +70,7 @@ public class TaskCard extends UiPart<Region> {
             timestamp.setText(
                     Optional.ofNullable(task.getTimestamp()).map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
         }
+
         isCompleted.setText("");
         isCompleted.setSelected(task.getIsDone());
         isCompleted.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
