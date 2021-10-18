@@ -1,6 +1,7 @@
 package seedu.address.model;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -8,6 +9,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.filters.TaskFilters.TaskFilter;
 
 /**
  * The API of the Model component.
@@ -102,6 +104,42 @@ public interface Model {
 
     /** Returns an unmodifiable view of the task list */
     ObservableList<Task> getFilteredTaskList();
+
+    /**
+     * Returns a list of available task filters.
+     * @return The list of available task filters
+     */
+    ObservableList<TaskFilter> getAvailableTaskFilters();
+
+    /**
+     * Returns the list of selected filters to filter tasks by.
+     * @return The list of selected filters to filter tasks by
+     */
+    ObservableList<TaskFilter> getSelectedTaskFilters();
+
+    /**
+     * Adds a task filter to the list of selected filters.
+     * @param taskFilter The task filter to add
+     */
+    void addTaskFilter(TaskFilter taskFilter);
+
+    /**
+     * Removes a task filter from the list of selected filters.
+     * @param taskFilter The task filter to remove
+     */
+    void removeTaskFilter(TaskFilter taskFilter);
+
+    /**
+     * Sets the list of selected task filters.
+     * @param taskFilters The list of task filters to filter by
+     */
+    void setTaskFilters(List<TaskFilter> taskFilters);
+
+    /**
+     * Updates the filter of the filtered person list to filter by the given {@code predicate}.
+     * @param predicate The new predicate to filter by
+     */
+    void updateFilteredTaskList(Predicate<Task> predicate);
 
     /** Returns the TaskList */
     ReadOnlyTaskList getTaskList();

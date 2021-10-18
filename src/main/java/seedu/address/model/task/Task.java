@@ -84,11 +84,12 @@ public class Task {
             return false;
         }
         Task task = (Task) o;
+
         return isDone == task.isDone
-                && title.equals(task.title)
-                && description.equals(task.description)
-                && timestamp.equals(task.timestamp)
-                && tags.equals(task.tags);
+                && Objects.equals(title, task.title)
+                && Objects.equals(description, task.description)
+                && Objects.equals(timestamp, task.timestamp)
+                && Objects.equals(tags, task.tags);
     }
 
     @Override

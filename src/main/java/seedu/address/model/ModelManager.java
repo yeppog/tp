@@ -4,17 +4,24 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Person;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.filters.TaskFilters;
+import seedu.address.model.task.filters.TaskFilters.TaskFilter;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -26,7 +33,9 @@ public class ModelManager implements Model {
     private final TaskList taskList;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
-    private final ObservableList<Task> sortedTasks;
+    private final FilteredList<Task> filteredTasks;
+    private final ObservableList<TaskFilter> availableTaskFilters;
+    private final ObservableList<TaskFilter> selectedTaskFilters;
 
     /**
      * Initializes a ModelManager with the given addressBook, taskList and userPrefs.
@@ -41,7 +50,9 @@ public class ModelManager implements Model {
         this.taskList = new TaskList(taskList);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        sortedTasks = new SortedList<>(this.taskList.getTasks());
+        filteredTasks = new FilteredList<>(this.taskList.getTasks());
+        availableTaskFilters = FXCollections.observableArrayList();
+        selectedTaskFilters = FXCollections.observableArrayList();
     }
 
     public ModelManager() {
@@ -139,6 +150,12 @@ public class ModelManager implements Model {
     @Override
     public void deleteTask(Task deletedTask) {
         taskList.removeTask(deletedTask);
+        recomputeAvailableTaskFilters();
+
+        // If removing this task removed a tag, remove all filters associated with that tag
+        if (selectedTaskFilters.removeIf(filter -> !availableTaskFilters.contains(filter))) {
+            recalculateFilteredTaskList();
+        }
     }
 
     //=========== TaskMaster2103 ============================================================================
@@ -151,11 +168,71 @@ public class ModelManager implements Model {
     @Override
     public void addTask(Task task) {
         taskList.addTask(task);
+        recomputeAvailableTaskFilters();
     }
 
     @Override
     public ObservableList<Task> getFilteredTaskList() {
-        return sortedTasks;
+        return filteredTasks;
+    }
+
+    private void recomputeAvailableTaskFilters() {
+        Set<Tag> allTaskTags = taskList.getTasks().stream()
+                .map(Task::getTags)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+        List<TaskFilter> tagFilters = allTaskTags.stream()
+                .map(TaskFilters.FILTER_TAG)
+                .sorted(Comparator.comparing(TaskFilter::toString))
+                .collect(Collectors.toList());
+
+        availableTaskFilters.clear();
+        availableTaskFilters.add(TaskFilters.FILTER_DONE);
+        availableTaskFilters.add(TaskFilters.FILTER_DONE.invert());
+        availableTaskFilters.addAll(tagFilters);
+    }
+
+    @Override
+    public ObservableList<TaskFilter> getAvailableTaskFilters() {
+        recomputeAvailableTaskFilters();
+        return availableTaskFilters;
+    }
+
+    @Override
+    public ObservableList<TaskFilter> getSelectedTaskFilters() {
+        return selectedTaskFilters;
+    }
+
+    @Override
+    public void addTaskFilter(TaskFilter taskFilter) {
+        selectedTaskFilters.add(taskFilter);
+        recalculateFilteredTaskList();
+    }
+
+    @Override
+    public void removeTaskFilter(TaskFilter taskFilter) {
+        selectedTaskFilters.remove(taskFilter);
+        recalculateFilteredTaskList();
+    }
+
+    @Override
+    public void setTaskFilters(List<TaskFilter> taskFilters) {
+        selectedTaskFilters.clear();
+        selectedTaskFilters.addAll(taskFilters);
+        recalculateFilteredTaskList();
+    }
+
+    private void recalculateFilteredTaskList() {
+        Predicate<Task> identity = task -> true;
+        Predicate<Task> effectivePredicate = selectedTaskFilters.stream().map(TaskFilter::getPredicate)
+                .reduce(identity, Predicate::and);
+        updateFilteredTaskList(effectivePredicate);
+    }
+
+    @Override
+    public void updateFilteredTaskList(Predicate<Task> predicate) {
+        requireNonNull(predicate);
+        filteredTasks.setPredicate(predicate);
     }
 
     @Override
