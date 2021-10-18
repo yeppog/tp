@@ -199,17 +199,12 @@ public class AddCommandTest {
         }
 
         @Override
-        public Task getTaskAtIndex(int index) {
+        public void setTask(Task target, Task task) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public void executeGuiAction(GuiAction action) {
-            throw new AssertionError("This method should not be called.");
-        }
-
-        @Override
-        public void setTask(Task target, Task editedTask) {
             throw new AssertionError("This method should not be called.");
         }
 

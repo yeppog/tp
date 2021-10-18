@@ -141,6 +141,7 @@ public interface Model {
      */
     void updateFilteredTaskList(Predicate<Task> predicate);
 
+    /** Returns the TaskList */
     ReadOnlyTaskList getTaskList();
 
     /**
@@ -149,13 +150,6 @@ public interface Model {
      * setTask uses targetIndex rather than target Person; This is because tasks may not be unique, unlike persons
      */
     void setTask(Task target, Task editedTask);
-
-    /**
-     * Retrieve task at the specified index.
-     * @param index Index of task displayed in the GUI.
-     * @return Task corresponding to the index provided.
-     */
-    Task getTaskAtIndex(int index) throws IndexOutOfBoundsException;
 
     /**
      * Executes the given GUI action with the model context.

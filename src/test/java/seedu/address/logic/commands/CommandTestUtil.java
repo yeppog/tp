@@ -3,10 +3,13 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
@@ -15,17 +18,21 @@ import java.util.List;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.commands.task.EditTaskCommand;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Timestamp;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
+import seedu.address.testutil.EditTaskDescriptorBuilder;
 
 /**
  * Contains helper methods for testing commands.
  */
 public class CommandTestUtil {
 
+    // AddressBook constants
     public static final String VALID_NAME_AMY = "Amy Bee";
     public static final String VALID_NAME_BOB = "Bob Choo";
     public static final String VALID_PHONE_AMY = "11111111";
@@ -60,6 +67,24 @@ public class CommandTestUtil {
     public static final EditCommand.EditPersonDescriptor DESC_AMY;
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
 
+    // Task constants
+    public static final String VALID_TITLE_REPORT = "Write report";
+    public static final String VALID_TITLE_INTERVIEW = "Attend internship interview";
+    public static final String VALID_DESCRIPTION_REPORT = "Report for ES2770";
+    public static final String VALID_DESCRIPTION_INTERVIEW = "ABC company";
+    public static final Timestamp VALID_TIMESTAMP_REPORT = new Timestamp("31-12-2021");
+    public static final Timestamp VALID_TIMESTAMP_INTERVIEW = new Timestamp("5-7-2021");
+    public static final String VALID_TAG_MODULE = "module";
+    public static final String VALID_TAG_CAREER = "career";
+
+    public static final String TAG_DESC_CAREER = " " + PREFIX_TAG + VALID_TAG_CAREER;
+    public static final String DESCRIPTION_DESC_REPORT = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_REPORT;
+    public static final String TIMESTAMP_DESC_REPORT = " " + PREFIX_TIMESTAMP + "31-12-2021";
+    public static final String TITLE_DESC_REPORT = " " + PREFIX_TITLE + VALID_TITLE_REPORT;
+
+    public static final EditTaskCommand.EditTaskDescriptor DESC_REPORT;
+    public static final EditTaskCommand.EditTaskDescriptor DESC_INTERVIEW;
+
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
@@ -67,6 +92,12 @@ public class CommandTestUtil {
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
+        DESC_REPORT = new EditTaskDescriptorBuilder().withTitle(VALID_TITLE_REPORT)
+                .withDescription(VALID_DESCRIPTION_REPORT).withTimestamp(VALID_TIMESTAMP_REPORT)
+                .withTags(VALID_TAG_MODULE).build();
+        DESC_INTERVIEW = new EditTaskDescriptorBuilder().withTitle(VALID_TITLE_INTERVIEW)
+                .withDescription(VALID_DESCRIPTION_INTERVIEW).withTimestamp(VALID_TIMESTAMP_INTERVIEW)
+                .withTags(VALID_TAG_CAREER).build();
     }
 
     /**
