@@ -13,16 +13,17 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
 
+/**
+ * Deletes an existing task from the task list.
+ */
 public class DeleteTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "delete";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
-    public static final String MESSAGE_SUCCESS = "Task deleted: %1$s";
+    public static final String MESSAGE_SUCCESS = "Deleted Task: %1$s";
     public static final String MESSAGE_USAGE = FULL_COMMAND_WORD
             + ": Deletes the task identified by the index number used in the displayed task list.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
-
-    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
+            + "Example: " + FULL_COMMAND_WORD + " 1";
 
     private final Index targetIndex;
 
@@ -49,7 +50,7 @@ public class DeleteTaskCommand extends TaskCommand {
         Task deletedTask = taskList.get(targetIndex.getZeroBased());
         model.deleteTask(deletedTask);
 
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
     }
 
     @Override

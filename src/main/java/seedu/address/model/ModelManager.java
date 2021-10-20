@@ -239,6 +239,7 @@ public class ModelManager implements Model {
     /**
      * Deletes a list of given tasks.
      * This method does not {@code updateTaskFilters} so as to show distinct changes to the task list, if any.
+     * Instead, it removes all currently selected task filters from {@code availableTaskFilters}
      * @param tasksToDelete List of tasks to delete.
      */
     @Override
