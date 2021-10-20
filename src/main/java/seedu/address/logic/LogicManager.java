@@ -3,6 +3,7 @@ package seedu.address.logic;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -21,6 +22,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilters.TaskFilter;
 import seedu.address.storage.Storage;
+import seedu.address.storage.UserUndoStorage;
 import seedu.address.ui.exceptions.GuiException;
 
 /**
@@ -50,6 +52,7 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
+        model.getUserUndoStorage().addUndoCommand(command);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
