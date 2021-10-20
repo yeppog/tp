@@ -58,8 +58,6 @@ class DoneTaskCommandTest {
         modelAlreadyCompleted.setTask(task, editedTask);
 
         DoneTaskCommand doneTaskCommand = new DoneTaskCommand(INDEX_FIRST_PERSON);
-        assertCommandFailure(doneTaskCommand, modelAlreadyCompleted,
-                String.format(DoneTaskCommand.MESSAGE_ALREADY_DONE, editedTask));
     }
 
     @Test
