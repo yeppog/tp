@@ -8,6 +8,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import javax.swing.text.html.Option;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -52,6 +54,8 @@ public class EditCommand extends Command {
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
+    private Person originalPerson;
+    private Person editedPerson;
 
     /**
      * @param index of the person in the filtered person list to edit
@@ -75,6 +79,7 @@ public class EditCommand extends Command {
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
+        this.originalPerson = personToEdit;
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
@@ -84,6 +89,14 @@ public class EditCommand extends Command {
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        EditPersonDescriptor oldDescriptor = new EditPersonDescriptor(this.originalPerson);
+        Person originalPerson = createEditedPerson(this.editedPerson, oldDescriptor);
+        model.setPerson(this.editedPerson, originalPerson);
+        return new CommandResult("Edit the Person back to their previous state");
     }
 
     /**
@@ -118,6 +131,7 @@ public class EditCommand extends Command {
         EditCommand e = (EditCommand) other;
         return index.equals(e.index)
                 && editPersonDescriptor.equals(e.editPersonDescriptor);
+
     }
 
     /**
@@ -143,6 +157,19 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
+        }
+
+        /**
+         * Overloaded constructor to copy from a Person object.
+         * @param toCopy Person object to copy from.
+         */
+
+        public EditPersonDescriptor(Person toCopy) {
+            setName(toCopy.getName());
+            setPhone(toCopy.getPhone());
+            setEmail(toCopy.getEmail());
+            setAddress(toCopy.getAddress());
+            setTags(toCopy.getTags());
         }
 
         /**
@@ -222,5 +249,7 @@ public class EditCommand extends Command {
                     && getAddress().equals(e.getAddress())
                     && getTags().equals(e.getTags());
         }
+
+
     }
 }

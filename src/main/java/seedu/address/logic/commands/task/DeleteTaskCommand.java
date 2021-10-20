@@ -4,11 +4,15 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
@@ -25,6 +29,8 @@ public class DeleteTaskCommand extends TaskCommand {
     public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
 
     private final Index targetIndex;
+
+    private Task deletedTask;
 
     public DeleteTaskCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
@@ -47,6 +53,7 @@ public class DeleteTaskCommand extends TaskCommand {
         }
 
         Task deletedTask = taskList.get(targetIndex.getZeroBased());
+        this.deletedTask = deletedTask;
         model.deleteTask(deletedTask);
 
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
@@ -67,5 +74,12 @@ public class DeleteTaskCommand extends TaskCommand {
     @Override
     public int hashCode() {
         return Objects.hash(targetIndex);
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        Predicate<? super Task> predicate = model.getFilteredTaskPredicate();
+        model.addTaskAtIndex(deletedTask, targetIndex.getZeroBased());
+        return new CommandResult("Added task: " + deletedTask.toString());
     }
 }

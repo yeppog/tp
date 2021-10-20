@@ -6,6 +6,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 
+import javax.swing.text.html.Option;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -15,8 +17,10 @@ import java.util.Set;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
+import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.tag.Tag;
@@ -47,6 +51,7 @@ public class EditTaskCommand extends TaskCommand {
 
     private final Index index;
     private final EditTaskDescriptor editTaskDescriptor;
+    public Task oldTask;
 
     /**
      * @param index of the task in the filtered task list to edit
@@ -70,6 +75,7 @@ public class EditTaskCommand extends TaskCommand {
         }
 
         Task taskToEdit = taskList.get(index.getZeroBased());
+        this.oldTask = taskToEdit;
         Task editedTask = createEditedTask(taskToEdit, editTaskDescriptor);
 
         // Replace task with edited task
@@ -77,6 +83,16 @@ public class EditTaskCommand extends TaskCommand {
 
         // Return with new edited task
         return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS, editedTask));
+    }
+
+    @Override
+    public CommandResult undo (Model model) {
+        EditTaskDescriptor oldTaskDescriptor = new EditTaskDescriptor(this.oldTask);
+        List<Task> taskList = model.getFilteredTaskList();
+        Task taskToEdit = taskList.get(index.getZeroBased());
+        Task previousEditTask = createEditedTask(taskToEdit, oldTaskDescriptor);
+        model.setTask(taskToEdit, previousEditTask);
+        return new CommandResult("Changed the task back to its previous state!");
     }
 
     /**
@@ -133,6 +149,13 @@ public class EditTaskCommand extends TaskCommand {
             setDescription(toCopy.description);
             setTimestamp(toCopy.timestamp);
             setTags(toCopy.tags);
+        }
+
+        public EditTaskDescriptor(Task toCopy) {
+            setTitle(toCopy.getTitle());
+            setTimestamp(toCopy.getTimestamp());
+            setTags(toCopy.getTags());
+            setDescription(toCopy.getDescription());
         }
 
         /**
