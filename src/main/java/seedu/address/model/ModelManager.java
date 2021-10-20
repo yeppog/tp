@@ -6,6 +6,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -22,6 +23,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilters;
 import seedu.address.model.task.filters.TaskFilters.TaskFilter;
+import seedu.address.storage.UserUndoStorage;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -32,6 +34,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final TaskList taskList;
     private final UserPrefs userPrefs;
+    private final UserUndoStorage userUndoStorage;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Task> filteredTasks;
     private final ObservableList<TaskFilter> availableTaskFilters;
@@ -49,10 +52,12 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.taskList = new TaskList(taskList);
         this.userPrefs = new UserPrefs(userPrefs);
+        this.userUndoStorage = new UserUndoStorage(15);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredTasks = new FilteredList<>(this.taskList.getTasks());
         availableTaskFilters = FXCollections.observableArrayList();
         selectedTaskFilters = FXCollections.observableArrayList();
+
     }
 
     public ModelManager() {
@@ -142,9 +147,14 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void updateFilteredPersonList(Predicate<Person> predicate) {
+    public void updateFilteredPersonList(Predicate<? super Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public Predicate<? super Person> getFilteredPersonPredicate() {
+        return Optional.ofNullable(filteredPersons.getPredicate()).orElse(unused -> true);
     }
 
     @Override
@@ -168,6 +178,12 @@ public class ModelManager implements Model {
     @Override
     public void addTask(Task task) {
         taskList.addTask(task);
+        recomputeAvailableTaskFilters();
+    }
+
+    @Override
+    public void addTaskAtIndex(Task task, int index) {
+        taskList.addTaskAtIndex(task, index);
         recomputeAvailableTaskFilters();
     }
 
@@ -236,9 +252,16 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public Predicate<? super Task> getFilteredTaskPredicate() {
+        return Optional.ofNullable(filteredTasks.getPredicate()).orElse(unused -> true);
+    }
+
+    @Override
     public void executeGuiAction(GuiAction action) {
         action.executeWith(addressBook, taskList);
     }
+
+
 
     @Override
     public void setTask(Task target, Task editedTask) {
@@ -266,4 +289,10 @@ public class ModelManager implements Model {
                 && filteredPersons.equals(other.filteredPersons);
     }
 
+
+    //=========== Undo Stack ============================================================================
+
+    public UserUndoStorage getUserUndoStorage() {
+        return userUndoStorage;
+    }
 }
