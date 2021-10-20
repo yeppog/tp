@@ -34,19 +34,14 @@ public class PurgeTaskCommand extends TaskCommand {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
         List<Task> taskList = model.getFilteredTaskList();
+
         if (taskList.size() == 0) {
             throw new CommandException(MESSAGE_NO_TASK_TO_PURGE);
         }
 
+        // Create a copy of the list and deletes all tasks from the original
         ArrayList<Task> tasksToDelete = new ArrayList<>(taskList);
-
-        if (tasksToDelete.size() == 0) {
-            throw new CommandException(MESSAGE_NO_TASK_TO_PURGE);
-        }
-
-        for (Task task : tasksToDelete) {
-            model.deleteTask(task);
-        }
+        model.deleteTasks(tasksToDelete);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

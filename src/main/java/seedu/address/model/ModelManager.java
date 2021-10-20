@@ -176,8 +176,21 @@ public class ModelManager implements Model {
                 .collect(Collectors.toList());
 
         availableTaskFilters.clear();
-        availableTaskFilters.add(TaskFilters.FILTER_DONE);
-        availableTaskFilters.add(TaskFilters.FILTER_DONE.invert());
+
+        boolean hasDone = taskList.getTasks().stream()
+                .map(Task::getDone)
+                .reduce(false, (predicate, x) -> predicate || x);
+        if (hasDone) {
+            availableTaskFilters.add(TaskFilters.FILTER_DONE);
+        }
+
+        boolean hasUndone = taskList.getTasks().stream()
+                .map(task -> !task.getDone())
+                .reduce(false, (predicate, x) -> predicate || x);
+        if (hasUndone) {
+            availableTaskFilters.add(TaskFilters.FILTER_DONE.invert());
+        }
+
         availableTaskFilters.addAll(tagFilters);
     }
 
@@ -227,24 +240,48 @@ public class ModelManager implements Model {
     @Override
     public void executeGuiAction(GuiAction action) {
         action.executeWith(addressBook, taskList);
+        updateTaskFilters();
     }
 
 
     @Override
     public void deleteTask(Task deletedTask) {
         taskList.removeTask(deletedTask);
-        recomputeAvailableTaskFilters();
+        updateTaskFilters();
+    }
 
-        // If removing this task removed a tag, remove all filters associated with that tag
-        if (selectedTaskFilters.removeIf(filter -> !availableTaskFilters.contains(filter))) {
-            recalculateFilteredTaskList();
+    /**
+     * Deletes a list of given tasks.
+     * This method does not {@code updateTaskFilters} so as to show distinct changes to the task list, if any.
+     * @param tasksToDelete List of tasks to delete.
+     */
+    @Override
+    public void deleteTasks(List<Task> tasksToDelete) {
+        for (Task task : tasksToDelete) {
+            taskList.removeTask(task);
         }
+
+        recomputeAvailableTaskFilters();
     }
 
     @Override
     public void setTask(Task target, Task editedTask) {
         requireAllNonNull(target, editedTask);
         taskList.setTask(target, editedTask);
+        updateTaskFilters();
+
+    }
+
+    /**
+     * Update filters for the task list after any changes to it (CLI or GUI)
+     */
+    private void updateTaskFilters() {
+        recomputeAvailableTaskFilters();
+
+        // If removing or editing the task removed a tag, remove all filters associated with that tag
+        if (selectedTaskFilters.removeIf(filter -> !availableTaskFilters.contains(filter))) {
+            recalculateFilteredTaskList();
+        }
     }
 
     @Override

@@ -54,7 +54,7 @@ public class TaskFilters {
 
             return (o instanceof TaskFilter)
                     && isInverted == ((TaskFilter) o).isInverted
-                    && predicate.equals(((TaskFilter) o).predicate);
+                    && this.toString().equals(o.toString());
         }
 
         @Override

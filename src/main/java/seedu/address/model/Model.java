@@ -92,9 +92,15 @@ public interface Model {
 
     /**
      * Deletes the given task. The task must exist in the task list.
-     * @param deletedTask The task to delete
+     * @param deletedTask The task to delete.
      */
     void deleteTask(Task deletedTask);
+
+    /**
+     * Deletes a list of given tasks. The tasks must exist in the task list.
+     * @param tasksToDelete List of tasks to delete.
+     */
+    void deleteTasks(List<Task> tasksToDelete);
 
     /**
      * Adds the given task to the task list.
@@ -107,7 +113,7 @@ public interface Model {
 
     /**
      * Returns a list of available task filters.
-     * @return The list of available task filters
+     * @return The list of available task filters.
      */
     ObservableList<TaskFilter> getAvailableTaskFilters();
 
