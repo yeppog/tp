@@ -176,21 +176,8 @@ public class ModelManager implements Model {
                 .collect(Collectors.toList());
 
         availableTaskFilters.clear();
-
-        boolean hasDone = taskList.getTasks().stream()
-                .map(Task::getDone)
-                .reduce(false, (predicate, x) -> predicate || x);
-        if (hasDone) {
-            availableTaskFilters.add(TaskFilters.FILTER_DONE);
-        }
-
-        boolean hasUndone = taskList.getTasks().stream()
-                .map(task -> !task.getDone())
-                .reduce(false, (predicate, x) -> predicate || x);
-        if (hasUndone) {
-            availableTaskFilters.add(TaskFilters.FILTER_DONE.invert());
-        }
-
+        availableTaskFilters.add(TaskFilters.FILTER_DONE);
+        availableTaskFilters.add(TaskFilters.FILTER_DONE.invert());
         availableTaskFilters.addAll(tagFilters);
     }
 
@@ -240,7 +227,6 @@ public class ModelManager implements Model {
     @Override
     public void executeGuiAction(GuiAction action) {
         action.executeWith(addressBook, taskList);
-        updateTaskFilters();
     }
 
 
