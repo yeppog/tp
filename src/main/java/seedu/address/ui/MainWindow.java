@@ -3,6 +3,7 @@ package seedu.address.ui;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
@@ -82,10 +83,20 @@ public class MainWindow extends UiPart<Stage> {
 
     private void setAccelerators() {
         setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
+        primaryStage.addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+            EventTarget target = event.getTarget();
+            boolean isTargetEditableTextInput = (target instanceof TextInputControl) && ((TextInputControl) target)
+                    .isEditable();
+            if (!isTargetEditableTextInput && event.getCode().equals(KeyCode.SLASH)) {
+                event.consume();
+                commandBox.focus();
+            }
+        });
     }
 
     /**
      * Sets the accelerator of a MenuItem.
+     *
      * @param keyCombination the KeyCombination value of the accelerator
      */
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
@@ -110,14 +121,6 @@ public class MainWindow extends UiPart<Stage> {
             if (event.getTarget() instanceof TextInputControl && keyCombination.match(event)) {
                 menuItem.getOnAction().handle(new ActionEvent());
                 event.consume();
-            }
-        });
-
-        getRoot().addEventFilter(KeyEvent.KEY_RELEASED, event -> {
-            if (!(event.getTarget() instanceof TextInputControl) && event.getCode().equals(KeyCode.SLASH)) {
-                event.consume();
-
-                commandBox.focus();
             }
         });
     }
