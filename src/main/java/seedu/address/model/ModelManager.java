@@ -147,17 +147,6 @@ public class ModelManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
-    @Override
-    public void deleteTask(Task deletedTask) {
-        taskList.removeTask(deletedTask);
-        recomputeAvailableTaskFilters();
-
-        // If removing this task removed a tag, remove all filters associated with that tag
-        if (selectedTaskFilters.removeIf(filter -> !availableTaskFilters.contains(filter))) {
-            recalculateFilteredTaskList();
-        }
-    }
-
     //=========== TaskMaster2103 ============================================================================
 
     @Override
@@ -238,6 +227,18 @@ public class ModelManager implements Model {
     @Override
     public void executeGuiAction(GuiAction action) {
         action.executeWith(addressBook, taskList);
+    }
+
+
+    @Override
+    public void deleteTask(Task deletedTask) {
+        taskList.removeTask(deletedTask);
+        recomputeAvailableTaskFilters();
+
+        // If removing this task removed a tag, remove all filters associated with that tag
+        if (selectedTaskFilters.removeIf(filter -> !availableTaskFilters.contains(filter))) {
+            recalculateFilteredTaskList();
+        }
     }
 
     @Override

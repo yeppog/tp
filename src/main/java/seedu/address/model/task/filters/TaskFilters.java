@@ -47,5 +47,19 @@ public class TaskFilters {
         public String toString() {
             return toString.apply(this.isInverted);
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+
+            return (o instanceof TaskFilter)
+                    && isInverted == ((TaskFilter) o).isInverted
+                    && predicate.equals(((TaskFilter) o).predicate);
+        }
+
+        @Override
+        public int hashCode() {
+            return this.toString.hashCode();
+        }
     }
 }
