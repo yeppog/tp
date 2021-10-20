@@ -247,7 +247,7 @@ public class ModelManager implements Model {
             taskList.removeTask(task);
         }
 
-        recomputeAvailableTaskFilters();
+        availableTaskFilters.removeAll(selectedTaskFilters);
     }
 
     @Override
