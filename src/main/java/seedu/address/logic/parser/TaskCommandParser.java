@@ -8,10 +8,16 @@ import java.util.regex.Pattern;
 
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.TaskCommand;
-import seedu.address.logic.commands.task.*;
+import seedu.address.logic.commands.task.AddTaskCommand;
+import seedu.address.logic.commands.task.DeleteTaskCommand;
+import seedu.address.logic.commands.task.DoneTaskCommand;
+import seedu.address.logic.commands.task.EditTaskCommand;
+import seedu.address.logic.commands.task.PurgeTaskCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.logic.parser.task.*;
-
+import seedu.address.logic.parser.task.AddTaskCommandParser;
+import seedu.address.logic.parser.task.DeleteTaskCommandParser;
+import seedu.address.logic.parser.task.DoneTaskCommandParser;
+import seedu.address.logic.parser.task.EditTaskCommandParser;
 
 /**
  * Parses all task-related commands (those starting with "task") and returns a TaskCommand.

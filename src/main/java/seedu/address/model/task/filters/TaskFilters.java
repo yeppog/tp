@@ -7,7 +7,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 
 public class TaskFilters {
-    public static final TaskFilter FILTER_DONE = new TaskFilter(Task::getDone,
+    public static final TaskFilter FILTER_DONE = new TaskFilter(Task::getIsDone,
         isInverted -> isInverted ? "Undone" : "Done");
     public static final Function<Tag, TaskFilter> FILTER_TAG = tag -> new TaskFilter(
         task -> task.getTags().contains(tag), isInverted -> (isInverted ? "Not tagged " : "Tagged ") + tag);
@@ -50,7 +50,9 @@ public class TaskFilters {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
+            if (this == o) {
+                return true;
+            }
 
             return (o instanceof TaskFilter)
                     && isInverted == ((TaskFilter) o).isInverted
