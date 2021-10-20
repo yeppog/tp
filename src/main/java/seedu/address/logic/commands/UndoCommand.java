@@ -21,7 +21,6 @@ public class UndoCommand extends Command {
         Optional<Command> previousCommand = undoStack.popLastCommand();
         if (previousCommand.isPresent()) {
             CommandResult result = previousCommand.get().undo(model);
-            System.out.println(result.getFeedbackToUser());
             return new CommandResult(MESSAGE_UNDO_SUCCESS + result.getFeedbackToUser());
         } else {
             return new CommandResult(MESSAGE_NOT_UNDONE);
