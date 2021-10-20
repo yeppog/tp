@@ -26,6 +26,7 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilters;
+import seedu.address.storage.UserUndoStorage;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -149,7 +150,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
+        public void updateFilteredPersonList(Predicate<? super Person> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -210,6 +211,27 @@ public class AddCommandTest {
 
         @Override
         public void deleteTask(Task task) {
+
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Predicate<? super Person> getFilteredPersonPredicate() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addTaskAtIndex(Task task, int index) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Predicate<? super Task> getFilteredTaskPredicate() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public UserUndoStorage getUserUndoStorage() {
             throw new AssertionError("This method should not be called.");
         }
     }
