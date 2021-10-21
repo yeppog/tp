@@ -158,6 +158,42 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Task edit feature
+
+#### Current Implementation
+
+The task editing mechanism is done almost entirely within `EditTaskCommand` and the `EditTaskCommandParser` objects within the `Logic` component. 
+
+Each edit is represented by an `EditTaskDescriptor` object, which contains the new value(s) to edit the data in the current task to.
+
+#### Example usage of `task edit`
+
+Step 1: The user adds a task to the task list.
+
+Step 2: The user types in the command `task edit 1 d\Example description` (suppose this string is called `s`) 
+The `GUI` parses and executes `s` by passing it to the `Logic` component, as seen below.
+
+![Sequence diagram](http://www.plantuml.com/plantuml/png/TLDDZzem4BtxLupI2-nk_m27Qlc8gggWea9FHK9kF4ij4XlP3cN_VSUEumJlBXVicJTltZnFdgtZnhLDpNZhDA-Sl7A7e1NxeszGhFL9LWLyMilJNxUeMsGNWijANhXoKCn2ViCLFw4fW5jORpB4N0Y3rYwqFc-viH4sNsmpt9xRyr8t3LTYXDilSrmff7iVMxu12xHLAbZHnSYBqnqQnJssqfVNZx0-Tu_6N4V0vUx4t4-qRUq2meGZGoM0_EqytcY1DNcybUgS4SGK5MQs8dL7uVi7um9ae6M_Ft-Xbu0Pu0shrk74JXdTAKh6KvYuB1vKrEUpp2SeJnx2myECfKtmfXfqhL4ZJEAOS7Dg6rIEA7oOicL70IEESaIIezxoq4zfluDNDFwPVgZw5Rg1uShh5kr1SODWqO5Ku1yvJEwBMDQqZErGP99GH46XVenxV9nvwdu5f5O7DIdA6sykDO8OmiKq6PFAkv4K_eD-FvBBn2ALmDjJu9YEf8pd3QksmXTKLbunN46_X1Ae319U3CCYzGoGzzhw0S8AJx9-lY0gxywKTqPxZraVntH8sVY8MVGk67SCHuitPTY7eluohIuvukXlhtteAMY9S4S33O9Tx90Q9OOa8ypHrMuWl9zFZ-b7LTEUA5Pq7-NWuTrdIo8tvMut_reUozMt_V6WzlFTz-Fkrt99uS7Mo999ZS7aS9z-HYNQfluF)
+
+Step 3: The GUI is updated to show the task at index 1 with the new description "Example Description".
+
+
+#### `EditTaskCommand.EditTaskDescriptor` implementation
+
+`EditTaskDescriptor` is implemented as a public nested class within EditTaskCommand. It is used to contain the edited values that are provided by the user.
+`EditTaskDescriptor` has `get` and `set` methods that facilitate this operation:
+
+- `setTitle()` / `getTitle()`
+- `setDescription()` / `getDescription()`
+- `setTimestamp()` / `getTimestamp()`
+- `setTags()` / `getTags()`
+
+where the `get` methods return an `Optional<T>` object containing the value to be edited, if any.
+
+`EditTaskDescriptor` also has a constructor which accepts another `EditTaskDescriptor`, which creates a defensive copy of the original, called solely within the constructor of `EditTaskCommand`.
+It also has a `isAnyFieldEdited` method to facilitate is error handling when the user does not provide any arguments to the command. 
+
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
