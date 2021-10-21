@@ -158,7 +158,51 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### Undo Feature
+
+#### Current Implementation
+
+The current implementation of the `undo` feature is through storing the command history of the user in `CommandHistory`
+as a command stack, and popping off the stack whenever `undo` is called.
+
+The `Command` abstract class now has an additional method `undo()` to be implemented by the inheriting class
+to model the correct undo behaviour. Commands that have previous states, such as `Find` with a specific `Predicate`
+stores the previous state in the class.
+
+`Redo` can be implemented by maintaining this `CommandHistory` stack instead of popping, and calling `execute` on the
+`Command` object again.
+
+#### Example Usage of `undo`
+
+1. User launches TaskMaster2103 and a new `CommandHistory` object is initialised in `Model`.
+2. User invokes any valid command into TaskMaster2103 that successfully gets executed.
+3. The successfully invoked command gets stored in the `CommandHistory` stack through `LogicManger`.
+4. The user can now invoke `undo`, and when the user does so, the topmost `Command` in `CommandHistory` will be popped.
+5. The topmost `Command` that was popped with have its `undo()` method executed.
+6. The `undo()` method mutates `Model` to restore the state before the initial executiion of the command.
+7. The successfully invoked command gets stored in the `CommandHistory` stack through `LogicManger`.
+8. The user can now invoke `undo`, and when the user does so, the topmost `Command` in `CommandHistory` will be popped.
+9. The topmost `Command` that was popped with have its `undo()` method executed.
+10. The `undo()` method mutates `Model` to restore the state before the initial execution of the command.
+
+#### Implementation of `undo()`
+
+Each `Command` will have a different ways of implementing `undo()`, depending the type of command.
+
+1. Object Mutating Command:
+
+    - Add: Deletes the object at the last index
+    - Delete: Adds the deleted task at the original deleted index
+    - Edit: Restores the state to the pre-edit state
+    
+2. GUI View Commands:
+
+    - Find/Sort/Filter: Restores the previous `Predicate` that was in the `FilteredList`
+    
+
+
+
+### \[Proposed (Deprecated) \] Undo/redo feature
 
 #### Proposed Implementation
 
