@@ -26,7 +26,7 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilters;
-import seedu.address.storage.UserUndoStorage;
+import seedu.address.storage.CommandHistory;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -231,7 +231,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public UserUndoStorage getUserUndoStorage() {
+        public CommandHistory getCommandHistory() {
             throw new AssertionError("This method should not be called.");
         }
     }
