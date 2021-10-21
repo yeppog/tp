@@ -39,6 +39,10 @@ public class ListTaskCommandParser implements Parser<ListTaskCommand> {
             taskFilters.add(TaskFilters.FILTER_DONE.invert());
         }
 
+        if (!argMultimap.getPreamble().isEmpty()) {
+            throw new ParseException(ListTaskCommand.MESSAGE_USAGE);
+        }
+
         return new ListTaskCommand(taskFilters);
     }
 }

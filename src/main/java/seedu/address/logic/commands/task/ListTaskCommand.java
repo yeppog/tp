@@ -1,6 +1,9 @@
 package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_UNDONE;
 
 import java.util.List;
 
@@ -19,8 +22,11 @@ public class ListTaskCommand extends TaskCommand {
     public static final String MESSAGE_SUCCESS = "Task list updated";
     public static final String MESSAGE_USAGE = FULL_COMMAND_WORD
             + ": Lists tasks matching the given search conditions.\n"
-            + "Parameters: t/TAG (tasks containing the tag TAG) "
-            + "Example: " + FULL_COMMAND_WORD + " 1";
+            + "Parameters: "
+            + "[" + PREFIX_DONE + "] "
+            + "[" + PREFIX_UNDONE + "] "
+            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "Example: " + FULL_COMMAND_WORD + " " + PREFIX_UNDONE + " " + PREFIX_TAG + "important";
 
     private final List<TaskFilter> taskFilters;
 

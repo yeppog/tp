@@ -1,8 +1,10 @@
 package seedu.address.logic.parser.task;
 
+import static seedu.address.logic.commands.task.ListTaskCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNDONE;
+import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import java.util.ArrayList;
@@ -39,5 +41,10 @@ public class ListTaskCommandParserTest {
         List<TaskFilter> taskFilters = List.of(TaskFilters.FILTER_TAG.apply(tag));
         assertParseSuccess(parser, " " + PREFIX_TAG + tagName,
                 new ListTaskCommand(taskFilters));
+    }
+
+    @Test
+    void parse_withPreamble_failure() {
+        assertParseFailure(parser, " preamble", MESSAGE_USAGE);
     }
 }
