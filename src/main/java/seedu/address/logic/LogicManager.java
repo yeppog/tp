@@ -133,4 +133,13 @@ public class LogicManager implements Logic {
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
     }
+
+    @Override
+    public CommandResult undoCommand() {
+        try {
+            return this.execute("undo");
+        } catch (CommandException | ParseException e) {
+            return new CommandResult(e.getMessage());
+        }
+    }
 }

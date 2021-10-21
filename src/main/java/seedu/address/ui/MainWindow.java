@@ -1,6 +1,5 @@
 package seedu.address.ui;
 
-import java.awt.*;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -9,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -96,8 +94,8 @@ public class MainWindow extends UiPart<Stage> {
         });
         primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.Z && e.isShortcutDown()) {
-                this.undo();
-                e.consume();
+                CommandResult result = this.logic.undoCommand();
+                resultDisplay.setFeedbackToUser(result.getFeedbackToUser());
             }
         });
     }
@@ -234,14 +232,6 @@ public class MainWindow extends UiPart<Stage> {
             logger.info("Invalid command: " + commandText);
             resultDisplay.setFeedbackToUser(e.getMessage());
             throw e;
-        }
-    }
-
-    private CommandResult undo() {
-        try {
-            return this.executeCommand("undo");
-        } catch (CommandException | ParseException e) {
-            return new CommandResult(e.getMessage());
         }
     }
 }

@@ -97,4 +97,10 @@ public interface Logic {
      * Set the user prefs' GUI settings.
      */
     void setGuiSettings(GuiSettings guiSettings);
+
+    /*
+     * Executes an undo command
+     */
+
+    CommandResult undoCommand();
 }
