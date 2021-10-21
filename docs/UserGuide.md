@@ -185,7 +185,7 @@ Edits an existing task in the task list
 
 **Example:**
 
-`task edit 1 t/CS2103 Week 6 Quiz`
+`task edit 1 ti/CS2103 Week 6 Quiz`
 
 ### Completing a task: `task done`
 
@@ -214,6 +214,14 @@ Deletes a specified task from the tasks list by a given index.
 **Example:**
 
 `task delete 2`
+
+### Purge all visible tasks : `task purge`
+
+Clears all visible (filtered) tasks from the address book.
+
+Format: `task purge`
+
+- Any active filter(s) will remain even after the purge to prevent possible confusion.
 
 ### Clearing all entries : `clear`
 
