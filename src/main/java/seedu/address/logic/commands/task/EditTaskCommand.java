@@ -176,6 +176,7 @@ public class EditTaskCommand extends TaskCommand {
          * @return The EditTaskDescriptor representation of the task.
          */
         public static EditTaskDescriptor from(Task toCopy) {
+            assert toCopy != null;
             EditTaskDescriptor descriptor = new EditTaskDescriptor();
             descriptor.setTitle(toCopy.getTitle());
             descriptor.setTimestamp(toCopy.getTimestamp());
