@@ -26,11 +26,10 @@ public class FindCommand extends Command {
     private final NameContainsKeywordsPredicate predicate;
 
     private Predicate<? super Person> previousPredicate;
-    private boolean canExecute;
+    private boolean canExecute = true;
 
     public FindCommand(NameContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
-        this.canExecute = true;
     }
 
     @Override

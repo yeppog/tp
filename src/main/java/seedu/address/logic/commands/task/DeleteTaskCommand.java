@@ -27,13 +27,12 @@ public class DeleteTaskCommand extends TaskCommand {
 
     private final Index targetIndex;
 
-    private boolean canExecute;
+    private boolean canExecute = true;
 
     private Task deletedTask;
 
     public DeleteTaskCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
-        this.canExecute = true;
     }
 
     /**
