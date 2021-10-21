@@ -234,6 +234,11 @@ public class AddCommandTest {
         public CommandHistory getCommandHistory() {
             throw new AssertionError("This method should not be called.");
         }
+
+        @Override
+        public void deleteAllInFilteredTaskList(Task... tasksToDelete) {
+            throw new AssertionError("This method should not be called.");
+        }
     }
 
     /**

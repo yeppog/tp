@@ -64,6 +64,16 @@ public class ModelManager implements Model {
         this(new AddressBook(), new TaskList(), new UserPrefs());
     }
 
+    /**
+     * Returns a new ModelManager initialize from the given {@link Model}.
+     * @param model The model to initialize the {@link ModelManager} from
+     * @return The initialized ModelManager
+     */
+    public static ModelManager from(Model model) {
+        return new ModelManager(
+                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()) , new UserPrefs());
+    }
+
     //=========== UserPrefs ==================================================================================
 
     @Override
@@ -155,17 +165,6 @@ public class ModelManager implements Model {
     @Override
     public Predicate<? super Person> getFilteredPersonPredicate() {
         return Optional.ofNullable(filteredPersons.getPredicate()).orElse(unused -> true);
-    }
-
-    @Override
-    public void deleteTask(Task deletedTask) {
-        taskList.removeTask(deletedTask);
-        recomputeAvailableTaskFilters();
-
-        // If removing this task removed a tag, remove all filters associated with that tag
-        if (selectedTaskFilters.removeIf(filter -> !availableTaskFilters.contains(filter))) {
-            recalculateFilteredTaskList();
-        }
     }
 
     //=========== TaskMaster2103 ============================================================================
@@ -262,11 +261,45 @@ public class ModelManager implements Model {
     }
 
 
+    @Override
+    public void deleteTask(Task deletedTask) {
+        taskList.removeTask(deletedTask);
+        updateTaskFilters();
+    }
+
+    /**
+     * Deletes a list of given tasks.
+     * This method does not {@code updateTaskFilters} so as to show distinct changes to the task list, if any.
+     * Instead, it removes all currently selected task filters from {@code availableTaskFilters}
+     * @param tasksToDelete List of tasks in the filtered list to delete.
+     */
+    @Override
+    public void deleteAllInFilteredTaskList(Task... tasksToDelete) {
+        for (Task task : tasksToDelete) {
+            taskList.removeTask(task);
+        }
+
+        availableTaskFilters.removeAll(selectedTaskFilters);
+    }
 
     @Override
     public void setTask(Task target, Task editedTask) {
         requireAllNonNull(target, editedTask);
         taskList.setTask(target, editedTask);
+        updateTaskFilters();
+
+    }
+
+    /**
+     * Update filters for the task list after any changes to it (CLI or GUI)
+     */
+    private void updateTaskFilters() {
+        recomputeAvailableTaskFilters();
+
+        // If removing or editing the task removed a tag, remove all filters associated with that tag
+        if (selectedTaskFilters.removeIf(filter -> !availableTaskFilters.contains(filter))) {
+            recalculateFilteredTaskList();
+        }
     }
 
     @Override

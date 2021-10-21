@@ -1,7 +1,5 @@
 package seedu.address.model.task;
 
-import java.util.Objects;
-
 /**
  * Represents a timestamp for a task.
  */
@@ -17,20 +15,15 @@ public class Timestamp {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Timestamp timestamp1 = (Timestamp) o;
-        return Objects.equals(timestamp, timestamp1.timestamp);
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Timestamp // instanceof handles nulls
+                && timestamp.equals(((Timestamp) other).timestamp));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(timestamp);
+        return timestamp.hashCode();
     }
 
     @Override

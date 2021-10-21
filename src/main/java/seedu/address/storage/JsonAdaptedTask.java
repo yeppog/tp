@@ -58,7 +58,7 @@ class JsonAdaptedTask {
         } else {
             timestamp = "null";
         }
-        if (source.getDone()) {
+        if (source.getIsDone()) {
             isDone = "Done";
         } else {
             isDone = "Not Done";

@@ -11,7 +11,7 @@ title: Developer Guide
 ## **Acknowledgements**
 
 - {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the original source as well}
-
+- PlantUML was used for the UML diagrams in this project.
 ---
 
 ## **Setting up, getting started**
@@ -144,8 +144,8 @@ The `Model` component,
 
 The `Storage` component,
 
-- can save both address book data and user preference data in json format, and read them back into corresponding objects.
-- inherits from both `AddressBookStorage` and `UserPrefStorage`, which means it can be treated as either one (if only the functionality of only one is needed).
+- can save both address book data, task list data and user preference data in json format, and read them back into corresponding objects.
+- inherits from both `AddressBookStorage` and `UserPrefStorage` and `TaskListStorage` , which means it can be treated as either one (if only the functionality of only one is needed).
 - depends on some classes in the `Model` component (because the `Storage` component's job is to save/retrieve objects that belong to the `Model`)
 
 ### Common classes
@@ -304,16 +304,16 @@ _{Explain here how the data archiving feature will be implemented}_
 ### Product scope
 
 **Target user profile**:
-Comprehensive user narrative [here](https://docs.google.com/document/d/1B5kaY-Trws5eFxNEJdF_qdfHmCMzlpPUrZl-F4lkFSo/edit?usp=sharing)
+Comprehensive user narrative [here](https://docs.google.com/document/d/1347lMg6wswsPC-WiistNluU2d8Ji2yV4FcAEMnzsk-A/edit?usp=sharing)
 
-- has a need to manage a significant number of contacts
-- prefer desktop apps over other types
-- is reasonably comfortable using CLI apps
-- is a student
-- has a need to manage tasks quickly
-- prefers to have a visualization of their productivity
+- has a need to manage a significant number of contacts.
+- has a need to manage a significant number of tasks.
+- prefer desktop apps over other types.
+- is reasonably comfortable using CLI apps.
+- is a student.
+- has significant variety of tasks (eg mods, personal, sports etc).
 
-**Value proposition**: allow students to easily keep track of their tasks for modules, school calenders, and meetings in a strealined manner and allow them to use either GUI/CLI options depending on whichever suits them better
+**Value proposition**: allow students to easily keep track of their tasks for modules, school calenders, and meetings in a strealined manner and allow them to use either GUI/CLI options depending on whichever suits them better.
 
 ### User stories
 
@@ -512,8 +512,8 @@ _{More to be added}_
 ### Glossary
 
 - **Mainstream OS**: Windows, Linux, Unix, OS-X
-- **Locally-stored data**: Data stored under ./data/addressbook.json within the same folder\
-- **Given index (of a task)**: The location of the task in the tasklist. First task is **1**, and increases in ascending order.
+- **Locally-stored data**: Data stored under `./data/` folder like `addressbook.json`
+- **Given index (of a task)**: The location of the task in the current visible tasklist. First task is **1**, and increases in ascending order.
 - **Templates**: User-defined preset format for a task
 - **Tags**: User-defined label attached a task to provide identification and/or information
 

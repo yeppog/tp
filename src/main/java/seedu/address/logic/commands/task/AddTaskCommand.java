@@ -41,8 +41,6 @@ public class AddTaskCommand extends TaskCommand {
 
     @Override
     public boolean equals(Object other) {
-        System.out.println(task);
-        System.out.println(((AddTaskCommand) other).task);
         return other == this
                 || ((other instanceof AddTaskCommand)
                 && task.equals(((AddTaskCommand) other).task));
