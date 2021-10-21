@@ -61,7 +61,7 @@ public class TaskFilters {
 
         @Override
         public int hashCode() {
-            return this.toString.hashCode();
+            return this.toString().hashCode();
         }
     }
 }

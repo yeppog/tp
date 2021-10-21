@@ -221,7 +221,7 @@ Clears all visible (filtered) tasks from the address book.
 
 Format: `task purge`
 
-- The currently-set filter will remain even after the purge to prevent possible confusion.
+- Any active filter(s) will remain even after the purge to prevent possible confusion.
 
 ### Clearing all entries : `clear`
 

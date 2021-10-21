@@ -40,8 +40,8 @@ public class PurgeTaskCommand extends TaskCommand {
         }
 
         // Create a copy of the list and deletes all tasks from the original
-        ArrayList<Task> tasksToDelete = new ArrayList<>(taskList);
-        model.deleteTasks(tasksToDelete);
+        Task[] tasksToDelete = taskList.toArray(new Task[0]);
+        model.deleteAllInFilteredTaskList(tasksToDelete);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

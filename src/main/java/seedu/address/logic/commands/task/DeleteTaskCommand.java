@@ -19,7 +19,7 @@ import seedu.address.model.task.Task;
 public class DeleteTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "delete";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
-    public static final String MESSAGE_SUCCESS = "Deleted Task: %1$s";
+    public static final String MESSAGE_SUCCESS = "Deleted task: %1$s";
     public static final String MESSAGE_USAGE = FULL_COMMAND_WORD
             + ": Deletes the task identified by the index number used in the displayed task list.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
