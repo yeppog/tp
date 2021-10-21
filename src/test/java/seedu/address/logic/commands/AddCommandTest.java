@@ -9,6 +9,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -23,6 +25,7 @@ import seedu.address.model.ReadOnlyTaskList;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.filters.TaskFilters;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -161,17 +164,47 @@ public class AddCommandTest {
         }
 
         @Override
+        public ObservableList<TaskFilters.TaskFilter> getAvailableTaskFilters() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<TaskFilters.TaskFilter> getSelectedTaskFilters() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addTaskFilter(TaskFilters.TaskFilter taskFilter) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeTaskFilter(TaskFilters.TaskFilter taskFilter) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setTaskFilters(List<TaskFilters.TaskFilter> taskFilter) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredTaskList(Predicate<Task> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ReadOnlyTaskList getTaskList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public Task getTaskAtIndex(int index) {
+        public void setTask(Task target, Task task) {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
-        public void setTask(int index, Task task) {
+        public void executeGuiAction(GuiAction action) {
             throw new AssertionError("This method should not be called.");
         }
 
