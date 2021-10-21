@@ -189,8 +189,9 @@ Step 3: The GUI is updated to show the task at index 1 with the new description 
 
 where the `get` methods return `Optional<T>` objects containing the value to be edited, if any.
 
-`EditTaskDescriptor` also has a constructor which accepts another `EditTaskDescriptor`, which creates a defensive copy of the original, called solely within the constructor of `EditTaskCommand`, as well as
- a `isAnyFieldEdited` method to facilitate error handling when the user does not provide any arguments to the command. 
+`EditTaskDescriptor` also has:
+1. A constructor which accepts another `EditTaskDescriptor`, which creates a defensive copy of the original, called solely within the constructor of `EditTaskCommand`.
+2. A `isAnyFieldEdited` method to facilitate error handling when the user does not provide any arguments to the command. 
 
 
 ### \[Proposed\] Undo/redo feature
