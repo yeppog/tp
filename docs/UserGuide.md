@@ -156,6 +156,22 @@ Examples:
 - `list` followed by `delete 2` deletes the 2nd person in the address book.
 - `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Listing tasks: `task list`
+
+Lists all tasks in the task list. Clears any existing filters.
+
+**Format:**
+
+`task list`
+
+#### Filtering tasks
+
+Tasks can be filtered by completion status and/or tags. Show only completed tasks with `done/`, pending tasks with `undone/` and tasks with a certain tag `TAG` with `tag/TAG`.
+
+**Format:**
+
+`task list [done/] [undone/] [t/TAG]`
+
 ### Adding a task: `task add`
 
 Allows the user to add a task to the current database.
@@ -164,7 +180,7 @@ Each task has a compulsory title field, and textual description, timestamp, and 
 
 **Format:**
 
-`task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG}`
+`task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]`
 
 **Example:**
 

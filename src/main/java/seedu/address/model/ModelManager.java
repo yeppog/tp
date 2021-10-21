@@ -59,6 +59,16 @@ public class ModelManager implements Model {
         this(new AddressBook(), new TaskList(), new UserPrefs());
     }
 
+    /**
+     * Returns a new ModelManager initialize from the given {@link Model}.
+     * @param model The model to initialize the {@link ModelManager} from
+     * @return The initialized ModelManager
+     */
+    public static ModelManager from(Model model) {
+        return new ModelManager(
+                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()) , new UserPrefs());
+    }
+
     //=========== UserPrefs ==================================================================================
 
     @Override
