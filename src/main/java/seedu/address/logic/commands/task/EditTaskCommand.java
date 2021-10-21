@@ -48,6 +48,7 @@ public class EditTaskCommand extends TaskCommand {
     private final Index index;
     private final EditTaskDescriptor editTaskDescriptor;
     private Task oldTask;
+    private boolean canExecute;
 
     /**
      * @param index              of the task in the filtered task list to edit
@@ -59,6 +60,7 @@ public class EditTaskCommand extends TaskCommand {
 
         this.index = index;
         this.editTaskDescriptor = new EditTaskDescriptor(editTaskDescriptor);
+        this.canExecute = true;
     }
 
     /**
@@ -91,6 +93,8 @@ public class EditTaskCommand extends TaskCommand {
 
         if (index.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+        } else if (!canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
         }
 
         Task taskToEdit = taskList.get(index.getZeroBased());
@@ -102,13 +106,17 @@ public class EditTaskCommand extends TaskCommand {
         model.setTask(taskToEdit,
                 editedTask);
 
+        this.canExecute = false;
         // Return with new edited task
         return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS,
                 editedTask));
     }
 
     @Override
-    public CommandResult undo(Model model) {
+    public CommandResult undo(Model model) throws CommandException {
+        if (this.canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
+        }
         EditTaskDescriptor oldTaskDescriptor = new EditTaskDescriptor(this.oldTask);
         List<Task> taskList = model.getFilteredTaskList();
         Task taskToEdit = taskList.get(index.getZeroBased());
@@ -116,6 +124,7 @@ public class EditTaskCommand extends TaskCommand {
                 oldTaskDescriptor);
         model.setTask(taskToEdit,
                 previousEditTask);
+        this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS,
                 taskToEdit));
     }

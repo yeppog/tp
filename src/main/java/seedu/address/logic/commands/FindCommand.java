@@ -26,16 +26,23 @@ public class FindCommand extends Command {
     private final NameContainsKeywordsPredicate predicate;
 
     private Predicate<? super Person> previousPredicate;
+    private boolean canExecute;
 
     public FindCommand(NameContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
+        this.canExecute = true;
     }
 
     @Override
-    public CommandResult execute(Model model) {
+    public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
+
+        if (!this.canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
+        }
         this.previousPredicate = model.getFilteredPersonPredicate();
         model.updateFilteredPersonList(predicate);
+        this.canExecute = false;
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
     }
@@ -49,7 +56,11 @@ public class FindCommand extends Command {
 
     @Override
     public CommandResult undo(Model model) throws CommandException {
+        if (this.canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
+        }
         model.updateFilteredPersonList(this.previousPredicate);
+        this.canExecute = true;
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
     }

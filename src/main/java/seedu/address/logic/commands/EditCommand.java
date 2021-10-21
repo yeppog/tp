@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.nio.charset.CoderMalfunctionError;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -54,6 +55,7 @@ public class EditCommand extends Command {
     private final EditPersonDescriptor editPersonDescriptor;
     private Person originalPerson;
     private Person editedPerson;
+    private boolean canExecute;
 
     /**
      * @param index                of the person in the filtered person list to edit
@@ -64,6 +66,7 @@ public class EditCommand extends Command {
         requireNonNull(editPersonDescriptor);
 
         this.index = index;
+        this.canExecute = true;
         this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
     }
 
@@ -105,25 +108,33 @@ public class EditCommand extends Command {
         this.originalPerson = personToEdit;
         Person editedPerson = createEditedPerson(personToEdit,
                 editPersonDescriptor);
+        this.editedPerson = editedPerson;
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        } else if (!this.canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
         }
 
         model.setPerson(personToEdit,
                 editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        this.canExecute = false;
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS,
                 editedPerson));
     }
 
     @Override
-    public CommandResult undo(Model model) {
+    public CommandResult undo(Model model) throws CommandException {
+        if (this.canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
+        }
         EditPersonDescriptor oldDescriptor = new EditPersonDescriptor(this.originalPerson);
         Person originalPerson = createEditedPerson(this.editedPerson,
                 oldDescriptor);
         model.setPerson(this.editedPerson,
                 originalPerson);
+        this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS,
                 editedPerson));
     }

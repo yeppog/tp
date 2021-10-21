@@ -26,9 +26,11 @@ public class DoneTaskCommand extends TaskCommand {
 
     private final Index index;
     private Task completedTask;
+    private boolean canExecute;
 
     public DoneTaskCommand(Index index) {
         this.index = index;
+        this.canExecute = true;
     }
 
     @Override
@@ -38,6 +40,8 @@ public class DoneTaskCommand extends TaskCommand {
 
         if (index.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+        } else if (!canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
         }
 
         Task task = taskList.get(index.getZeroBased());
@@ -50,6 +54,7 @@ public class DoneTaskCommand extends TaskCommand {
         model.setTask(task,
                 completedTask);
 
+        this.canExecute = false;
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 completedTask));
     }
@@ -61,7 +66,11 @@ public class DoneTaskCommand extends TaskCommand {
 
     @Override
     public CommandResult undo(Model model) throws CommandException {
+        if (this.canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
+        }
         this.execute(model);
+        this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 this.completedTask));
     }

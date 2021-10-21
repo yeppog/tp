@@ -27,10 +27,13 @@ public class DeleteTaskCommand extends TaskCommand {
 
     private final Index targetIndex;
 
+    private boolean canExecute;
+
     private Task deletedTask;
 
     public DeleteTaskCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
+        this.canExecute = true;
     }
 
     /**
@@ -47,12 +50,15 @@ public class DeleteTaskCommand extends TaskCommand {
 
         if (targetIndex.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+        } else if (!this.canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
         }
 
         Task deletedTask = taskList.get(targetIndex.getZeroBased());
         this.deletedTask = deletedTask;
         model.deleteTask(deletedTask);
 
+        this.canExecute = false;
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
     }
 
@@ -74,9 +80,13 @@ public class DeleteTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult undo(Model model) {
+    public CommandResult undo(Model model) throws CommandException {
+        if (this.canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
+        }
         Predicate<? super Task> predicate = model.getFilteredTaskPredicate();
         model.addTaskAtIndex(deletedTask, targetIndex.getZeroBased());
+        this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
     }
 }
