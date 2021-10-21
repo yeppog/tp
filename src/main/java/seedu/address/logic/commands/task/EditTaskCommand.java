@@ -117,7 +117,7 @@ public class EditTaskCommand extends TaskCommand {
         if (this.canExecute) {
             throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
         }
-        EditTaskDescriptor oldTaskDescriptor = new EditTaskDescriptor(this.oldTask);
+        EditTaskDescriptor oldTaskDescriptor = EditTaskDescriptor.from(this.oldTask);
         List<Task> taskList = model.getFilteredTaskList();
         Task taskToEdit = taskList.get(index.getZeroBased());
         Task previousEditTask = createEditedTask(taskToEdit,
@@ -171,14 +171,17 @@ public class EditTaskCommand extends TaskCommand {
         }
 
         /**
-         * Copy constructor that takes in a Task instead of a descriptor.
+         * Factory method that takes in a Task that returns an EditTaskDescriptor.
          * @param toCopy Task to copy to a descriptor.
+         * @return The EditTaskDescriptor representation of the task.
          */
-        public EditTaskDescriptor(Task toCopy) {
-            setTitle(toCopy.getTitle());
-            setTimestamp(toCopy.getTimestamp());
-            setTags(toCopy.getTags());
-            setDescription(toCopy.getDescription());
+        public static EditTaskDescriptor from(Task toCopy) {
+            EditTaskDescriptor descriptor = new EditTaskDescriptor();
+            descriptor.setTitle(toCopy.getTitle());
+            descriptor.setTimestamp(toCopy.getTimestamp());
+            descriptor.setTags(toCopy.getTags());
+            descriptor.setDescription(toCopy.getDescription());
+            return descriptor;
         }
 
         /**
