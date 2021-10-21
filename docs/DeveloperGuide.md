@@ -176,11 +176,9 @@ The task filtering mechanism is facilitated by `Model`. Each task filter is inte
 
 Step 1. The user launches the application and creates a task with the tag `important`.
 
-Diagram with the important stuff
-
 Step 2. The user adds the task filter `Tagged [important]`.
 
-![Sequence diagram](http://www.plantuml.com/plantuml/png/VP31QiCm38RlUWhJKtl82uHIkal7e8KTjWSGjbBCv2JOyfv_KX925iOkaVBhq-_VlXR1B3Kne9SXkvVfYyNLGXb6dKKVH-p5lNw-cQxbbtnexyCp-WVs-AHyC8JJZdWCWNXBf1tHHHRA53wmV9NsjlpTOv6pIPTfgHC0m2g39etVAEI67YocQouMgtKOWXFbtUm7eAeDEKqpivgzZxAs9-1aJFgNIIkJoIFxoYXqswIshCSJRC0wXhyOwZgo_FIkQlIAh5kTjAwGh8FZk47iAkV6cCLP1JqmazJSmr9t1JZfJgDnfdLhESrFPhrgSAK-rCG_)
+![Sequence diagram](http://www.plantuml.com/plantuml/png/VL3DJiCm3BxxAQ9osGvxWMgQ1eSXf4tQ0HuWDEw85gTLuY0U7pk5qY74fNQ_dyzszfbjua81RCT3ClVrQxCf6HECmldEZpQoUNnvKbmAl0uVfZaE5zyrvkxeBs_y40hUg9ksyYSRxGLJeyv0WD4PCSEKS1eS1aau-tZzPQxKqanqg-XzO4pedcs-vlRmzNVqcRSAxQgfvv-9O0iFSgD_juncYA07cirE3sgDTSwm-CoK2o2eae4gfv7JZ1NFxHe2gOR-rT2iITZPq9LW6G-BxNNdrHeMmZAwlpJOzwZxurbGtubaTlNScemy4wjn8T5JjfkgcP85a849kQG8t_MsG23nR0nHjMiRQ7eoxGM3FKPNA7m2)
 
 Step 3: The GUI is updated to show only tasks tagged Important.
 
@@ -190,7 +188,7 @@ Tasks can be filtered by tag. Whenever a task is added, the list of task filters
 
 The following sequence diagram shows how task filters are recalculated on the addition of a task.
 
-![Sequence diagram](http://www.plantuml.com/plantuml/png/ZOv1JiCm44NtFeNLLLXmWGXLxOPLApPSuDSUAeiPEngFm_LnYrgYW0IRVENvpVpPLODQ4tPJpnJIX6n-CnxAEOKZCiwa6u_gMLR6iKJYfI4h0pCIuyJqYlh-dDX8w-XVJfLqlk13glRq_RQzBe6zEOTc1S7I32DVidlSzlhH8yQBFbZ_F3WMtxdyu7BdIg78r8pslrmotCpUEFh01Ese_znPcoBiUYNbhm4bQvhTBHVpY77FF6JwM5JySzrVkQCSc_0d)
+![Sequence diagram](http://www.plantuml.com/plantuml/png/bOvDKiCm38NtFeKcRCA22sIOJik2LJgmu09Ah0PF9JjZou7ZuxhJK7vOiB76x-bxUjka63KBco6yGzE7oOqDtFHkUjK7pcJcOhlHpUWLcgxwU_GuKMm04x0OyXOAV0xO1qjS0fwTFtvZgtNDYdpTm0KTuy3qWkduw5WffWwUXaHnESczIth_wMrg2EfXRM0mQy1HtO9A4Bovsm1B1sZj2MkrFBU61OekFtHPzKXZa3ahxNvfr5usKGyTZ4mOYrG-gvPdYrhRaZy3aJH7RovpvMk57NFhwUtgn3_Z_ffRyZOBVm00)
 
 ##### Deleting tasks
 
