@@ -85,7 +85,7 @@ public class DeleteTaskCommand extends TaskCommand {
             throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
         }
         Predicate<? super Task> predicate = model.getFilteredTaskPredicate();
-        model.addTaskAtIndex(deletedTask, targetIndex.getZeroBased());
+        model.insertTask(deletedTask, targetIndex.getZeroBased());
         this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
     }

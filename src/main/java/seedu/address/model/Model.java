@@ -114,7 +114,7 @@ public interface Model {
      * @param task The task to be added.
      * @param index The index to insert the task at.
      */
-    void addTaskAtIndex(Task task, int index);
+    void insertTask(Task task, int index);
 
     /** Returns an unmodifiable view of the task list */
     ObservableList<Task> getFilteredTaskList();

@@ -182,7 +182,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void addTaskAtIndex(Task task, int index) {
+    public void insertTask(Task task, int index) {
         taskList.addTaskAtIndex(task, index);
         recomputeAvailableTaskFilters();
     }
