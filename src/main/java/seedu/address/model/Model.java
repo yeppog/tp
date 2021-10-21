@@ -178,5 +178,5 @@ public interface Model {
      */
     void executeGuiAction(GuiAction action);
 
-    CommandHistory getUserUndoStorage();
+    CommandHistory getCommandHistory();
 }

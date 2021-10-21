@@ -292,7 +292,7 @@ public class ModelManager implements Model {
 
     //=========== Undo Stack ============================================================================
 
-    public CommandHistory getUserUndoStorage() {
+    public CommandHistory getCommandHistory() {
         return userUndoStorage;
     }
 }
