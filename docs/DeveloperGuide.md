@@ -163,7 +163,6 @@ This section describes some noteworthy details on how certain features are imple
 #### Current Implementation
 
 The task editing mechanism is done almost entirely within `EditTaskCommand` and the `EditTaskCommandParser` objects within the `Logic` component. 
-
 Each edit is represented by an `EditTaskDescriptor` object, which contains the new value(s) to edit the data in the current task to.
 
 #### Example usage of `task edit`
@@ -178,7 +177,7 @@ The `GUI` parses and executes `s` by passing it to the `Logic` component, as see
 Step 3: The GUI is updated to show the task at index 1 with the new description "Example Description".
 
 
-#### `EditTaskCommand.EditTaskDescriptor` implementation
+#### `EditTaskDescriptor` implementation
 
 `EditTaskDescriptor` is implemented as a public nested class within EditTaskCommand. It is used to contain the edited values that are provided by the user.
 `EditTaskDescriptor` has `get` and `set` methods that facilitate this operation:
@@ -188,10 +187,10 @@ Step 3: The GUI is updated to show the task at index 1 with the new description 
 - `setTimestamp()` / `getTimestamp()`
 - `setTags()` / `getTags()`
 
-where the `get` methods return an `Optional<T>` object containing the value to be edited, if any.
+where the `get` methods return `Optional<T>` objects containing the value to be edited, if any.
 
-`EditTaskDescriptor` also has a constructor which accepts another `EditTaskDescriptor`, which creates a defensive copy of the original, called solely within the constructor of `EditTaskCommand`.
-It also has a `isAnyFieldEdited` method to facilitate is error handling when the user does not provide any arguments to the command. 
+`EditTaskDescriptor` also has a constructor which accepts another `EditTaskDescriptor`, which creates a defensive copy of the original, called solely within the constructor of `EditTaskCommand`, as well as
+ a `isAnyFieldEdited` method to facilitate error handling when the user does not provide any arguments to the command. 
 
 
 ### \[Proposed\] Undo/redo feature
