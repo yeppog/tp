@@ -10,7 +10,7 @@ public class UndoCommand extends Command {
 
     public static final String COMMAND_WORD = "undo";
 
-    public static final String MESSAGE_UNDO_SUCCESS = "Successfully undid the previous command: ";
+    public static final String MESSAGE_UNDO_SUCCESS = "Successfully undid: ";
 
     public static final String MESSAGE_NOT_UNDONE = "Cannot undo any further.";
 
