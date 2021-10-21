@@ -32,6 +32,6 @@ public class ListCommand extends Command {
     @Override
     public CommandResult undo(Model model) throws CommandException {
         model.updateFilteredPersonList(this.previousPredicate);
-        return new CommandResult("Reset to previous view");
+        return new CommandResult(MESSAGE_SUCCESS);
     }
 }

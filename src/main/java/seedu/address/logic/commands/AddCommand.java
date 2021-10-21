@@ -68,6 +68,6 @@ public class AddCommand extends Command {
     @Override
     public CommandResult undo(Model model) throws CommandException {
         model.deletePerson(this.toAdd);
-        return new CommandResult("Removed the person :" + this.toAdd.toString());
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 }

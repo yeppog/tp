@@ -21,9 +21,11 @@ public class DoneTaskCommand extends TaskCommand {
     public static final String MESSAGE_SUCCESS = "Task completed: %1$s";
     public static final String MESSAGE_ALREADY_DONE = "Task has already been completed: %1$s";
     public static final String MESSAGE_USAGE =
-            FULL_COMMAND_WORD + ": Completes an existing task in the task list.\n" + "Parameters: INDEX (must be a positive integer) " + "Example: " + FULL_COMMAND_WORD + " 1";
+            FULL_COMMAND_WORD + ": Completes an existing task in the task list.\n"
+                    + "Parameters: INDEX (must be a positive integer) " + "Example: " + FULL_COMMAND_WORD + " 1";
 
     private final Index index;
+    private Task completedTask;
 
     public DoneTaskCommand(Index index) {
         this.index = index;
@@ -44,6 +46,7 @@ public class DoneTaskCommand extends TaskCommand {
                 task.getTimestamp(),
                 task.getTags(),
                 !task.getIsDone());
+        this.completedTask = completedTask;
         model.setTask(task,
                 completedTask);
 
@@ -59,7 +62,7 @@ public class DoneTaskCommand extends TaskCommand {
     @Override
     public CommandResult undo(Model model) throws CommandException {
         this.execute(model);
-        return new CommandResult("Changed the DONE status of " + this.index +
-                " back to its previous completion " + "status");
+        return new CommandResult(String.format(MESSAGE_SUCCESS,
+                this.completedTask));
     }
 }

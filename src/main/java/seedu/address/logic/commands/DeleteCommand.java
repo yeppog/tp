@@ -3,7 +3,6 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import seedu.address.commons.core.Messages;
@@ -63,6 +62,6 @@ public class DeleteCommand extends Command {
         model.addPerson(this.personToDelete);
         model.updateFilteredPersonList(predicate);
 
-        return new CommandResult("Added " + this.personToDelete.toString());
+        return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));
     }
 }

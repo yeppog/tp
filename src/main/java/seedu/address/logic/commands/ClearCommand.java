@@ -28,6 +28,6 @@ public class ClearCommand extends Command {
     @Override
     public CommandResult undo(Model model) {
         model.setAddressBook(this.oldAddressBook);
-        return new CommandResult("Restored the old address book!");
+        return new CommandResult(MESSAGE_SUCCESS);
     }
 }

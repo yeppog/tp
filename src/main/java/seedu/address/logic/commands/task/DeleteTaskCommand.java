@@ -4,15 +4,12 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
-import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
-import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
@@ -80,6 +77,6 @@ public class DeleteTaskCommand extends TaskCommand {
     public CommandResult undo(Model model) {
         Predicate<? super Task> predicate = model.getFilteredTaskPredicate();
         model.addTaskAtIndex(deletedTask, targetIndex.getZeroBased());
-        return new CommandResult("Added task: " + deletedTask.toString());
+        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
     }
 }

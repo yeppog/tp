@@ -50,6 +50,7 @@ public class FindCommand extends Command {
     @Override
     public CommandResult undo(Model model) throws CommandException {
         model.updateFilteredPersonList(this.previousPredicate);
-        return new CommandResult("Reset to previous view");
+        return new CommandResult(
+                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
     }
 }

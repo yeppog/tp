@@ -4,8 +4,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 
-import java.util.List;
-
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -58,7 +56,7 @@ public class AddTaskCommand extends TaskCommand {
     @Override
     public CommandResult undo(Model model) throws CommandException {
         model.deleteTask(this.task);
-        return new CommandResult("Removed " + this.task.toString());
+        return new CommandResult(String.format(MESSAGE_SUCCESS, task));
 
     }
 }

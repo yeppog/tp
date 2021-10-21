@@ -6,8 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
 
-import javax.swing.text.html.Option;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -17,10 +15,8 @@ import java.util.Set;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
-import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
-import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.tag.Tag;
@@ -34,27 +30,27 @@ public class EditTaskCommand extends TaskCommand {
 
     public static final String COMMAND_WORD = "edit";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the task identified "
-            + "by the index number used in the displayed task list. "
-            + "Existing values will be overwritten by the input values.\n"
-            + "Parameters: INDEX (must be a positive integer) "
-            + "[" + PREFIX_TITLE + "TITLE] "
-            + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
-            + "[" + PREFIX_TIMESTAMP + "TIMESTAMP] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
-            + "Example: " + FULL_COMMAND_WORD + " 1 "
-            + PREFIX_DESCRIPTION + "Physics assignment "
-            + PREFIX_TIMESTAMP + "25/12/2020";
+    public static final String MESSAGE_USAGE =
+            COMMAND_WORD + ": Edits the details of the task identified "
+                    + "by the index number used in the displayed task list. "
+                    + "Existing values will be overwritten by the input values.\n"
+                    + "Parameters: INDEX (must be a positive integer) "
+                    + "[" + PREFIX_TITLE + "TITLE] "
+                    + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
+                    + "[" + PREFIX_TIMESTAMP + "TIMESTAMP] "
+                    + "[" + PREFIX_TAG + "TAG]...\n" + "Example: "
+                    + FULL_COMMAND_WORD + " 1 " + PREFIX_DESCRIPTION
+                    + "Physics assignment " + PREFIX_TIMESTAMP + "25/12/2020";
 
     public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Task: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
 
     private final Index index;
     private final EditTaskDescriptor editTaskDescriptor;
-    public Task oldTask;
+    private Task oldTask;
 
     /**
-     * @param index of the task in the filtered task list to edit
+     * @param index              of the task in the filtered task list to edit
      * @param editTaskDescriptor details to edit the task with
      */
     public EditTaskCommand(Index index, EditTaskDescriptor editTaskDescriptor) {
@@ -63,6 +59,29 @@ public class EditTaskCommand extends TaskCommand {
 
         this.index = index;
         this.editTaskDescriptor = new EditTaskDescriptor(editTaskDescriptor);
+    }
+
+    /**
+     * Creates and returns a {@code Task} with the details of {@code taskToEdit}
+     * edited with {@code editTaskDescriptor}.
+     */
+    private static Task createEditedTask(Task taskToEdit, EditTaskDescriptor editTaskDescriptor) {
+        assert taskToEdit != null;
+
+        String updatedTitle = editTaskDescriptor.getTitle()
+                .orElse(taskToEdit.getTitle());
+        String updatedDescription = editTaskDescriptor.getDescription()
+                .orElse(taskToEdit.getDescription());
+        Timestamp updatedTimestamp = editTaskDescriptor.getTimestamp()
+                .orElse(taskToEdit.getTimestamp());
+        Set<Tag> updatedTags = editTaskDescriptor.getTags()
+                .orElse(taskToEdit.getTags());
+
+        return new Task(updatedTitle,
+                updatedDescription,
+                updatedTimestamp,
+                updatedTags,
+                taskToEdit.getIsDone());
     }
 
     @Override
@@ -76,38 +95,29 @@ public class EditTaskCommand extends TaskCommand {
 
         Task taskToEdit = taskList.get(index.getZeroBased());
         this.oldTask = taskToEdit;
-        Task editedTask = createEditedTask(taskToEdit, editTaskDescriptor);
+        Task editedTask = createEditedTask(taskToEdit,
+                editTaskDescriptor);
 
         // Replace task with edited task
-        model.setTask(taskToEdit, editedTask);
+        model.setTask(taskToEdit,
+                editedTask);
 
         // Return with new edited task
-        return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS, editedTask));
+        return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS,
+                editedTask));
     }
 
     @Override
-    public CommandResult undo (Model model) {
+    public CommandResult undo(Model model) {
         EditTaskDescriptor oldTaskDescriptor = new EditTaskDescriptor(this.oldTask);
         List<Task> taskList = model.getFilteredTaskList();
         Task taskToEdit = taskList.get(index.getZeroBased());
-        Task previousEditTask = createEditedTask(taskToEdit, oldTaskDescriptor);
-        model.setTask(taskToEdit, previousEditTask);
-        return new CommandResult("Changed the task back to its previous state!");
-    }
-
-    /**
-     * Creates and returns a {@code Task} with the details of {@code taskToEdit}
-     * edited with {@code editTaskDescriptor}.
-     */
-    private static Task createEditedTask(Task taskToEdit, EditTaskDescriptor editTaskDescriptor) {
-        assert taskToEdit != null;
-
-        String updatedTitle = editTaskDescriptor.getTitle().orElse(taskToEdit.getTitle());
-        String updatedDescription = editTaskDescriptor.getDescription().orElse(taskToEdit.getDescription());
-        Timestamp updatedTimestamp = editTaskDescriptor.getTimestamp().orElse(taskToEdit.getTimestamp());
-        Set<Tag> updatedTags = editTaskDescriptor.getTags().orElse(taskToEdit.getTags());
-
-        return new Task(updatedTitle, updatedDescription, updatedTimestamp, updatedTags, taskToEdit.getIsDone());
+        Task previousEditTask = createEditedTask(taskToEdit,
+                oldTaskDescriptor);
+        model.setTask(taskToEdit,
+                previousEditTask);
+        return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS,
+                taskToEdit));
     }
 
     @Override
@@ -124,8 +134,7 @@ public class EditTaskCommand extends TaskCommand {
 
         // state check
         EditTaskCommand e = (EditTaskCommand) other;
-        return index.equals(e.index)
-                && editTaskDescriptor.equals(e.editTaskDescriptor);
+        return index.equals(e.index) && editTaskDescriptor.equals(e.editTaskDescriptor);
     }
 
     /**
@@ -138,7 +147,8 @@ public class EditTaskCommand extends TaskCommand {
         private Timestamp timestamp;
         private Set<Tag> tags;
 
-        public EditTaskDescriptor() {}
+        public EditTaskDescriptor() {
+        }
 
         /**
          * Copy constructor.
@@ -151,6 +161,10 @@ public class EditTaskCommand extends TaskCommand {
             setTags(toCopy.tags);
         }
 
+        /**
+         * Copy constructor that takes in a Task instead of a descriptor.
+         * @param toCopy Task to copy to a descriptor.
+         */
         public EditTaskDescriptor(Task toCopy) {
             setTitle(toCopy.getTitle());
             setTimestamp(toCopy.getTimestamp());
@@ -162,39 +176,34 @@ public class EditTaskCommand extends TaskCommand {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(title, description, timestamp, tags);
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
+            return CollectionUtil.isAnyNonNull(title,
+                    description,
+                    timestamp,
+                    tags);
         }
 
         public Optional<String> getTitle() {
             return Optional.ofNullable(title);
         }
 
-        public void setDescription(String description) {
-            this.description = description;
+        public void setTitle(String title) {
+            this.title = title;
         }
 
         public Optional<String> getDescription() {
             return Optional.ofNullable(description);
         }
 
-        public void setTimestamp(Timestamp timestamp) {
-            this.timestamp = timestamp;
+        public void setDescription(String description) {
+            this.description = description;
         }
 
         public Optional<Timestamp> getTimestamp() {
             return Optional.ofNullable(timestamp);
         }
 
-        /**
-         * Sets {@code tags} to this object's {@code tags}.
-         * A defensive copy of {@code tags} is used internally.
-         */
-        public void setTags(Set<Tag> tags) {
-            this.tags = (tags != null) ? new HashSet<>(tags) : null;
+        public void setTimestamp(Timestamp timestamp) {
+            this.timestamp = timestamp;
         }
 
         /**
@@ -204,6 +213,14 @@ public class EditTaskCommand extends TaskCommand {
          */
         public Optional<Set<Tag>> getTags() {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
+        }
+
+        /**
+         * Sets {@code tags} to this object's {@code tags}.
+         * A defensive copy of {@code tags} is used internally.
+         */
+        public void setTags(Set<Tag> tags) {
+            this.tags = (tags != null) ? new HashSet<>(tags) : null;
         }
 
         @Override
