@@ -94,9 +94,10 @@ public class MainWindow extends UiPart<Stage> {
                 commandBox.focus();
             }
         });
-        primaryStage.addEventFilter(KeyEvent.ANY, e -> {
+        primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.Z && e.isShortcutDown()) {
                 this.undo();
+                e.consume();
             }
         });
     }
