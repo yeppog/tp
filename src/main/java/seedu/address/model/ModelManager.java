@@ -23,7 +23,7 @@ import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilters;
 import seedu.address.model.task.filters.TaskFilters.TaskFilter;
-import seedu.address.storage.UserUndoStorage;
+import seedu.address.storage.CommandHistory;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -34,7 +34,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final TaskList taskList;
     private final UserPrefs userPrefs;
-    private final UserUndoStorage userUndoStorage;
+    private final CommandHistory userUndoStorage;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Task> filteredTasks;
     private final ObservableList<TaskFilter> availableTaskFilters;
@@ -52,7 +52,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.taskList = new TaskList(taskList);
         this.userPrefs = new UserPrefs(userPrefs);
-        this.userUndoStorage = new UserUndoStorage(15);
+        this.userUndoStorage = new CommandHistory(15);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredTasks = new FilteredList<>(this.taskList.getTasks());
         availableTaskFilters = FXCollections.observableArrayList();
@@ -292,7 +292,7 @@ public class ModelManager implements Model {
 
     //=========== Undo Stack ============================================================================
 
-    public UserUndoStorage getUserUndoStorage() {
+    public CommandHistory getUserUndoStorage() {
         return userUndoStorage;
     }
 }

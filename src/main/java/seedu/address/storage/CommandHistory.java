@@ -16,10 +16,9 @@ public class CommandHistory {
     private int maxStackSize;
     private LinkedList<Command> commandStack;
 
-
     /**
      * Constructor to initialise the CommandHistory object
-      * @param maxStackSize The maximum number of undo a user can make at any time.
+     * @param maxStackSize The maximum number of undo a user can make at any time.
      *                     Helps to prevent any potential memory overflow if too many commands are executed.
      */
     public CommandHistory(int maxStackSize) {

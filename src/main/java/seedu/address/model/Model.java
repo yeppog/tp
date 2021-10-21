@@ -10,7 +10,7 @@ import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilters.TaskFilter;
-import seedu.address.storage.UserUndoStorage;
+import seedu.address.storage.CommandHistory;
 
 /**
  * The API of the Model component.
@@ -178,5 +178,5 @@ public interface Model {
      */
     void executeGuiAction(GuiAction action);
 
-    UserUndoStorage getUserUndoStorage();
+    CommandHistory getUserUndoStorage();
 }
