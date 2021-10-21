@@ -9,9 +9,9 @@ import seedu.address.storage.CommandHistory;
 public class UndoCommand extends Command {
 
     public static final String COMMAND_WORD = "undo";
-
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Undo the last executed command. \n"
+            + "Example: " + COMMAND_WORD;
     public static final String MESSAGE_UNDO_SUCCESS = "Successfully undid: ";
-
     public static final String MESSAGE_NOT_UNDONE = "Cannot undo any further.";
 
     @Override
