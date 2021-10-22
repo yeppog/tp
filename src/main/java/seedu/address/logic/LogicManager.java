@@ -142,6 +142,8 @@ public class LogicManager implements Logic {
         } catch (CommandException | ParseException e) {
             return new CommandResult(e.getMessage());
         }
+    }
+
     public String getPreviousCommandFromHistory(boolean isNext) {
         return model.getPreviousCommandFromHistory(isNext);
     }
