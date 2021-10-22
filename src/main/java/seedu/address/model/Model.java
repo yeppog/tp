@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -155,6 +156,12 @@ public interface Model {
      * @param taskFilters The list of task filters to filter by
      */
     void setTaskFilters(List<TaskFilter> taskFilters);
+
+    /**
+     * Gets the list of previously selected task filters.
+     * @return The list of old task filters.
+     */
+    List<TaskFilter> getOldTaskFilters();
 
     /**
      * Updates the filter of the filtered task list to filter by the given {@code predicate}.

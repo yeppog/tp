@@ -6,11 +6,14 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNDONE;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilters.TaskFilter;
 
 /**
@@ -30,6 +33,8 @@ public class ListTaskCommand extends TaskCommand {
 
     private final List<TaskFilter> taskFilters;
 
+    private List<TaskFilter> previousFilters;
+
     public ListTaskCommand(List<TaskFilter> taskFilters) {
         this.taskFilters = taskFilters;
     }
@@ -37,7 +42,8 @@ public class ListTaskCommand extends TaskCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
+        super.canExecute();
+        this.previousFilters = model.getOldTaskFilters();
         model.setTaskFilters(taskFilters);
         return new CommandResult(MESSAGE_SUCCESS);
     }
@@ -52,5 +58,12 @@ public class ListTaskCommand extends TaskCommand {
     @Override
     public int hashCode() {
         return taskFilters.hashCode();
+    }
+
+    @Override
+    public CommandResult undo(Model model) throws CommandException {
+        super.canUndo();
+        model.setTaskFilters(this.previousFilters);
+        return new CommandResult(MESSAGE_SUCCESS);
     }
 }

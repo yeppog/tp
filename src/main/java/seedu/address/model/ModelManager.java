@@ -237,6 +237,11 @@ public class ModelManager implements Model {
         recalculateFilteredTaskList();
     }
 
+    @Override
+    public List<TaskFilter> getOldTaskFilters() {
+        return this.selectedTaskFilters;
+    }
+
     private void recalculateFilteredTaskList() {
         Predicate<Task> identity = task -> true;
         Predicate<Task> effectivePredicate = selectedTaskFilters.stream().map(TaskFilter::getPredicate)
