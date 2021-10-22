@@ -9,6 +9,9 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_REP
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_CAREER;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TIMESTAMP_REPORT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TITLE_REPORT;
+import static seedu.address.logic.commands.task.EditTaskCommand.EditTaskDescriptor;
+import static seedu.address.logic.commands.task.EditTaskCommand.MESSAGE_NOT_EDITED;
+import static seedu.address.logic.commands.task.EditTaskCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
@@ -23,35 +26,35 @@ public class EditTaskCommandParserTest {
 
     @Test
     public void parse_emptyArguments_failure() {
-        assertParseFailure(parser, "", String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditTaskCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
     }
 
     @Test
     public void parse_nonIntegerIndex_failure() {
-        assertParseFailure(parser, "1.1", String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditTaskCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "1.1", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         assertParseFailure(parser, "hello",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditTaskCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
     }
 
     @Test
     public void parse_nonPositiveIndex_failure() {
-        assertParseFailure(parser, "-1", String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditTaskCommand.MESSAGE_USAGE));
-        assertParseFailure(parser, "0", String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditTaskCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "-1", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        assertParseFailure(parser, "0", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
     }
 
     @Test
     public void parse_noFieldsEdited_failure() {
-        assertParseFailure(parser, "1", EditTaskCommand.MESSAGE_NOT_EDITED);
+        assertParseFailure(parser, "1", MESSAGE_NOT_EDITED);
     }
 
     @Test
     public void parse_titleEdited_success() {
         Index targetIndex = Index.fromOneBased(1);
-        EditTaskCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder()
+        EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder()
                 .withTitle(VALID_TITLE_REPORT)
                 .build();
 
-        String targetIndexString = targetIndex.getOneBased() + "";
+        String targetIndexString = Integer.toString(targetIndex.getOneBased());
 
         assertParseSuccess(parser, targetIndexString + TITLE_DESC_REPORT, new EditTaskCommand(targetIndex, descriptor));
     }
@@ -59,14 +62,14 @@ public class EditTaskCommandParserTest {
     @Test
     public void parse_allFieldsEdited_success() {
         Index targetIndex = Index.fromOneBased(1);
-        EditTaskCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder()
+        EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder()
                 .withTitle(VALID_TITLE_REPORT)
                 .withDescription(VALID_DESCRIPTION_REPORT)
                 .withTimestamp(VALID_TIMESTAMP_REPORT)
                 .withTags(VALID_TAG_CAREER)
                 .build();
 
-        String targetIndexString = targetIndex.getOneBased() + "";
+        String targetIndexString = Integer.toString(targetIndex.getOneBased());
 
         assertParseSuccess(parser,
                 targetIndexString

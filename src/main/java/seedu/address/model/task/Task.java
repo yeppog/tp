@@ -67,10 +67,6 @@ public class Task {
         return tags;
     }
 
-    public boolean getDone() {
-        return isDone;
-    }
-
     public boolean getIsDone() {
         return isDone;
     }
