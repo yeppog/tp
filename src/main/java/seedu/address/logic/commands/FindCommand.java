@@ -35,10 +35,7 @@ public class FindCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-
-        if (!this.canExecute) {
-            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
-        }
+        super.canExecute();
         this.previousPredicate = model.getFilteredPersonPredicate();
         model.updateFilteredPersonList(predicate);
         this.canExecute = false;
@@ -55,9 +52,7 @@ public class FindCommand extends Command {
 
     @Override
     public CommandResult undo(Model model) throws CommandException {
-        if (this.canExecute) {
-            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
-        }
+        super.canUndo();
         model.updateFilteredPersonList(this.previousPredicate);
         this.canExecute = true;
         return new CommandResult(

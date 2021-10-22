@@ -47,15 +47,12 @@ public class DeleteTaskCommand extends TaskCommand {
 
         if (targetIndex.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
-        } else if (!this.canExecute) {
-            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
         }
+        super.canExecute();
 
         Task deletedTask = taskList.get(targetIndex.getZeroBased());
         this.deletedTask = deletedTask;
         model.deleteTask(deletedTask);
-
-        this.canExecute = false;
         return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
     }
 
@@ -73,9 +70,7 @@ public class DeleteTaskCommand extends TaskCommand {
 
     @Override
     public CommandResult undo(Model model) throws CommandException {
-        if (this.canExecute) {
-            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
-        }
+        super.canUndo();
         Predicate<? super Task> predicate = model.getFilteredTaskPredicate();
         model.insertTask(deletedTask, targetIndex.getZeroBased());
         this.canExecute = true;

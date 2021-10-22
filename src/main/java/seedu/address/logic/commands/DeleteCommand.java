@@ -40,10 +40,8 @@ public class DeleteCommand extends Command {
 
         if (targetIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
-        } else if (!canExecute) {
-            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
         }
-
+        super.canExecute();
         Person personToDelete = lastShownList.get(targetIndex.getZeroBased());
         this.personToDelete = personToDelete;
         model.deletePerson(personToDelete);
@@ -59,14 +57,11 @@ public class DeleteCommand extends Command {
 
     @Override
     public CommandResult undo(Model model) throws CommandException {
-        if (this.canExecute) {
-            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
-        }
+        super.canUndo();
         Predicate<? super Person> predicate = model.getFilteredPersonPredicate();
         model.addPerson(this.personToDelete);
         model.updateFilteredPersonList(predicate);
 
-        this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, personToDelete));
     }
 }

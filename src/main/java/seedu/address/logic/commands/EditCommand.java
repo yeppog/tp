@@ -108,29 +108,24 @@ public class EditCommand extends Command {
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
-        } else if (!this.canExecute) {
-            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
         }
+        super.canExecute();
 
         model.setPerson(personToEdit,
                 editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        this.canExecute = false;
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS,
                 editedPerson));
     }
 
     @Override
     public CommandResult undo(Model model) throws CommandException {
-        if (this.canExecute) {
-            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
-        }
+        super.canUndo();
         EditPersonDescriptor oldDescriptor = new EditPersonDescriptor(this.originalPerson);
         Person originalPerson = createEditedPerson(this.editedPerson,
                 oldDescriptor);
         model.setPerson(this.editedPerson,
                 originalPerson);
-        this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS,
                 editedPerson));
     }

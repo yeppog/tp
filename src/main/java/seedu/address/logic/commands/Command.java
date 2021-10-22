@@ -1,5 +1,6 @@
 package seedu.address.logic.commands;
 
+import seedu.address.commons.core.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 
@@ -33,6 +34,20 @@ public abstract class Command {
      * @throws CommandException If an error occurs during command execution.
      */
     public abstract CommandResult execute(Model model) throws CommandException;
+
+    public void canExecute() throws CommandException {
+        if (!this.canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
+        }
+        this.canExecute = false;
+    }
+
+    public void canUndo() throws CommandException {
+        if(this.canExecute) {
+            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
+        }
+        this.canExecute = true;
+    }
 
     public CommandResult undo(Model model) throws CommandException {
         return new CommandResult("Undo not supported for this command, or cannot undo any further");
