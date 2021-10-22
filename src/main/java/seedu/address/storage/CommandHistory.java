@@ -18,7 +18,7 @@ public class CommandHistory {
 
     /**
      * Constructor to initialise the CommandHistory object
-     * @param maxStackSize The maximum number of undo a user can make at any time.
+     * @param maxStackSize The maximum number of undos a user can do.
      *                     Helps to prevent any potential memory overflow if too many commands are executed.
      */
     public CommandHistory(int maxStackSize) {
@@ -28,7 +28,7 @@ public class CommandHistory {
     }
 
     /**
-     * Adds a command to the command history stack.
+     * Adds a command into to the command history stack.
      * @param command Command to be inserted to the history stack
      */
     public void pushCommand(Command command) {
@@ -43,7 +43,7 @@ public class CommandHistory {
 
     /**
      * Checks if the stack is full. For internal class use only.
-     * @return boolean if the stack is full.
+     * @return if the stack is full.
      */
     private boolean isStackFull() {
         return this.stackSize == this.maxStackSize;
