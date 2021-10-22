@@ -165,7 +165,7 @@ This section describes some noteworthy details on how certain features are imple
 The current implementation of the `undo` feature is through storing the command history of the user in `CommandHistory`
 as a command stack, and popping off the stack whenever `undo` is called.
 
-The `Command` abstract class now has an additional method `undo()` to be implemented by the inheriting class
+The `Command` abstract class has an additional method `undo()` to be implemented by the inheriting class
 to model the correct undo behaviour. Commands that have previous states, such as `Find` with a specific `Predicate`
 stores the previous state in the class.
 
@@ -189,7 +189,7 @@ stores the previous state in the class.
 
 Each `Command` will have a different ways of implementing `undo()`, depending the type of command.
 
-1. Object Mutating Command:
+1. Object-mutating Command:
 
     - Add: Deletes the object at the last index
     - Delete: Adds the deleted task at the original deleted index

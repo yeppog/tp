@@ -17,7 +17,6 @@ public class ClearCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
 
     private ReadOnlyAddressBook oldAddressBook;
-    private boolean canExecute = true;
 
     @Override
     public CommandResult execute(Model model) throws CommandException {

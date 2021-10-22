@@ -48,7 +48,6 @@ public class EditTaskCommand extends TaskCommand {
     private final Index index;
     private final EditTaskDescriptor editTaskDescriptor;
     private Task oldTask;
-    private boolean canExecute;
 
     /**
      * @param index              of the task in the filtered task list to edit
@@ -60,7 +59,6 @@ public class EditTaskCommand extends TaskCommand {
 
         this.index = index;
         this.editTaskDescriptor = new EditTaskDescriptor(editTaskDescriptor);
-        this.canExecute = true;
     }
 
     /**

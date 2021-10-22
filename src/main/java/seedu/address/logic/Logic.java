@@ -98,9 +98,9 @@ public interface Logic {
      */
     void setGuiSettings(GuiSettings guiSettings);
 
-    /*
-     * Executes an undo command
+    /**
+     * Executes an undo command.
+     * @return The command result of the command being executed.
      */
-
     CommandResult undoCommand();
 }

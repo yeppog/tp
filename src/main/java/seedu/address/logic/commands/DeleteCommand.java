@@ -27,9 +27,7 @@ public class DeleteCommand extends Command {
 
     private final Index targetIndex;
 
-    private boolean canExecute = true;
     private Person personToDelete;
-
 
     public DeleteCommand(Index targetIndex) {
         this.targetIndex = targetIndex;

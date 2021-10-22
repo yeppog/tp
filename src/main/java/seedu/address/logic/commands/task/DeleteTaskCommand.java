@@ -27,8 +27,6 @@ public class DeleteTaskCommand extends TaskCommand {
 
     private final Index targetIndex;
 
-    private boolean canExecute = true;
-
     private Task deletedTask;
 
     public DeleteTaskCommand(Index targetIndex) {

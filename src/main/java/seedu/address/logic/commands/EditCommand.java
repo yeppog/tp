@@ -54,7 +54,6 @@ public class EditCommand extends Command {
     private final EditPersonDescriptor editPersonDescriptor;
     private Person originalPerson;
     private Person editedPerson;
-    private boolean canExecute;
 
     /**
      * @param index                of the person in the filtered person list to edit
@@ -63,9 +62,7 @@ public class EditCommand extends Command {
     public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
         requireNonNull(index);
         requireNonNull(editPersonDescriptor);
-
         this.index = index;
-        this.canExecute = true;
         this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
     }
 
@@ -74,7 +71,7 @@ public class EditCommand extends Command {
      * edited with {@code editPersonDescriptor}.
      */
     private static Person createEditedPerson(Person personToEdit, EditPersonDescriptor editPersonDescriptor) {
-        assert personToEdit != null;
+        assert personToEdit == null;
 
         Name updatedName = editPersonDescriptor.getName()
                 .orElse(personToEdit.getName());

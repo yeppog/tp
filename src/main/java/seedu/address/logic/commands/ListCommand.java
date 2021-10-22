@@ -20,12 +20,6 @@ public class ListCommand extends Command {
     public static final String MESSAGE_SUCCESS = "Listed all persons";
 
     private Predicate<? super Person> previousPredicate;
-    private boolean canExecute;
-
-    public ListCommand() {
-        this.canExecute = true;
-    }
-
 
     @Override
     public CommandResult execute(Model model) throws CommandException {

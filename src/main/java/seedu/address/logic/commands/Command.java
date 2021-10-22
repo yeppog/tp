@@ -8,6 +8,23 @@ import seedu.address.model.Model;
  */
 public abstract class Command {
 
+    protected boolean canExecute;
+
+    /**
+     * Default constructor for all classes that implement Command.
+     * @param canExecute Boolean for if the class is able to run the execute method.
+     */
+    public Command(boolean canExecute) {
+        this.canExecute = canExecute;
+    }
+
+    /**
+     * Constructor that initialises canExecute to be true when super is not called in child class.
+     */
+    public Command() {
+        this.canExecute = true;
+    }
+
     /**
      * Executes the command and returns the result message.
      *

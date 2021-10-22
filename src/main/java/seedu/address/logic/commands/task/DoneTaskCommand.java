@@ -26,7 +26,6 @@ public class DoneTaskCommand extends TaskCommand {
 
     private final Index index;
     private Task completedTask;
-    private boolean canExecute = true;
 
     public DoneTaskCommand(Index index) {
         this.index = index;
