@@ -24,6 +24,7 @@ import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilters;
 import seedu.address.model.task.filters.TaskFilters.TaskFilter;
 import seedu.address.storage.CommandHistory;
+import seedu.address.storage.HistoryStorage;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -35,6 +36,7 @@ public class ModelManager implements Model {
     private final TaskList taskList;
     private final UserPrefs userPrefs;
     private final CommandHistory commandHistory;
+    private final HistoryStorage historyStorage;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Task> filteredTasks;
     private final ObservableList<TaskFilter> availableTaskFilters;
@@ -53,10 +55,12 @@ public class ModelManager implements Model {
         this.taskList = new TaskList(taskList);
         this.userPrefs = new UserPrefs(userPrefs);
         this.commandHistory = new CommandHistory(15);
+        this.historyStorage = new HistoryStorage();
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredTasks = new FilteredList<>(this.taskList.getTasks());
         availableTaskFilters = FXCollections.observableArrayList();
         selectedTaskFilters = FXCollections.observableArrayList();
+
 
     }
 
@@ -332,5 +336,23 @@ public class ModelManager implements Model {
 
     public CommandHistory getCommandHistory() {
         return commandHistory;
+    }
+
+    //========== Command History Stack ==================================================================
+
+
+    @Override
+    public String getPreviousCommandFromHistory(boolean isNext) {
+        return this.historyStorage.getPreviousCommand(isNext).orElse("");
+    }
+
+    @Override
+    public void addCommandToHistory(String command) {
+        this.historyStorage.pushCommand(command);
+    }
+
+    @Override
+    public void resetHistoryPosition() {
+        this.historyStorage.resetHistoryPosition();
     }
 }

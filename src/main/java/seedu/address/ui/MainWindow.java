@@ -98,6 +98,21 @@ public class MainWindow extends UiPart<Stage> {
                 resultDisplay.setFeedbackToUser(result.getFeedbackToUser());
             }
         });
+
+        primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            EventTarget target = event.getTarget();
+            boolean isTargetEditableTextInput = (target instanceof TextInputControl) && ((TextInputControl) target)
+                    .isEditable();
+            if (isTargetEditableTextInput && event.getCode() == KeyCode.UP) {
+                commandBox.setCommandText(logic.getPreviousCommandFromHistory(false));
+                event.consume();
+            } else if (isTargetEditableTextInput && event.getCode() == KeyCode.DOWN) {
+                commandBox.setCommandText(logic.getPreviousCommandFromHistory(true));
+                event.consume();
+            } else if (commandBox.isEmpty()) {
+                logic.resetHistoryPosition();
+            }
+        });
     }
 
     /**

@@ -191,4 +191,10 @@ public interface Model {
     void executeGuiAction(GuiAction action);
 
     CommandHistory getCommandHistory();
+
+    String getPreviousCommandFromHistory(boolean isNext);
+
+    void addCommandToHistory(String command);
+
+    void resetHistoryPosition();
 }

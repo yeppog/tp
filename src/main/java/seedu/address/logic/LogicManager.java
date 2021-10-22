@@ -51,6 +51,7 @@ public class LogicManager implements Logic {
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
         model.getCommandHistory().pushCommand(command);
+        model.addCommandToHistory(commandText);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
@@ -141,5 +142,12 @@ public class LogicManager implements Logic {
         } catch (CommandException | ParseException e) {
             return new CommandResult(e.getMessage());
         }
+    public String getPreviousCommandFromHistory(boolean isNext) {
+        return model.getPreviousCommandFromHistory(isNext);
+    }
+
+    @Override
+    public void resetHistoryPosition() {
+        model.resetHistoryPosition();
     }
 }

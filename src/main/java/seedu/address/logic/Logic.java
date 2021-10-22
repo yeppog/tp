@@ -103,4 +103,8 @@ public interface Logic {
      * @return The command result of the command being executed.
      */
     CommandResult undoCommand();
+    String getPreviousCommandFromHistory(boolean isNext);
+
+    void resetHistoryPosition();
+
 }
