@@ -158,6 +158,63 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Task filter feature
+
+#### Current implementation
+
+The task filtering mechanism is facilitated by `Model`. Each task filter is internally represented by a `TaskFilter` instance, which contains a predicate that defines whether or not a task should be included in the filtered list.
+
+`Model` implements the following filtering-related methods:
+
+- `getAvailableTaskFilters()`
+- `getSelectedTaskFilters()`
+- `addTaskFilter(filter)`
+- `removeTaskFilter(filter)`
+- `setTaskFilter(filters)`
+
+##### Example usage of `addTaskFilter`
+
+Step 1. The user launches the application and creates a task with the tag `important`.
+
+Step 2. The user adds the task filter `Tagged [important]`.
+
+![Sequence diagram](http://www.plantuml.com/plantuml/png/VL3DJiCm3BxxAQ9osGvxWMgQ1eSXf4tQ0HuWDEw85gTLuY0U7pk5qY74fNQ_dyzszfbjua81RCT3ClVrQxCf6HECmldEZpQoUNnvKbmAl0uVfZaE5zyrvkxeBs_y40hUg9ksyYSRxGLJeyv0WD4PCSEKS1eS1aau-tZzPQxKqanqg-XzO4pedcs-vlRmzNVqcRSAxQgfvv-9O0iFSgD_juncYA07cirE3sgDTSwm-CoK2o2eae4gfv7JZ1NFxHe2gOR-rT2iITZPq9LW6G-BxNNdrHeMmZAwlpJOzwZxurbGtubaTlNScemy4wjn8T5JjfkgcP85a849kQG8t_MsG23nR0nHjMiRQ7eoxGM3FKPNA7m2)
+
+Step 3: The GUI is updated to show only tasks tagged Important.
+
+##### Adding tasks
+
+Tasks can be filtered by tag. Whenever a task is added, the list of task filters will be recalculated to include the new tags introduced by adding that task.
+
+The following sequence diagram shows how task filters are recalculated on the addition of a task.
+
+![Sequence diagram](http://www.plantuml.com/plantuml/png/bOvDKiCm38NtFeKcRCA22sIOJik2LJgmu09Ah0PF9JjZou7ZuxhJK7vOiB76x-bxUjka63KBco6yGzE7oOqDtFHkUjK7pcJcOhlHpUWLcgxwU_GuKMm04x0OyXOAV0xO1qjS0fwTFtvZgtNDYdpTm0KTuy3qWkduw5WffWwUXaHnESczIth_wMrg2EfXRM0mQy1HtO9A4Bovsm1B1sZj2MkrFBU61OekFtHPzKXZa3ahxNvfr5usKGyTZ4mOYrG-gvPdYrhRaZy3aJH7RovpvMk57NFhwUtgn3_Z_ffRyZOBVm00)
+
+##### Deleting tasks
+
+Deleting tasks may cause associated tags to be deleted from the entire task list. If a tag is deleted, its corresponding task filter will have to be deleted.
+
+![Delete task activity diagram](http://www.plantuml.com/plantuml/png/bOynJi0m34Ltdy8RxHMQWGwS036oXEO78foar4ubRa_QY86HBVfvxqbUrVnXBGlT3rgUyTMWnkRramC4bcfnb29FBzUqrM8-5Hr_21ryryUPxGE5fs_eJCozakk9Fyp3ICOaXaDVIpngPd_w9FvDuFvZAGHR9tvdHn05JwNEX19IfENfRjookuxQQjvR7uQ1CBAIr1ofrPtMBhOiFm00)
+
+##### `TaskFilter` implementation
+
+> Task filters are, in essence, predicates returning true or false depending on certain properties of tasks. For example, filtering by "done" tasks are checking for the completion status of a task. Therefore, task filters could be implemented as wrapper objects of instances of `Predicate<Task>`. Filters based on the same properties of a task are named the same way (e.g., for tag-based filters, `Tagged [important]` and `Tagged [work]`). It therefore made sense for a group of filters to have a common `toString()` implementation.
+
+The current implementation of `TaskFilter` are through static, singleton-like constants exposed via the `TaskFilters` class. `TaskFilter#getPredicate()` returns the predicate associated with the matching condition of the filter, and `TaskFilter#invert()` returns a `TaskFilter` instance with an inverted matching condition (i.e., accepting tasks originally rejected, and rejecting originally accepted tasks).
+
+Each of the following expressions return a `TaskFilter`:
+
+1. `TaskFilters.FILTER_DONE`
+2. `TaskFilters.FILTER_TAG(String tagName)`
+
+`FILTER_DONE` is a `TaskFilter`, while `FILTER_TAG` is a unary function accepting a tag name and returning a `TaskFilter` accepting tasks containing that tag.
+
+`TaskFilter` contains private constructors accepting a `Predicate<Task>` representing the matching condition of the filter. It also accepts a `Function<Boolean, String>`, accepting a boolean representing whether or not the filter is inverted, and returns its string representation.
+
+##### Alternatives
+
+1. Task filters could be implemented using a `FunctionalInterface` having a `boolean filter(Task task)` method. However, this does not allow a task filter to contain extra information like having a custom string representation.
+
 ### \[Proposed\] Undo/redo feature
 
 #### Proposed Implementation
