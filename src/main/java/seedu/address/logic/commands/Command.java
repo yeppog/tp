@@ -35,6 +35,11 @@ public abstract class Command {
      */
     public abstract CommandResult execute(Model model) throws CommandException;
 
+    /**
+     * Checks if the current object state is able to call execute(). If it is able to,
+     * allow execution and toggle canExecute, else throw CommandException.
+     * @throws CommandException to prevent execution.
+     */
     public void canExecute() throws CommandException {
         if (!this.canExecute) {
             throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
@@ -42,8 +47,13 @@ public abstract class Command {
         this.canExecute = false;
     }
 
+    /**
+     * Checks if the current object state is able to call undo(). If it is able to,
+     * allow undo and toggle canExecute, else throw CommandException.
+     * @throws CommandException to prevent undo.
+     */
     public void canUndo() throws CommandException {
-        if(this.canExecute) {
+        if (this.canExecute) {
             throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
         }
         this.canExecute = true;

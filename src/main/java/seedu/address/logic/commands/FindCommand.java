@@ -27,6 +27,10 @@ public class FindCommand extends Command {
 
     private Predicate<? super Person> previousPredicate;
 
+    /**
+     * Constructor to initialise a FindCommand object.
+     * @param predicate of the condition to filter the list.
+     */
     public FindCommand(NameContainsKeywordsPredicate predicate) {
         super(true);
         this.predicate = predicate;
