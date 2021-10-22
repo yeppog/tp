@@ -63,7 +63,6 @@ public class DeleteCommand extends Command {
             throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
         }
         Predicate<? super Person> predicate = model.getFilteredPersonPredicate();
-        System.out.println(predicate);
         model.addPerson(this.personToDelete);
         model.updateFilteredPersonList(predicate);
 
