@@ -49,18 +49,6 @@ class DoneTaskCommandTest {
     }
 
     @Test
-    void execute_taskAlreadyCompleted_failure() {
-        Task editedTask = new TaskBuilder().withDone(true).build();
-        Task task = model.getTaskList().getTasks().get(INDEX_FIRST_PERSON.getZeroBased());
-
-        Model modelAlreadyCompleted = new ModelManager(
-                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
-        modelAlreadyCompleted.setTask(task, editedTask);
-
-        DoneTaskCommand doneTaskCommand = new DoneTaskCommand(INDEX_FIRST_PERSON);
-    }
-
-    @Test
     void equals() {
         DoneTaskCommand doneFirstCommand = new DoneTaskCommand(INDEX_FIRST_PERSON);
         DoneTaskCommand doneSecondCommand = new DoneTaskCommand(INDEX_SECOND_PERSON);
