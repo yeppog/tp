@@ -34,7 +34,7 @@ public class ModelManager implements Model {
     private final AddressBook addressBook;
     private final TaskList taskList;
     private final UserPrefs userPrefs;
-    private final CommandHistory userUndoStorage;
+    private final CommandHistory commandHistory;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Task> filteredTasks;
     private final ObservableList<TaskFilter> availableTaskFilters;
@@ -52,7 +52,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.taskList = new TaskList(taskList);
         this.userPrefs = new UserPrefs(userPrefs);
-        this.userUndoStorage = new CommandHistory(15);
+        this.commandHistory = new CommandHistory(15);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredTasks = new FilteredList<>(this.taskList.getTasks());
         availableTaskFilters = FXCollections.observableArrayList();
@@ -331,6 +331,6 @@ public class ModelManager implements Model {
     //=========== Undo Stack ============================================================================
 
     public CommandHistory getCommandHistory() {
-        return userUndoStorage;
+        return commandHistory;
     }
 }

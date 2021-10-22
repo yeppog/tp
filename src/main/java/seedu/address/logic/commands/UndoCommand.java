@@ -16,8 +16,8 @@ public class UndoCommand extends Command {
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        CommandHistory undoStack = model.getCommandHistory();
-        Optional<Command> previousCommand = undoStack.popLastCommand();
+        CommandHistory commandHistory = model.getCommandHistory();
+        Optional<Command> previousCommand = commandHistory.popLastCommand();
         if (previousCommand.isPresent()) {
             CommandResult result = previousCommand.get().undo(model);
             return new CommandResult(MESSAGE_UNDO_SUCCESS + result.getFeedbackToUser());

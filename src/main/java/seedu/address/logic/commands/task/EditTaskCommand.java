@@ -50,7 +50,7 @@ public class EditTaskCommand extends TaskCommand {
     private Task oldTask;
 
     /**
-     * @param index              of the task in the filtered task list to edit
+     * @param index              index of the task in the filtered task list to edit
      * @param editTaskDescriptor details to edit the task with
      */
     public EditTaskCommand(Index index, EditTaskDescriptor editTaskDescriptor) {
