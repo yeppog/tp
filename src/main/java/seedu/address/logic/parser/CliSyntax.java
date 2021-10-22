@@ -16,4 +16,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_DESCRIPTION = new Prefix("d/");
     public static final Prefix PREFIX_TIMESTAMP = new Prefix("ts/");
     public static final Prefix PREFIX_TITLE = new Prefix("ti/");
+    public static final Prefix PREFIX_DONE = new Prefix("done/");
+    public static final Prefix PREFIX_UNDONE = new Prefix("undone/");
 }

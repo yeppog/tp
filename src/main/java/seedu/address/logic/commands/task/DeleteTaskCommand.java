@@ -3,7 +3,6 @@ package seedu.address.logic.commands.task;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
-import java.util.Objects;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
@@ -13,16 +12,17 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
 
+/**
+ * Deletes an existing task from the task list.
+ */
 public class DeleteTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "delete";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
-    public static final String MESSAGE_SUCCESS = "Task deleted: %1$s";
+    public static final String MESSAGE_SUCCESS = "Deleted task: %1$s";
     public static final String MESSAGE_USAGE = FULL_COMMAND_WORD
             + ": Deletes the task identified by the index number used in the displayed task list.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
-
-    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
+            + "Example: " + FULL_COMMAND_WORD + " 1";
 
     private final Index targetIndex;
 
@@ -49,23 +49,18 @@ public class DeleteTaskCommand extends TaskCommand {
         Task deletedTask = taskList.get(targetIndex.getZeroBased());
         model.deleteTask(deletedTask);
 
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
+        return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        DeleteTaskCommand that = (DeleteTaskCommand) o;
-        return Objects.equals(targetIndex, that.targetIndex);
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof DeleteTaskCommand // instanceof handles nulls
+                && targetIndex.equals(((DeleteTaskCommand) other).targetIndex));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(targetIndex);
+        return targetIndex.hashCode();
     }
 }

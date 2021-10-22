@@ -10,7 +10,19 @@ import seedu.address.model.task.Task;
 public class TypicalTasks {
     public static final Task BUY_GROCERIES = new TaskBuilder().build();
     public static final Task DO_HOMEWORK = new TaskBuilder()
-            .withTitle("Do homework").withDescription("Math, physics and chemistry").build();
+            .withTitle("Do homework")
+            .withDescription("Math, physics and chemistry")
+            .withTags("important", "homework")
+            .build();
+    public static final Task CLEAN_ROOM = new TaskBuilder()
+            .withTitle("Clean my room")
+            .withTags("important")
+            .build();
+    public static final Task ARRANGE_MEETING = new TaskBuilder()
+            .withTitle("Arrange meeting")
+            .withTags("work", "important")
+            .withDone(true)
+            .build();
 
     /**
      * Returns an {@code AddressBook} with all the typical tasks.
@@ -24,6 +36,11 @@ public class TypicalTasks {
     }
 
     public static List<Task> getTypicalTasks() {
-        return new ArrayList<>(Arrays.asList(BUY_GROCERIES, DO_HOMEWORK));
+        return new ArrayList<>(Arrays.asList(
+                BUY_GROCERIES,
+                DO_HOMEWORK,
+                CLEAN_ROOM,
+                ARRANGE_MEETING
+        ));
     }
 }
