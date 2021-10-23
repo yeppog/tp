@@ -50,4 +50,11 @@ public class AddTaskCommand extends TaskCommand {
     public int hashCode() {
         return task.hashCode();
     }
+
+    @Override
+    public CommandResult undo(Model model) throws CommandException {
+        model.deleteTask(this.task);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, task));
+
+    }
 }

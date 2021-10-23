@@ -92,6 +92,12 @@ public class MainWindow extends UiPart<Stage> {
                 commandBox.focus();
             }
         });
+        primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.Z && e.isShortcutDown()) {
+                CommandResult result = this.logic.undoCommand();
+                resultDisplay.setFeedbackToUser(result.getFeedbackToUser());
+            }
+        });
     }
 
     /**
