@@ -27,16 +27,27 @@ public class FindTaskCommandTest {
         FindTaskCommand testCommand = new FindTaskCommand(testPredicate);
         expectedModel.updateFilteredTaskList(testPredicate);
         assertCommandSuccess(testCommand, model, expectedMessage, expectedModel);
-
     }
 
+    @Test
+    void execute_zeroKeywords_AllTasksFound() {
+        String expectedMessage = String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 4);
+        TaskContainsKeywordsPredicate testPredicate = preparePredicate("");
+        FindTaskCommand testCommand = new FindTaskCommand(testPredicate);
+        expectedModel.updateFilteredTaskList(testPredicate);
+        assertCommandSuccess(testCommand, model, expectedMessage, expectedModel);
+    }
 
 
     /**
      * Parses {@code userInput} into a {@code NameContainsKeywordsPredicate}.
      */
     private TaskContainsKeywordsPredicate preparePredicate(String userInput) {
-        return new TaskContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
+        if (userInput.isEmpty()) {
+            return TaskContainsKeywordsPredicate.SHOW_ALL_TASKS_PREDICATE;
+        } else {
+            return new TaskContainsKeywordsPredicate(Arrays.asList(userInput.split("\\s+")));
+        }
     }
 
 }
