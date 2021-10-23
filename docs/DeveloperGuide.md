@@ -215,27 +215,52 @@ The task filtering mechanism is facilitated by `Model`. Each task filter is inte
 
 ##### Example usage of `addTaskFilter`
 
-Step 1. The user launches the application and creates a task with the tag `important`.
+Step 1. The user enters the command to filter tasks by the tag `important`.
 
-Step 2. The user adds the task filter `Tagged [important]`.
+Step 2. `ModelManager.recalculateFilteredTaskList()` is called. The selected `TaskFilter` instances are combined by
+mapping them to their respective predicates using `TaskFilter.getPredicate()`. The resultant predicates are
+combined by repeatedly applying `Predicate::and` on all predicates.
 
-![Sequence diagram](http://www.plantuml.com/plantuml/png/VL3DJiCm3BxxAQ9osGvxWMgQ1eSXf4tQ0HuWDEw85gTLuY0U7pk5qY74fNQ_dyzszfbjua81RCT3ClVrQxCf6HECmldEZpQoUNnvKbmAl0uVfZaE5zyrvkxeBs_y40hUg9ksyYSRxGLJeyv0WD4PCSEKS1eS1aau-tZzPQxKqanqg-XzO4pedcs-vlRmzNVqcRSAxQgfvv-9O0iFSgD_juncYA07cirE3sgDTSwm-CoK2o2eae4gfv7JZ1NFxHe2gOR-rT2iITZPq9LW6G-BxNNdrHeMmZAwlpJOzwZxurbGtubaTlNScemy4wjn8T5JjfkgcP85a849kQG8t_MsG23nR0nHjMiRQ7eoxGM3FKPNA7m2)
+Step 3. The resultant predicate represents the collective filtering achieved by applying every selected task filter.
 
-Step 3: The GUI is updated to show only tasks tagged Important.
+Step 4. The `FilteredList` representing the filtered task list is updated by calling
+`filteredTasks.setPredicate(predicate)`. 
+
+Step 5. The GUI is updated automatically by JavaFX to show only tasks tagged `important`.
+
+The following sequence diagram shows the above steps.
+
+![Sequence diagram showing the recalculation of available task filters when a new task is added](images/AddTaskFilterSequenceDiagram.png)
 
 ##### Adding tasks
 
 Tasks can be filtered by tag. Whenever a task is added, the list of task filters will be recalculated to include the new tags introduced by adding that task.
 
+Step 1. The user adds a new task.
+
+Step 2. `Logic.addTask(task)` is called, which then delegates the responsibility to `ModelManager` via
+`ModelManager.addTask(task)`.
+
+Step 3. `ModelManager` recomputes task filter options with `recomputeAvailableTaskFilters()`.
+
+Step 4. The new list will contain task filters representing done, and undone tasks.
+
+Step 5. All `Tag`s are extracted from every task in the task list, and collected in a `Set`.
+
+Step 6. Each `Tag` is mapped into a `TaskFilter` matching tasks that contain that corresponding tag.
+
+Step 7. The list of available task filters is updated and reflected in the GUI.
+The list of active filters remains unchanged.
+
 The following sequence diagram shows how task filters are recalculated on the addition of a task.
 
-![Sequence diagram](http://www.plantuml.com/plantuml/png/bOvDKiCm38NtFeKcRCA22sIOJik2LJgmu09Ah0PF9JjZou7ZuxhJK7vOiB76x-bxUjka63KBco6yGzE7oOqDtFHkUjK7pcJcOhlHpUWLcgxwU_GuKMm04x0OyXOAV0xO1qjS0fwTFtvZgtNDYdpTm0KTuy3qWkduw5WffWwUXaHnESczIth_wMrg2EfXRM0mQy1HtO9A4Bovsm1B1sZj2MkrFBU61OekFtHPzKXZa3ahxNvfr5usKGyTZ4mOYrG-gvPdYrhRaZy3aJH7RovpvMk57NFhwUtgn3_Z_ffRyZOBVm00)
+![Sequence diagram showing the update to task filters when a new task is added](images/AddTaskUpdateTaskFilterSequenceDiagram.png)
 
 ##### Deleting tasks
 
 Deleting tasks may cause associated tags to be deleted from the entire task list. If a tag is deleted, its corresponding task filter will have to be deleted.
 
-![Delete task activity diagram](http://www.plantuml.com/plantuml/png/bOynJi0m34Ltdy8RxHMQWGwS036oXEO78foar4ubRa_QY86HBVfvxqbUrVnXBGlT3rgUyTMWnkRramC4bcfnb29FBzUqrM8-5Hr_21ryryUPxGE5fs_eJCozakk9Fyp3ICOaXaDVIpngPd_w9FvDuFvZAGHR9tvdHn05JwNEX19IfENfRjookuxQQjvR7uQ1CBAIr1ofrPtMBhOiFm00)
+![Activity diagram showing the task filter list's update when a task is deleted](images/DeleteTaskActivityDiagram.png)
 
 ##### `TaskFilter` implementation
 
