@@ -64,4 +64,10 @@ public class AddCommand extends Command {
                 || (other instanceof AddCommand // instanceof handles nulls
                 && toAdd.equals(((AddCommand) other).toAdd));
     }
+
+    @Override
+    public CommandResult undo(Model model) throws CommandException {
+        model.deletePerson(this.toAdd);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+    }
 }
