@@ -1,5 +1,6 @@
 package seedu.address.model.task;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -9,6 +10,19 @@ import seedu.address.commons.util.StringUtil;
  * Tests that a {@code Task}'s {@code title} or {@code description} matches any of the keywords given.
  */
 public class TaskContainsKeywordsPredicate implements Predicate<Task> {
+
+    public static final ShowAllTasksPredicate SHOW_ALL_TASKS_PREDICATE =
+            new ShowAllTasksPredicate(new ArrayList<String>());
+
+    private static class ShowAllTasksPredicate extends TaskContainsKeywordsPredicate {
+        public ShowAllTasksPredicate(List<String> keywords) {
+            super(keywords);
+        }
+        @Override
+        public boolean test(Task task) {
+            return true;
+        }
+    }
     private final List<String> keywords;
 
     public TaskContainsKeywordsPredicate(List<String> keywords) {

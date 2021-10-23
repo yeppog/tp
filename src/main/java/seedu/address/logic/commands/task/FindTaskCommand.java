@@ -42,7 +42,9 @@ public class FindTaskCommand extends TaskCommand {
         model.getSelectedTaskFilters().stream().filter(filter -> filter instanceof TaskFilters.KeywordTaskFilter)
                 .findFirst().ifPresent(model::removeTaskFilter);
 
-        model.addTaskFilter(TaskFilters.FILTER_KEYWORDS.apply(predicate));
+        if (!predicate.equals(TaskContainsKeywordsPredicate.SHOW_ALL_TASKS_PREDICATE)) {
+            model.addTaskFilter(TaskFilters.FILTER_KEYWORDS.apply(predicate));
+        }
 
         return new CommandResult(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW,
                 model.getFilteredTaskList().size()));
