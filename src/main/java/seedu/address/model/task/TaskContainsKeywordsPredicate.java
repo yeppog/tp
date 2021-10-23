@@ -5,6 +5,9 @@ import java.util.function.Predicate;
 
 import seedu.address.commons.util.StringUtil;
 
+/**
+ * Tests that a {@code Task}'s {@code title} or {@code description} matches any of the keywords given.
+ */
 public class TaskContainsKeywordsPredicate implements Predicate<Task> {
     private final List<String> keywords;
 

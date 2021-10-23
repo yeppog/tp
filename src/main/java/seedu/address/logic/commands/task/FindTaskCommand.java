@@ -20,7 +20,7 @@ public class FindTaskCommand extends TaskCommand {
             + "contain any of the specified keywords (case-insensitive) and displays them as a list with "
             + "index numbers.\n"
             + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " CS2103 CS2106 PC3130";
+            + "Example: " + FULL_COMMAND_WORD + " CS2103 CS2106 PC3130";
 
     private final TaskContainsKeywordsPredicate predicate;
 
