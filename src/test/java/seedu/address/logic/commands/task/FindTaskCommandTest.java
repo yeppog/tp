@@ -30,7 +30,7 @@ public class FindTaskCommandTest {
     }
 
     @Test
-    void execute_zeroKeywords_AllTasksFound() {
+    void execute_zeroKeywords_allTasksFound() {
         String expectedMessage = String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 4);
         TaskContainsKeywordsPredicate testPredicate = preparePredicate("");
         FindTaskCommand testCommand = new FindTaskCommand(testPredicate);
