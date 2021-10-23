@@ -1,18 +1,19 @@
 package seedu.address.logic.commands.task;
 
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
+import static seedu.address.testutil.TypicalTasks.getTypicalTaskList;
+
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.task.TaskContainsKeywordsPredicate;
 
-import java.util.Arrays;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
-import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
-import static seedu.address.testutil.TypicalTasks.getTypicalTaskList;
 
 public class FindTaskCommandTest {
 
