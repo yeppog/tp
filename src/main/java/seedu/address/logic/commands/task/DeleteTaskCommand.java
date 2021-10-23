@@ -3,6 +3,7 @@ package seedu.address.logic.commands.task;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
@@ -26,6 +27,8 @@ public class DeleteTaskCommand extends TaskCommand {
 
     private final Index targetIndex;
 
+    private Task deletedTask;
+
     public DeleteTaskCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
     }
@@ -45,10 +48,11 @@ public class DeleteTaskCommand extends TaskCommand {
         if (targetIndex.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
+        super.canExecute();
 
         Task deletedTask = taskList.get(targetIndex.getZeroBased());
+        this.deletedTask = deletedTask;
         model.deleteTask(deletedTask);
-
         return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
     }
 
@@ -62,5 +66,14 @@ public class DeleteTaskCommand extends TaskCommand {
     @Override
     public int hashCode() {
         return targetIndex.hashCode();
+    }
+
+    @Override
+    public CommandResult undo(Model model) throws CommandException {
+        super.canUndo();
+        Predicate<? super Task> predicate = model.getFilteredTaskPredicate();
+        model.insertTask(deletedTask, targetIndex.getZeroBased());
+        this.canExecute = true;
+        return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
     }
 }
