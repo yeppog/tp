@@ -8,7 +8,7 @@ import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.TaskContainsKeywordsPredicate;
-
+import seedu.address.model.task.filters.TaskFilters;
 
 
 public class FindTaskCommand extends TaskCommand {
@@ -38,7 +38,11 @@ public class FindTaskCommand extends TaskCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        model.updateFilteredTaskList(predicate);
+
+        model.getSelectedTaskFilters().stream().filter(filter -> filter instanceof TaskFilters.KeywordTaskFilter)
+                .findFirst().ifPresent(model::removeTaskFilter);
+
+        model.addTaskFilter(TaskFilters.FILTER_KEYWORDS.apply(predicate));
 
         return new CommandResult(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW,
                 model.getFilteredTaskList().size()));

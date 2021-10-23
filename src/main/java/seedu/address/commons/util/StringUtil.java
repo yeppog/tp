@@ -65,4 +65,20 @@ public class StringUtil {
             return false;
         }
     }
+
+    public static String limitString(String targetString, String replacementString, int maxLength) {
+        requireNonNull(targetString);
+        requireNonNull(replacementString);
+        assert maxLength > 0;
+
+        if (targetString.length() > maxLength) {
+            String newString = targetString.substring(0, maxLength - replacementString.length());
+            newString += replacementString;
+            return newString;
+        } else {
+            return targetString;
+        }
+    }
+
+
 }

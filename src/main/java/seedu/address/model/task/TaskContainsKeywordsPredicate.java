@@ -15,6 +15,10 @@ public class TaskContainsKeywordsPredicate implements Predicate<Task> {
         this.keywords = keywords;
     }
 
+    public String getKeywords() {
+        return String.join(", ", keywords);
+    }
+
     @Override
     public boolean test(Task task) {
         String taskDescription = task.getDescription() == null ? "" : task.getDescription();

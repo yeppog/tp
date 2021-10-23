@@ -23,9 +23,10 @@ public class FindTaskCommandParser implements Parser<FindTaskCommand> {
         requireNonNull(userInput);
 
         String trimmedArgs = userInput.trim();
+
         if (trimmedArgs.isEmpty()) {
             throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindTaskCommand.MESSAGE_USAGE));
         }
 
         String[] nameKeywords = trimmedArgs.split("\\s+");
