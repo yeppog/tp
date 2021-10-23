@@ -194,11 +194,11 @@ Each `Command` will have a different ways of implementing `undo()`, depending th
     - Add: Deletes the object at the last index
     - Delete: Adds the deleted task at the original deleted index
     - Edit: Restores the state to the pre-edit state
-    
+
 2. GUI View Commands:
 
     - Find/Sort/Filter: Restores the previous `Predicate` that was in the `FilteredList`
-    
+
 ### Task filter feature
 
 #### Current implementation
@@ -224,7 +224,7 @@ combined by repeatedly applying `Predicate::and` on all predicates.
 Step 3. The resultant predicate represents the collective filtering achieved by applying every selected task filter.
 
 Step 4. The `FilteredList` representing the filtered task list is updated by calling
-`filteredTasks.setPredicate(predicate)`. 
+`filteredTasks.setPredicate(predicate)`.
 
 Step 5. The GUI is updated automatically by JavaFX to show only tasks tagged `important`.
 
