@@ -3,6 +3,7 @@ package seedu.address.logic.commands.task;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
@@ -10,22 +11,23 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyTaskList;
-import seedu.address.model.TaskList;
 import seedu.address.model.task.Task;
 
+/**
+ * Deletes an existing task from the task list.
+ */
 public class DeleteTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "delete";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
-    public static final String MESSAGE_SUCCESS = "Task deleted: %1$s";
+    public static final String MESSAGE_SUCCESS = "Deleted task: %1$s";
     public static final String MESSAGE_USAGE = FULL_COMMAND_WORD
             + ": Deletes the task identified by the index number used in the displayed task list.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
-
-    public static final String MESSAGE_DELETE_TASK_SUCCESS = "Deleted Task: %1$s";
+            + "Example: " + FULL_COMMAND_WORD + " 1";
 
     private final Index targetIndex;
+
+    private Task deletedTask;
 
     public DeleteTaskCommand(Index targetIndex) {
         this.targetIndex = targetIndex;
@@ -41,17 +43,37 @@ public class DeleteTaskCommand extends TaskCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-  
-        ReadOnlyTaskList taskList = model.getTaskList();
+        List<Task> taskList = model.getFilteredTaskList();
 
-        if (targetIndex.getZeroBased() >= taskList.getTasks().size()) {
+        if (targetIndex.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
+        super.canExecute();
 
-        Task deletedTask = model.getTaskAtIndex(targetIndex.getZeroBased());
+        Task deletedTask = taskList.get(targetIndex.getZeroBased());
+        this.deletedTask = deletedTask;
         model.deleteTask(deletedTask);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
+    }
 
-        return new CommandResult(String.format(MESSAGE_DELETE_TASK_SUCCESS, deletedTask));
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof DeleteTaskCommand // instanceof handles nulls
+                && targetIndex.equals(((DeleteTaskCommand) other).targetIndex));
+    }
 
+    @Override
+    public int hashCode() {
+        return targetIndex.hashCode();
+    }
+
+    @Override
+    public CommandResult undo(Model model) throws CommandException {
+        super.canUndo();
+        Predicate<? super Task> predicate = model.getFilteredTaskPredicate();
+        model.insertTask(deletedTask, targetIndex.getZeroBased());
+        this.canExecute = true;
+        return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
     }
 }

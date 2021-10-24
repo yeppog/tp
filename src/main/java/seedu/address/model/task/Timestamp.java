@@ -15,6 +15,18 @@ public class Timestamp {
     }
 
     @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof Timestamp // instanceof handles nulls
+                && timestamp.equals(((Timestamp) other).timestamp));
+    }
+
+    @Override
+    public int hashCode() {
+        return timestamp.hashCode();
+    }
+
+    @Override
     public String toString() {
         return this.timestamp;
     }

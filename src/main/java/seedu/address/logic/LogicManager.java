@@ -2,6 +2,7 @@ package seedu.address.logic;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
@@ -10,6 +11,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
@@ -17,7 +19,9 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyTaskList;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.filters.TaskFilters.TaskFilter;
 import seedu.address.storage.Storage;
+import seedu.address.ui.exceptions.GuiException;
 
 /**
  * The main LogicManager of the app.
@@ -46,14 +50,53 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
+        model.getCommandHistory().pushCommand(command);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
+            storage.saveTaskList(model.getTaskList());
         } catch (IOException ioe) {
             throw new CommandException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
         }
 
         return commandResult;
+    }
+
+    @Override
+    public void executeGuiAction(GuiAction action) throws GuiException {
+        model.executeGuiAction(action);
+
+        try {
+            storage.saveAddressBook(model.getAddressBook());
+            storage.saveTaskList(model.getTaskList());
+        } catch (IOException ioe) {
+            throw new GuiException(FILE_OPS_ERROR_MESSAGE + ioe, ioe);
+        }
+    }
+
+    @Override
+    public void addTaskFilter(TaskFilter taskFilter) {
+        model.addTaskFilter(taskFilter);
+    }
+
+    @Override
+    public void removeTaskFilter(TaskFilter taskFilter) {
+        model.removeTaskFilter(taskFilter);
+    }
+
+    @Override
+    public void setTaskFilters(List<TaskFilter> taskFilters) {
+        model.setTaskFilters(taskFilters);
+    }
+
+    @Override
+    public ObservableList<TaskFilter> getAvailableTaskFilters() {
+        return model.getAvailableTaskFilters();
+    }
+
+    @Override
+    public ObservableList<TaskFilter> getSelectedTaskFilters() {
+        return model.getSelectedTaskFilters();
     }
 
     @Override
@@ -89,5 +132,14 @@ public class LogicManager implements Logic {
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
+    }
+
+    @Override
+    public CommandResult undoCommand() {
+        try {
+            return this.execute("undo");
+        } catch (CommandException | ParseException e) {
+            return new CommandResult(e.getMessage());
+        }
     }
 }

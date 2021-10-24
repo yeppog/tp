@@ -1,18 +1,18 @@
 package seedu.address.ui;
 
+import java.util.Comparator;
 import java.util.Optional;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import seedu.address.model.task.Task;
+import seedu.address.ui.exceptions.GuiException;
 
 public class TaskCard extends UiPart<Region> {
     private static final String FXML = "TaskCard.fxml";
-
-    @FXML
-    private Label id;
 
     @FXML
     private Label name;
@@ -24,6 +24,9 @@ public class TaskCard extends UiPart<Region> {
     private Label description;
 
     @FXML
+    private FlowPane tags;
+
+    @FXML
     private CheckBox isCompleted;
 
     private final Task task;
@@ -33,16 +36,56 @@ public class TaskCard extends UiPart<Region> {
      * @param task The task to represent
      * @param oneIndex The position of the task in the list in one-based indexing
      */
-    public TaskCard(Task task, int oneIndex) {
+    public TaskCard(Task task, int oneIndex, TaskListPanel.TaskEditor taskEditor) {
         super(FXML);
 
         this.task = task;
 
-        id.setText(oneIndex + ". ");
-        name.setText(task.getTitle());
-        description.setText(task.getDescription());
-        timestamp.setText(Optional.ofNullable(task.getTimestamp()).map(Object::toString).orElse(""));
+        name.setText(oneIndex + ".  " + task.getTitle());
+
+        if (task.getDescription() == null) {
+            description.setVisible(false);
+            description.setManaged(false);
+        } else {
+            description.setText(task.getDescription());
+        }
+
+        if (task.getTags().isEmpty()) {
+            tags.setVisible(false);
+            tags.setManaged(false);
+        } else {
+            task.getTags().stream()
+                    .sorted(Comparator.comparing(tag -> tag.tagName))
+                    .map(tag -> new Label(tag.tagName))
+                    .forEach(tags.getChildren()::add);
+
+            // Set the max width of the tag container related to the width of the task card
+            tags.prefWrapLengthProperty().bind(getRoot().widthProperty().divide(1.5));
+        }
+
+        if (task.getTimestamp() == null) {
+            timestamp.setVisible(false);
+            timestamp.setManaged(false);
+        } else {
+            timestamp.setText(
+                    Optional.ofNullable(task.getTimestamp()).map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
+        }
+
         isCompleted.setText("");
-        isCompleted.setSelected(false);
+        isCompleted.setSelected(task.getIsDone());
+        isCompleted.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
+            Task newTask = new Task(
+                task.getTitle(),
+                task.getDescription(),
+                task.getTimestamp(),
+                task.getTags(),
+                newValue
+            );
+            try {
+                taskEditor.updateTask(task, newTask);
+            } catch (GuiException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

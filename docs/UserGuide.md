@@ -156,6 +156,22 @@ Examples:
 - `list` followed by `delete 2` deletes the 2nd person in the address book.
 - `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
+### Listing tasks: `task list`
+
+Lists all tasks in the task list. Clears any existing filters.
+
+**Format:**
+
+`task list`
+
+#### Filtering tasks
+
+Tasks can be filtered by completion status and/or tags. Show only completed tasks with `done/`, pending tasks with `undone/` and tasks with a certain tag `TAG` with `tag/TAG`.
+
+**Format:**
+
+`task list [done/] [undone/] [t/TAG]`
+
 ### Adding a task: `task add`
 
 Allows the user to add a task to the current database.
@@ -164,7 +180,7 @@ Each task has a compulsory title field, and textual description, timestamp, and 
 
 **Format:**
 
-`task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [tag/TAG}`
+`task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]`
 
 **Example:**
 
@@ -176,7 +192,7 @@ Edits an existing task in the task list
 
 **Format:**
 
-`task edit INDEX [t/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [tag/TAG]…`
+`task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]…`
 
 - Edits the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1,2,3 …
 - At least one of the optional fields must be provided
@@ -185,7 +201,7 @@ Edits an existing task in the task list
 
 **Example:**
 
-`task edit 1 t/CS2103 Week 6 Quiz`
+`task edit 1 ti/CS2103 Week 6 Quiz`
 
 ### Completing a task: `task done`
 
@@ -214,6 +230,14 @@ Deletes a specified task from the tasks list by a given index.
 **Example:**
 
 `task delete 2`
+
+### Purge all visible tasks : `task purge`
+
+Clears all visible (filtered) tasks from the address book.
+
+Format: `task purge`
+
+- Any active filter(s) will remain even after the purge to prevent possible confusion.
 
 ### Clearing all entries : `clear`
 

@@ -24,8 +24,16 @@ public class TaskList implements ReadOnlyTaskList {
         tasks.add(task);
     }
 
+    public void addTaskAtIndex(Task task, int index) {
+        tasks.add(index, task);
+    }
+
     public void removeTask(Task deletedTask) {
         tasks.remove(deletedTask);
+    }
+
+    public void setTask(Task oldTask, Task newTask) {
+        tasks.set(tasks.indexOf(oldTask), newTask);
     }
 
     @Override

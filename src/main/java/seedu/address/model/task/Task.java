@@ -3,6 +3,7 @@ package seedu.address.model.task;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import seedu.address.model.tag.Tag;
@@ -18,7 +19,7 @@ public class Task {
     private final String description;
     private final Timestamp timestamp;
     private final Set<Tag> tags = new HashSet<>();
-    private boolean done;
+    private final boolean isDone;
 
     /**
      * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
@@ -33,20 +34,20 @@ public class Task {
 
     /**
      * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
+     * Additionally, it also takes in the completion status of the task.
      * @param title The title of the task
      * @param description The optional description of the task
      * @param timestamp The optional timestamp of the task
      * @param tags The tags of the task
-     * @param done Whether the task is done
+     * @param isDone The completion status of the task
      */
-    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean done) {
-        requireAllNonNull(title, tags);
-
+    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean isDone) {
+        requireAllNonNull(title);
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;
         this.tags.addAll(tags);
-        this.done = done;
+        this.isDone = isDone;
     }
 
 
@@ -66,15 +67,30 @@ public class Task {
         return tags;
     }
 
-    public boolean getDone() {
-        return done;
+    public boolean getIsDone() {
+        return isDone;
     }
 
-    /**
-     * TODO Replace setter with EditTaskDescriptor once that and edit command is completed
-     */
-    public void setDone() {
-        done = !done;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Task)) {
+            return false;
+        }
+        Task task = (Task) o;
+
+        return isDone == task.isDone
+                && Objects.equals(title, task.title)
+                && Objects.equals(description, task.description)
+                && Objects.equals(timestamp, task.timestamp)
+                && Objects.equals(tags, task.tags);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description, timestamp, tags, isDone);
     }
 
     @Override

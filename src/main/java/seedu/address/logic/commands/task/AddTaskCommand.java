@@ -38,4 +38,23 @@ public class AddTaskCommand extends TaskCommand {
         model.addTask(task);
         return new CommandResult(String.format(MESSAGE_SUCCESS, task));
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this
+                || ((other instanceof AddTaskCommand)
+                && task.equals(((AddTaskCommand) other).task));
+    }
+
+    @Override
+    public int hashCode() {
+        return task.hashCode();
+    }
+
+    @Override
+    public CommandResult undo(Model model) throws CommandException {
+        model.deleteTask(this.task);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, task));
+
+    }
 }
