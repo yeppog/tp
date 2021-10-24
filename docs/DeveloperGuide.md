@@ -158,6 +158,7 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+
 ### Task edit feature
 
 #### Current Implementation
@@ -193,6 +194,62 @@ where the `get` methods return `Optional<T>` objects containing the value to be 
 1. A constructor which accepts another `EditTaskDescriptor`, which creates a defensive copy of the original, called solely within the constructor of `EditTaskCommand`.
 2. A `isAnyFieldEdited` method to facilitate error handling when the user does not provide any arguments to the command. 
 
+### Delete Feature
+
+#### Current Implementation
+
+The `delete` feature is implemented by acting on the current filtered`TaskList` with a one-based `Index` specified by the user, getting the target `Task` at the specified index, and removing it from the list.
+
+#### Example Usage of `task delete`
+
+1. User launches TaskMaster2103 and the `TaskList` is populated with existing `Task` entries.
+2. User types in the command `task delete 1`, where `1` is the specified index given in one-based form.
+3. The current state of the `TaskList` is obtained from `Model`.
+4. The `Task` to be deleted is fetched from the `TaskList` using the specified `Index`, using its zero-based form.
+5. The `Task` is deleted from the `Model`.
+6. The `GUI` is updated to show the new `TaskList` with the `Task` deleted.
+
+### Undo Feature
+
+#### Current Implementation
+
+The current implementation of the `undo` feature is through storing the command history of the user in `CommandHistory`
+as a command stack, and popping off the stack whenever `undo` is called.
+
+The `Command` abstract class has an additional method `undo()` to be implemented by the inheriting class
+to model the correct undo behaviour. Commands that have previous states, such as `Find` with a specific `Predicate`
+stores the previous state in the class.
+
+`Redo` can be implemented by maintaining this `CommandHistory` stack instead of popping, and calling `execute` on the
+`Command` object again.
+
+#### Example usage of `undo`
+
+1. User launches TaskMaster2103 and a new `CommandHistory` object is initialised in `Model`.
+2. User invokes any valid command into TaskMaster2103 that successfully gets executed.
+3. The successfully invoked command gets stored in the `CommandHistory` stack through `LogicManger`.
+4. The user can now invoke `undo`, and when the user does so, the topmost `Command` in `CommandHistory` will be popped.
+5. The topmost `Command` that was popped with have its `undo()` method executed.
+6. The `undo()` method mutates `Model` to restore the state before the initial executiion of the command.
+7. The successfully invoked command gets stored in the `CommandHistory` stack through `LogicManger`.
+8. The user can now invoke `undo`, and when the user does so, the topmost `Command` in `CommandHistory` will be popped.
+9. The topmost `Command` that was popped with have its `undo()` method executed.
+10. The `undo()` method mutates `Model` to restore the state before the initial execution of the command.
+
+#### Implementation of `undo()`
+
+Each `Command` will have a different way of implementing `undo()`, depending on the type of command.
+
+1. Object-mutating Command:
+
+    - Add: Deletes the object at the last index
+    - Delete: Adds the deleted task at the original deleted index
+    - Edit: Restores the state to the pre-edit state
+    
+2. GUI View Commands:
+
+    - Find/Sort/Filter: Restores the previous `Predicate` that was in the `FilteredList`
+    
 ### Task filter feature
 
 #### Current implementation

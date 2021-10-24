@@ -50,6 +50,7 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
+        model.getCommandHistory().pushCommand(command);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
@@ -131,5 +132,14 @@ public class LogicManager implements Logic {
     @Override
     public void setGuiSettings(GuiSettings guiSettings) {
         model.setGuiSettings(guiSettings);
+    }
+
+    @Override
+    public CommandResult undoCommand() {
+        try {
+            return this.execute("undo");
+        } catch (CommandException | ParseException e) {
+            return new CommandResult(e.getMessage());
+        }
     }
 }
