@@ -162,14 +162,14 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Current Implementation
 
-The `delete` feature is implemented by acting on the current filtered`TaskList` with an `Index` specified by the user, getting the target `Task` at the specified index, and removing it from the list.
+The `delete` feature is implemented by acting on the current filtered`TaskList` with a one-based `Index` specified by the user, getting the target `Task` at the specified index, and removing it from the list.
 
 #### Example Usage of `task delete`
 
 1. User launches TaskMaster2103 and the `TaskList` is populated with existing `Task` entries.
-2. User types in the command `task delete 1`
+2. User types in the command `task delete 1`, where `1` is the specified index given in one-based form.
 3. The current state of the `TaskList` is obtained from `Model`.
-4. The `Task` to be deleted is fetched from the `TaskList` using the `Index`, which is `1` in this case.
+4. The `Task` to be deleted is fetched from the `TaskList` using the specified `Index`, using its zero-based form.
 5. The `Task` is deleted from the `Model`.
 6. The `GUI` is updated to show the new `TaskList` with the `Task` deleted.
 
@@ -202,7 +202,7 @@ stores the previous state in the class.
 
 #### Implementation of `undo()`
 
-Each `Command` will have a different way of implementing `undo()`, depending the type of command.
+Each `Command` will have a different way of implementing `undo()`, depending on the type of command.
 
 1. Object-mutating Command:
 
