@@ -158,6 +158,21 @@ Classes used by multiple components are in the `seedu.addressbook.commons` packa
 
 This section describes some noteworthy details on how certain features are implemented.
 
+### Delete Feature
+
+#### Current Implementation
+
+The `delete` feature is implemented by acting on the current filtered`TaskList` with an `Index` specified by the user, getting the target `Task` at the specified index, and removing it from the list.
+
+#### Example Usage of `task delete`
+
+1. User launches TaskMaster2103 and the `TaskList` is populated with existing `Task` entries.
+2. User types in the command `task delete 1`
+3. The current state of the `TaskList` is obtained from `Model`.
+4. The `Task` to be deleted is fetched from the `TaskList` using the `Index`, which is `1` in this case.
+5. The `Task` is deleted from the `Model`.
+6. The `GUI` is updated to show the new `TaskList` with the `Task` deleted.
+
 ### Undo Feature
 
 #### Current Implementation
@@ -172,7 +187,7 @@ stores the previous state in the class.
 `Redo` can be implemented by maintaining this `CommandHistory` stack instead of popping, and calling `execute` on the
 `Command` object again.
 
-#### Example Usage of `undo`
+#### Example usage of `undo`
 
 1. User launches TaskMaster2103 and a new `CommandHistory` object is initialised in `Model`.
 2. User invokes any valid command into TaskMaster2103 that successfully gets executed.
@@ -187,7 +202,7 @@ stores the previous state in the class.
 
 #### Implementation of `undo()`
 
-Each `Command` will have a different ways of implementing `undo()`, depending the type of command.
+Each `Command` will have a different way of implementing `undo()`, depending the type of command.
 
 1. Object-mutating Command:
 
