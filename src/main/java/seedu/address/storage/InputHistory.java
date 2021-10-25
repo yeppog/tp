@@ -3,10 +3,10 @@ package seedu.address.storage;
 import java.util.Optional;
 
 /**
- * History Storage encapsulates the String commands that were executed by the user. It is a stack implementation
+ * Input History encapsulates the String commands that were executed by the user. It is a stack implementation
  * that allows the user to obtain the string of the previous command.
  */
-public class HistoryStorage {
+public class InputHistory {
 
     /**
      * Doubly linked list implementation with explicit pointers.
@@ -57,7 +57,7 @@ public class HistoryStorage {
     private CommandHistoryNode current;
     private String currentString;
 
-    public HistoryStorage() {
+    public InputHistory() {
     }
 
     /**
