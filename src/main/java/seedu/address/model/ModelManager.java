@@ -342,8 +342,8 @@ public class ModelManager implements Model {
 
 
     @Override
-    public String getPreviousCommandFromHistory(boolean isNext) {
-        return this.historyStorage.getPreviousCommand(isNext).orElse("");
+    public String getHistoryCommand(boolean isNext, String currentString) {
+        return this.historyStorage.getHistoryString(isNext, currentString).orElse("");
     }
 
     @Override

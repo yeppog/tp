@@ -103,11 +103,12 @@ public class MainWindow extends UiPart<Stage> {
             EventTarget target = event.getTarget();
             boolean isTargetEditableTextInput = (target instanceof TextInputControl) && ((TextInputControl) target)
                     .isEditable();
+            String currentString = commandBox.getContent();
             if (isTargetEditableTextInput && event.getCode() == KeyCode.UP) {
-                commandBox.setCommandText(logic.getPreviousCommandFromHistory(false));
+                commandBox.setCommandText(logic.getHistoryCommand(false, currentString));
                 event.consume();
             } else if (isTargetEditableTextInput && event.getCode() == KeyCode.DOWN) {
-                commandBox.setCommandText(logic.getPreviousCommandFromHistory(true));
+                commandBox.setCommandText(logic.getHistoryCommand(true, currentString));
                 event.consume();
             } else if (commandBox.isEmpty()) {
                 logic.resetHistoryPosition();

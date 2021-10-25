@@ -192,7 +192,7 @@ public interface Model {
 
     CommandHistory getCommandHistory();
 
-    String getPreviousCommandFromHistory(boolean isNext);
+    String getHistoryCommand(boolean isNext, String currentString);
 
     void addCommandToHistory(String command);
 
