@@ -144,6 +144,7 @@ public class LogicManager implements Logic {
         }
     }
 
+    @Override
     public String getHistoryCommand(boolean isNext, String currentString) {
         return model.getHistoryCommand(isNext, currentString);
     }

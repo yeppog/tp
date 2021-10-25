@@ -18,6 +18,7 @@ public class InputHistory {
 
         /**
          * Basic constructor to create a new CommandHistoryNode
+         *
          * @param command String of the command.
          */
         public CommandHistoryNode(String command) {
@@ -28,6 +29,7 @@ public class InputHistory {
 
         /**
          * Adds a node to the right of the current node. Assigns the previous pointer of the new node to this.
+         *
          * @param nextNode Node to be added to the next pointer of the current node.
          */
         public void addNext(CommandHistoryNode nextNode) {
@@ -37,6 +39,7 @@ public class InputHistory {
 
         /**
          * Obtains the command encapsulated in the CommandHistoryNode
+         *
          * @return String of the command.
          */
         public String getCommand() {
@@ -63,6 +66,7 @@ public class InputHistory {
     /**
      * Pushes a new command into the stack. Resets the current pointer to null to indicate it is at the command
      * after the last command of the stack.
+     *
      * @param command The command that was executed and now being stored in the History stack.
      */
     public void pushCommand(String command) {
@@ -70,7 +74,6 @@ public class InputHistory {
         if (start == null) {
             this.start = newCommand;
         } else {
-
             this.end.addNext(newCommand);
         }
         this.end = newCommand;
@@ -80,6 +83,7 @@ public class InputHistory {
 
     /**
      * Retrieves the history string by iterating through the stack
+     *
      * @param isNext The direction in which we are traversing the doubly linked list.
      * @param currentString The last stored unexecuted input from the user.
      * @return Optional of the String to be shown in the text box.

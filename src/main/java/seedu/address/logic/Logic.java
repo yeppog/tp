@@ -103,8 +103,19 @@ public interface Logic {
      * @return The command result of the command being executed.
      */
     CommandResult undoCommand();
+
+    /**
+     * Get the next or previous command in the command history.
+     *
+     * @param isNext produces the next command in the stack if true, else the previous
+     * @param currentString the string to be cached
+     * @return string representation of the executed command in order.
+     */
     String getHistoryCommand(boolean isNext, String currentString);
 
+    /**
+     * Resets the history position to the top of the stack
+     */
     void resetHistoryPosition();
 
 }

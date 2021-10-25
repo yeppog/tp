@@ -190,11 +190,31 @@ public interface Model {
      */
     void executeGuiAction(GuiAction action);
 
+    /**
+     * Returns the command history instance.
+     *
+     * @return Command history instance.
+     */
     CommandHistory getCommandHistory();
 
+    /**
+     * Get the next or previous command in the command history.
+     *
+     * @param isNext produces the next command in the stack if true, else the previous
+     * @param currentString the string to be cached
+     * @return string representation of the executed command in order.
+     */
     String getHistoryCommand(boolean isNext, String currentString);
 
+    /**
+     * Adds a command to the the history stack
+     *
+     * @param command String representation of the executed command
+     */
     void addCommandToHistory(String command);
 
+    /**
+     * Resets the history position to the top of the stack
+     */
     void resetHistoryPosition();
 }
