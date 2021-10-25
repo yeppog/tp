@@ -69,8 +69,8 @@ public class EditTaskDialog extends UiPart<Region> {
         dialog.setTitle(task.isPresent() ? "Edit Task" : "Add Task");
 
         title.setText(task.map(Task::getTitle).orElse(""));
-        description.setText(task.map(Task::getDescription).orElse(""));
-        timestamp.setText(task.map(Task::getTimestamp).map(Timestamp::toString).orElse(""));
+        description.setText(task.flatMap(Task::getDescription).orElse(""));
+        timestamp.setText(task.flatMap(Task::getTimestamp).map(Timestamp::toString).orElse(""));
         isDone.setSelected(task.map(Task::getIsDone).orElse(false));
         tagErrorLabel.setText("");
         titleErrorLabel.setText("Title cannot be empty");
