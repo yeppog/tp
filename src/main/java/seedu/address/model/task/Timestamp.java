@@ -1,5 +1,10 @@
 package seedu.address.model.task;
 
+import java.sql.Time;
+
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.AppUtil.checkArgument;
+
 /**
  * Represents a timestamp for a task.
  */
@@ -11,6 +16,8 @@ public class Timestamp {
      * @param timestamp the string representing the timestamp
      */
     public Timestamp(String timestamp) {
+        requireNonNull(timestamp);
+        checkArgument(isValidTimeStamp(timestamp), MESSAGE_CONSTRAINTS);
         this.timestamp = timestamp;
     }
 
@@ -31,5 +38,16 @@ public class Timestamp {
         return this.timestamp;
     }
 
-    // TODO: Create a DateTime representation of timestamps
+    private static Timestamp getToday() {
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+        Timestamp today = new Timestamp(date.toString());
+        assert today.toString().length() == 10;
+        return today;
+    }
+
+    public static boolean checkIsOverdue(Timestamp time) {
+        return false;
+    }
+
 }

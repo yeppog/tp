@@ -21,6 +21,7 @@ public class Task {
     private final Timestamp timestamp;
     private final Set<Tag> tags = new HashSet<>();
     private final boolean isDone;
+    private boolean isOverdue = false;
 
     /**
      * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
@@ -49,11 +50,14 @@ public class Task {
         this.timestamp = timestamp;
         this.tags.addAll(tags);
         this.isDone = isDone;
+        if (this.timestamp != null) {
+            this.isOverdue = updateIsOverdue();
+        }
     }
 
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public Optional<String> getDescription() {
@@ -65,11 +69,19 @@ public class Task {
     }
 
     public Set<Tag> getTags() {
-        return tags;
+        return this.tags;
     }
 
     public boolean getIsDone() {
-        return isDone;
+        return this.isDone;
+    }
+
+    public boolean getIsOverdue() {
+        return this.isOverdue;
+    }
+
+    public boolean updateIsOverdue() {
+        return Timestamp.checkIsOverdue(this.timestamp);
     }
 
     @Override
@@ -86,16 +98,17 @@ public class Task {
                 && Objects.equals(title, task.title)
                 && Objects.equals(description, task.description)
                 && Objects.equals(timestamp, task.timestamp)
-                && Objects.equals(tags, task.tags);
+                && Objects.equals(tags, task.tags)
+                && Objects.equals(isOverdue, task.isOverdue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, timestamp, tags, isDone);
+        return Objects.hash(title, description, timestamp, tags, isDone, isOverdue);
     }
 
     @Override
     public String toString() {
-        return title;
+        return this.title;
     }
 }
