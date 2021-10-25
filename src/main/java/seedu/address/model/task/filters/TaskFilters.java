@@ -3,14 +3,28 @@ package seedu.address.model.task.filters;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import seedu.address.commons.util.StringUtil;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.TaskContainsKeywordsPredicate;
 
 public class TaskFilters {
+
     public static final TaskFilter FILTER_DONE = new TaskFilter(Task::getIsDone,
         isInverted -> isInverted ? "Undone" : "Done");
     public static final Function<Tag, TaskFilter> FILTER_TAG = tag -> new TaskFilter(
         task -> task.getTags().contains(tag), isInverted -> (isInverted ? "Not tagged " : "Tagged ") + tag);
+
+    public static final Function<TaskContainsKeywordsPredicate, TaskFilter> FILTER_KEYWORDS = predicate ->
+            new KeywordTaskFilter(predicate, x -> "Contains "
+            + StringUtil.limitString(predicate.getKeywords(), "...", KeywordTaskFilter.MAX_KEYWORDS_LENGTH));
+
+    public static class KeywordTaskFilter extends TaskFilter {
+        private static final int MAX_KEYWORDS_LENGTH = 35;
+        private KeywordTaskFilter(Predicate<Task> predicate, Function<Boolean, String> toString) {
+            super(predicate, toString);
+        }
+    }
 
     public static class TaskFilter {
         private Predicate<Task> predicate;
