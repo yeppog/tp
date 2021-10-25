@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -21,6 +22,7 @@ public class Task {
     private final Timestamp timestamp;
     private final Set<Tag> tags = new HashSet<>();
     private final boolean isDone;
+    private final Set<Contact> contacts = new HashSet<>();
 
     /**
      * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
@@ -29,8 +31,8 @@ public class Task {
      * @param timestamp The optional timestamp of the task
      * @param tags The tags of the task
      */
-    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags) {
-        this(title, description, timestamp, tags, false);
+    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, Set<Contact> contacts) {
+        this(title, description, timestamp, tags, false, contacts);
     }
 
     /**
@@ -42,13 +44,14 @@ public class Task {
      * @param tags The tags of the task
      * @param isDone The completion status of the task
      */
-    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean isDone) {
-        requireAllNonNull(title, tags);
+    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean isDone, Set<Contact> contacts) {
+        requireAllNonNull(title, tags, contacts);
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;
         this.tags.addAll(tags);
         this.isDone = isDone;
+        this.contacts.addAll(contacts);
     }
 
 
@@ -72,6 +75,10 @@ public class Task {
         return isDone;
     }
 
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -86,12 +93,13 @@ public class Task {
                 && Objects.equals(title, task.title)
                 && Objects.equals(description, task.description)
                 && Objects.equals(timestamp, task.timestamp)
-                && Objects.equals(tags, task.tags);
+                && Objects.equals(tags, task.tags)
+                && Objects.equals(contacts, task.contacts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, timestamp, tags, isDone);
+        return Objects.hash(title, description, timestamp, tags, isDone, contacts);
     }
 
     @Override

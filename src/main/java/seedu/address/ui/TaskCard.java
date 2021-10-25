@@ -79,7 +79,8 @@ public class TaskCard extends UiPart<Region> {
                 task.getDescription().orElse(null),
                 task.getTimestamp().orElse(null),
                 task.getTags(),
-                newValue
+                newValue,
+                task.getContacts()
             );
             try {
                 taskEditor.updateTask(task, newTask);

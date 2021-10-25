@@ -18,8 +18,10 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.guiactions.GuiAction;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilters;
 import seedu.address.model.task.filters.TaskFilters.TaskFilter;
@@ -176,6 +178,7 @@ public class ModelManager implements Model {
 
     @Override
     public void addTask(Task task) {
+        updateTaskContacts(task.getContacts());
         taskList.addTask(task);
         recomputeAvailableTaskFilters();
     }
@@ -290,6 +293,7 @@ public class ModelManager implements Model {
     @Override
     public void setTask(Task target, Task editedTask) {
         requireAllNonNull(target, editedTask);
+        updateTaskContacts(editedTask.getContacts());
         taskList.setTask(target, editedTask);
         updateTaskFilters();
 
@@ -325,6 +329,21 @@ public class ModelManager implements Model {
                 && taskList.equals(other.taskList)
                 && userPrefs.equals(other.userPrefs)
                 && filteredPersons.equals(other.filteredPersons);
+    }
+
+    @Override
+    public void updateTaskContacts(Set<Contact> contacts) {
+        ObservableList<Person> personList = getAddressBook().getPersonList();
+        contacts.forEach(contact -> {
+            Name name = contact.getName();
+
+            boolean isInAddressBook = personList.stream()
+                    .map(Person::getName)
+                    .anyMatch(personName -> personName.equals(name));
+
+            contact.setInAddressBook(isInAddressBook);
+        });
+
     }
 
 

@@ -101,7 +101,8 @@ class JsonAdaptedTask {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "isDone"));
         }
 
-        return new Task(title, modelDescription, modelTimeStamp, modelTags, modelIsDone);
+        //TODO STORAGE FOR CONTACT
+        return new Task(title, modelDescription, modelTimeStamp, modelTags, modelIsDone, new HashSet<>());
     }
 
 }

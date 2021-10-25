@@ -1,14 +1,13 @@
 package seedu.address.logic.commands.task;
 
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
-
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.task.Task;
+
+import static seedu.address.logic.parser.CliSyntax.*;
 
 /**
  * Adds a task to the task list.
@@ -23,6 +22,7 @@ public class AddTaskCommand extends TaskCommand {
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_TIMESTAMP + "TIMESTAMP] "
             + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_CONTACT + "AB3 CONTACT]...\n"
             + "Example: " + FULL_COMMAND_WORD + " Do homework "
             + PREFIX_DESCRIPTION + "Physics assignment "
             + PREFIX_TIMESTAMP + "25/12/2020";
