@@ -2,8 +2,9 @@ package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.*;
-import java.util.function.Predicate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
@@ -24,8 +25,8 @@ public class PurgeTaskCommand extends TaskCommand {
             + ": Purges all tasks in the displayed task list.\n"
             + "Example: " + FULL_COMMAND_WORD;
 
-    TreeMap<Integer, Task> deletedTasks;
-    ArrayList<TaskFilter> deletedFilters;
+    private TreeMap<Integer, Task> deletedTasks;
+    private ArrayList<TaskFilter> deletedFilters;
 
     /**
      * Executes the command and returns the result message.
@@ -75,7 +76,7 @@ public class PurgeTaskCommand extends TaskCommand {
         super.canUndo();
 
         model.setTaskFilters(deletedFilters);
-        for(int index : deletedTasks.keySet()) {
+        for (int index : deletedTasks.keySet()) {
             Task task = deletedTasks.get(index);
             model.insertTask(task, index);
         }
