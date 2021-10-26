@@ -15,8 +15,17 @@ public class Contact {
      * @param name the string representing the contact's name
      */
     public Contact(Name name) {
+        this(name, false);
+    }
+
+    /**
+     * Creates a Name with the given string and the given boolean
+     * @param name the string representing the contact's name
+     * @param isInAddressBook Whether the contact is currently in AB3
+     */
+    public Contact(Name name, boolean isInAddressBook) {
         this.name = name;
-        isInAddressBook = false;
+        this.isInAddressBook = isInAddressBook;
     }
 
     public Name getName() {

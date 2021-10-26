@@ -30,18 +30,22 @@ class JsonAdaptedTask {
     private final List<JsonAdaptedContact> contacts = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonAdaptedPerson} with the given person details.
+     * Constructs a {@code JsonAdaptedTask} with the given person details.
      */
     @JsonCreator
     public JsonAdaptedTask(@JsonProperty("title") String title, @JsonProperty("description") String description,
                              @JsonProperty("timestamp") String timestamp, @JsonProperty("isDone") String isDone,
-                             @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
+                             @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
+                             @JsonProperty("contacts") List<JsonAdaptedContact> contacts) {
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;
         this.isDone = isDone;
         if (tagged != null) {
             this.tagged.addAll(tagged);
+        }
+        if (contacts != null) {
+            this.contacts.addAll(contacts);
         }
     }
 

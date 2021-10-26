@@ -1,11 +1,18 @@
 package seedu.address.storage;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.person.Name;
+import seedu.address.model.person.*;
+import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Contact;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Jackson-friendly version of {@link Contact}.
@@ -13,13 +20,16 @@ import seedu.address.model.task.Contact;
 class JsonAdaptedContact {
 
     private final String name;
+    private final Boolean isInAddressBook;
 
     /**
-     * Constructs a {@code JsonAdaptedTag} with the given {@code contactName}.
+     * Constructs a {@code JsonAdaptedContact} with the given {@code name} and {@code isInAddressBook}.
      */
     @JsonCreator
-    public JsonAdaptedContact(String tagName) {
-        this.name = tagName;
+    public JsonAdaptedContact(@JsonProperty("name") String name,
+                              @JsonProperty("isInAddressBook") Boolean isInAddressBook) {
+        this.name = name;
+        this.isInAddressBook = isInAddressBook;
     }
 
     /**
@@ -27,11 +37,7 @@ class JsonAdaptedContact {
      */
     public JsonAdaptedContact(Contact source) {
         name = source.getName().fullName;
-    }
-
-    @JsonValue
-    public String getContactName() {
-        return name;
+        isInAddressBook = source.getIsInAddressBook();
     }
 
     /**
@@ -43,7 +49,7 @@ class JsonAdaptedContact {
         if (!Name.isValidName(name)) {
             throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
         }
-        return new Contact(new Name(name));
+        return new Contact(new Name(name), isInAddressBook);
     }
 
 }

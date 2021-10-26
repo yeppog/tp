@@ -8,6 +8,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
+import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
 import seedu.address.ui.exceptions.GuiException;
 
@@ -79,8 +80,19 @@ public class TaskCard extends UiPart<Region> {
             contacts.setManaged(false);
         } else {
             task.getContacts().stream()
+                    .filter(Contact::getIsInAddressBook)
                     .sorted(Comparator.comparing(contact -> contact.getName().fullName))
                     .map(contact -> new Label(contact.getName().fullName))
+                    .forEach(contacts.getChildren()::add);
+
+            task.getContacts().stream()
+                    .filter(contact -> !contact.getIsInAddressBook())
+                    .sorted(Comparator.comparing(contact -> contact.getName().fullName))
+                    .map(contact -> {
+                        Label label = new Label(contact.getName().fullName);
+                        label.getStyleClass().add("notIn");
+                        return label;
+                    })
                     .forEach(contacts.getChildren()::add);
 
             // Set the max width of the tag container related to the width of the task card
