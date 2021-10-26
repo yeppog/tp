@@ -29,6 +29,9 @@ public class TaskCard extends UiPart<Region> {
     @FXML
     private CheckBox isCompleted;
 
+    @FXML
+    private FlowPane contacts;
+
     private final Task task;
 
     /**
@@ -71,6 +74,19 @@ public class TaskCard extends UiPart<Region> {
                     Optional.ofNullable(task.getTimestamp()).map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
         }
 
+        if (task.getContacts().isEmpty()) {
+            contacts.setVisible(false);
+            contacts.setManaged(false);
+        } else {
+            task.getContacts().stream()
+                    .sorted(Comparator.comparing(contact -> contact.getName().fullName))
+                    .map(contact -> new Label(contact.getName().fullName))
+                    .forEach(contacts.getChildren()::add);
+
+            // Set the max width of the tag container related to the width of the task card
+            contacts.prefWrapLengthProperty().bind(getRoot().widthProperty().divide(1.5));
+        }
+
         isCompleted.setText("");
         isCompleted.setSelected(task.getIsDone());
         isCompleted.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -88,5 +104,7 @@ public class TaskCard extends UiPart<Region> {
                 e.printStackTrace();
             }
         });
+
+
     }
 }

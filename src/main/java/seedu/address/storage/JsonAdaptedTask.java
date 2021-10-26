@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
 
@@ -26,6 +27,7 @@ class JsonAdaptedTask {
     private final String timestamp;
     private final String isDone;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
+    private final List<JsonAdaptedContact> contacts = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -60,6 +62,11 @@ class JsonAdaptedTask {
                     .map(JsonAdaptedTag::new)
                     .collect(Collectors.toList()));
         }
+        if (!source.getContacts().isEmpty()) {
+            contacts.addAll(source.getContacts().stream()
+                    .map(JsonAdaptedContact::new)
+                    .collect(Collectors.toList()));
+        }
     }
 
     /**
@@ -73,6 +80,14 @@ class JsonAdaptedTask {
             taskTags.add(tag.toModelType());
         }
         final Set<Tag> modelTags = new HashSet<>(taskTags);
+
+
+        final List<Contact> taskContacts = new ArrayList<>();
+        for (JsonAdaptedContact contact : contacts) {
+            taskContacts.add(contact.toModelType());
+        }
+        final Set<Contact> modelContacts = new HashSet<>(taskContacts);
+
 
         if (title == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "title"));
@@ -101,8 +116,7 @@ class JsonAdaptedTask {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "isDone"));
         }
 
-        //TODO STORAGE FOR CONTACT
-        return new Task(title, modelDescription, modelTimeStamp, modelTags, modelIsDone, new HashSet<>());
+        return new Task(title, modelDescription, modelTimeStamp, modelTags, modelIsDone, modelContacts);
     }
 
 }
