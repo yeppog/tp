@@ -1,5 +1,6 @@
 package seedu.address.storage;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -82,6 +83,9 @@ class JsonAdaptedTask {
         if (timestamp.equals("null")) {
             modelTimeStamp = null;
         } else {
+            if (!Timestamp.isValidTimeStamp(timestamp)) {
+                throw new IllegalValueException(Timestamp.MESSAGE_CONSTRAINTS);
+            }
             modelTimeStamp = new Timestamp(timestamp);
         }
 
