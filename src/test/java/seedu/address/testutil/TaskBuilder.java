@@ -3,6 +3,7 @@ package seedu.address.testutil;
 import java.util.HashSet;
 import java.util.Set;
 
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
@@ -11,7 +12,6 @@ import seedu.address.model.util.SampleDataUtil;
 public class TaskBuilder {
     public static final String DEFAULT_TITLE = "Buy groceries";
     public static final String DEFAULT_DESCRIPTION = "Two eggs, one carton of milk and five tomatoes";
-    public static final Timestamp DEFAULT_TIMESTAMP = new Timestamp("Tomorrow");
     public static final Set<Tag> DEFAULT_TAGS = new HashSet<>();
     public static final boolean DEFAULT_IS_DONE = false;
 
@@ -28,7 +28,12 @@ public class TaskBuilder {
     public TaskBuilder() {
         this.title = DEFAULT_TITLE;
         this.description = DEFAULT_DESCRIPTION;
-        this.timestamp = DEFAULT_TIMESTAMP;
+        try {
+            this.timestamp = Timestamp.of("2021-10-27");
+        } catch (ParseException pe) {
+            //Never occurs
+            this.timestamp = null;
+        }
         this.tags = DEFAULT_TAGS;
         this.isDone = DEFAULT_IS_DONE;
     }

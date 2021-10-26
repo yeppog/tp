@@ -33,7 +33,7 @@ public class AddTaskCommandParser implements Parser<AddTaskCommand> {
         String description = argMultimap.getValue(PREFIX_DESCRIPTION).orElse(null);
 
         Timestamp timestamp;
-        if (argMultimap.getAllValues(PREFIX_TIMESTAMP) == null) {
+        if (argMultimap.getValue(PREFIX_TIMESTAMP).orElse(null) == null) {
             timestamp = null;
         } else {
             timestamp = ParserUtil.parseTimestamp(argMultimap.getValue(PREFIX_TIMESTAMP).get());

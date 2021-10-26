@@ -151,9 +151,6 @@ public class ParserUtil {
     public static Timestamp parseTimestamp(String timestamp) throws ParseException {
         requireNonNull(timestamp);
         String trimmedTS = timestamp.trim();
-        if (!Timestamp.isValidTimeStamp(trimmedTS)) {
-            throw new ParseException(Timestamp.MESSAGE_CONSTRAINTS);
-        }
-        return new Timestamp(timestamp);
+        return Timestamp.of(trimmedTS);
     }
 }

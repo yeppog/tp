@@ -2,6 +2,7 @@ package seedu.address.model.task;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,7 +24,6 @@ public class Task {
     private final Timestamp timestamp;
     private final Set<Tag> tags = new HashSet<>();
     private final boolean isDone;
-    private boolean isOverdue = false;
 
     /**
      * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
@@ -52,9 +52,6 @@ public class Task {
         this.timestamp = timestamp;
         this.tags.addAll(tags);
         this.isDone = isDone;
-        if (this.timestamp != null) {
-            this.isOverdue = updateIsOverdue();
-        }
     }
 
 
@@ -74,13 +71,17 @@ public class Task {
         return this.tags;
     }
 
-
-    public boolean getIsOverdue() {
-        return this.isOverdue;
-    }
-
-    public boolean updateIsOverdue() {
-        return Timestamp.checkIsOverdue(this.timestamp);
+    /**
+     * Checks if timestamp of task occurs before local date.
+     *
+     * @return boolean True if task is overdue
+     */
+    public boolean isOverdue() {
+        if (timestamp == null) {
+            return false;
+        } else {
+            return LocalDate.now().isAfter(timestamp.getTimestamp());
+        }
     }
 
     @Override
@@ -97,13 +98,12 @@ public class Task {
                 && Objects.equals(title, task.title)
                 && Objects.equals(description, task.description)
                 && Objects.equals(timestamp, task.timestamp)
-                && Objects.equals(tags, task.tags)
-                && Objects.equals(isOverdue, task.isOverdue);
+                && Objects.equals(tags, task.tags);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, timestamp, tags, isDone, isOverdue);
+        return Objects.hash(title, description, timestamp, tags, isDone);
     }
 
     public boolean isDone() {
