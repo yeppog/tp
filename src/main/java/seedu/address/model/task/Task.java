@@ -68,7 +68,7 @@ public class Task {
         return tags;
     }
 
-    public boolean getIsDone() {
+    public boolean isDone() {
         return isDone;
     }
 
