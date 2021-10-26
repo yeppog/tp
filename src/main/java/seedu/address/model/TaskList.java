@@ -1,10 +1,10 @@
 package seedu.address.model;
 
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.task.Task;
-
-import java.util.List;
 
 public class TaskList implements ReadOnlyTaskList {
     private final ObservableList<Task> tasks = FXCollections.observableArrayList();
