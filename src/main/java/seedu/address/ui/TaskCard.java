@@ -68,7 +68,7 @@ public class TaskCard extends UiPart<Region> {
             timestamp.setManaged(false);
         } else {
             timestamp.setText(
-                    Optional.ofNullable(task.getTimestamp()).map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
+                    task.getTimestamp().map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
         }
 
         isCompleted.setText("");

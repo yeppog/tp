@@ -70,7 +70,7 @@ public class TaskListPanel extends UiPart<Region> {
         selectedTaskFilters.addListener((Observable observable) -> {
             filterFlowPane.getChildren().clear();
             selectedTaskFilters.stream()
-                    .map(taskFilter -> new DeletableChip(taskFilter.toString(), () ->
+                    .map(taskFilter -> new DeletableChip(taskFilter.toDisplayString(), () ->
                             removeTaskFilter.accept(taskFilter)).getRoot())
                     .forEach(filterFlowPane.getChildren()::add);
         });

@@ -27,7 +27,7 @@
       <VBox>
          <children>
             <Label text="Description" />
-            <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" style="-fx-border-width: 0;" />
+            <TextField fx:id="description" styleClass="text-field" />
          </children>
       </VBox>
       <VBox>

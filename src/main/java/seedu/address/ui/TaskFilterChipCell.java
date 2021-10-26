@@ -12,7 +12,7 @@ public class TaskFilterChipCell extends ListCell<TaskFilter> {
         if (empty || taskFilter == null) {
             setGraphic(null);
         } else {
-            setGraphic(new DeletableChip(taskFilter.toString(), () ->
+            setGraphic(new DeletableChip(taskFilter.toDisplayString(), () ->
                  getListView().getItems().remove(taskFilter)).getRoot());
         }
     }
