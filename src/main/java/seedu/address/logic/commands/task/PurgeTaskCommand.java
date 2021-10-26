@@ -77,7 +77,7 @@ public class PurgeTaskCommand extends TaskCommand {
         model.setTaskFilters(deletedFilters);
         for(int index : deletedTasks.keySet()) {
             Task task = deletedTasks.get(index);
-            model.addTask(task);
+            model.insertTask(task, index);
         }
 
         this.canExecute = true;
