@@ -7,7 +7,6 @@ import static seedu.address.logic.commands.CommandTestUtil.TIMESTAMP_DESC_REPORT
 import static seedu.address.logic.commands.CommandTestUtil.TITLE_DESC_REPORT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_REPORT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_CAREER;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TIMESTAMP_REPORT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TITLE_REPORT;
 import static seedu.address.logic.commands.task.EditTaskCommand.EditTaskDescriptor;
 import static seedu.address.logic.commands.task.EditTaskCommand.MESSAGE_NOT_EDITED;
@@ -18,6 +17,7 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.logic.commands.task.EditTaskCommand;
 import seedu.address.testutil.EditTaskDescriptorBuilder;
 
@@ -65,7 +65,7 @@ public class EditTaskCommandParserTest {
         EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder()
                 .withTitle(VALID_TITLE_REPORT)
                 .withDescription(VALID_DESCRIPTION_REPORT)
-                .withTimestamp(VALID_TIMESTAMP_REPORT)
+                .withTimestamp(CommandTestUtil.getValidTimestampReport())
                 .withTags(VALID_TAG_CAREER)
                 .build();
 

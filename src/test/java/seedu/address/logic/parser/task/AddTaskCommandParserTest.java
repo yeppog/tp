@@ -6,13 +6,13 @@ import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_CAREER;
 import static seedu.address.logic.commands.CommandTestUtil.TIMESTAMP_DESC_REPORT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_REPORT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_CAREER;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TIMESTAMP_REPORT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TITLE_REPORT;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.logic.commands.task.AddTaskCommand;
 import seedu.address.model.task.Task;
 import seedu.address.testutil.TaskBuilder;
@@ -45,7 +45,7 @@ public class AddTaskCommandParserTest {
         Task expectedTask = new TaskBuilder()
                 .withTitle(VALID_TITLE_REPORT)
                 .withDescription(VALID_DESCRIPTION_REPORT)
-                .withTimestamp(VALID_TIMESTAMP_REPORT)
+                .withTimestamp(CommandTestUtil.getValidTimestampReport())
                 .withTags(VALID_TAG_CAREER)
                 .build();
         AddTaskCommand expectedCommand = new AddTaskCommand(expectedTask);

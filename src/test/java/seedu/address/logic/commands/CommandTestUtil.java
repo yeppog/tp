@@ -19,6 +19,7 @@ import java.util.List;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.commands.task.EditTaskCommand;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
@@ -72,14 +73,12 @@ public class CommandTestUtil {
     public static final String VALID_TITLE_INTERVIEW = "Attend internship interview";
     public static final String VALID_DESCRIPTION_REPORT = "Report for ES2770";
     public static final String VALID_DESCRIPTION_INTERVIEW = "ABC company";
-    public static final Timestamp VALID_TIMESTAMP_REPORT = new Timestamp("31-12-2021");
-    public static final Timestamp VALID_TIMESTAMP_INTERVIEW = new Timestamp("5-7-2021");
     public static final String VALID_TAG_MODULE = "module";
     public static final String VALID_TAG_CAREER = "career";
 
     public static final String TAG_DESC_CAREER = " " + PREFIX_TAG + VALID_TAG_CAREER;
     public static final String DESCRIPTION_DESC_REPORT = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_REPORT;
-    public static final String TIMESTAMP_DESC_REPORT = " " + PREFIX_TIMESTAMP + "31-12-2021";
+    public static final String TIMESTAMP_DESC_REPORT = " " + PREFIX_TIMESTAMP + "2021-12-31";
     public static final String TITLE_DESC_REPORT = " " + PREFIX_TITLE + VALID_TITLE_REPORT;
 
     public static final EditTaskCommand.EditTaskDescriptor DESC_REPORT;
@@ -93,10 +92,10 @@ public class CommandTestUtil {
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         DESC_REPORT = new EditTaskDescriptorBuilder().withTitle(VALID_TITLE_REPORT)
-                .withDescription(VALID_DESCRIPTION_REPORT).withTimestamp(VALID_TIMESTAMP_REPORT)
+                .withDescription(VALID_DESCRIPTION_REPORT).withTimestamp(getValidTimestampReport())
                 .withTags(VALID_TAG_MODULE).build();
         DESC_INTERVIEW = new EditTaskDescriptorBuilder().withTitle(VALID_TITLE_INTERVIEW)
-                .withDescription(VALID_DESCRIPTION_INTERVIEW).withTimestamp(VALID_TIMESTAMP_INTERVIEW)
+                .withDescription(VALID_DESCRIPTION_INTERVIEW).withTimestamp(getValidTimestampInterview())
                 .withTags(VALID_TAG_CAREER).build();
     }
 
@@ -154,6 +153,24 @@ public class CommandTestUtil {
         model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredPersonList().size());
+    }
+
+    public static Timestamp getValidTimestampReport() {
+        try {
+            return Timestamp.of("2021-12-31");
+        } catch (ParseException pe) {
+            //Should never occur
+            return null;
+        }
+    }
+
+    public static Timestamp getValidTimestampInterview() {
+        try {
+            return Timestamp.of("2021-07-05");
+        } catch (ParseException pe) {
+            //Should never occur
+            return null;
+        }
     }
 
 }
