@@ -132,11 +132,13 @@ public class ModelManager implements Model {
     @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
+        updateTaskContacts(target.getName(), false);
     }
 
     @Override
     public void addPerson(Person person) {
         addressBook.addPerson(person);
+        updateTaskContacts(person.getName(), true);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
@@ -145,6 +147,11 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         addressBook.setPerson(target, editedPerson);
+        if (!target.getName()
+                .equals(editedPerson.getName())) {
+            updateTaskContacts(target.getName(), false);
+            updateTaskContacts(editedPerson.getName(), true);
+        }
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -343,6 +350,19 @@ public class ModelManager implements Model {
 
             contact.setInAddressBook(isInAddressBook);
         });
+
+    }
+
+    @Override
+    public void updateTaskContacts(Name name, boolean isInAddressBook) {
+        ObservableList<Task> taskList = getTaskList().getTasks();
+
+        for (Task task : taskList) {
+            Set<Contact> contacts = task.getContacts();
+            contacts.stream()
+                    .filter(contact -> contact.getName().equals(name))
+                    .forEach(contact -> contact.setInAddressBook(isInAddressBook));
+        }
 
     }
 

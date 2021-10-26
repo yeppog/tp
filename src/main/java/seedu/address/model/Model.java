@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.guiactions.GuiAction;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
@@ -196,9 +197,18 @@ public interface Model {
 
     /**
      * Given a set of contacts, check if their names appear in address book, and if they do,
-     * update isInAddressBook. Update false otherwise.
+     * update {@code isInAddressBook}. Update false otherwise.
      *
      * @param contacts Contact List to check.
      */
     void updateTaskContacts(Set<Contact> contacts);
+
+    /**
+     * Given a name, check if it appears in any tasklist,
+     * and if it does, update the tasks' {@code isInAddressBook} with argument {@code isInAddressBook}
+     *
+     * @param name Name to check contact list for.
+     * @param isInAddressBook Whether the given name is now in or no longer in the AddressBook
+     */
+    void updateTaskContacts(Name name, boolean isInAddressBook);
 }
