@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
-import seedu.address.model.task.filters.TaskFilters.TaskFilter;
+import seedu.address.model.task.filters.TaskFilter;
 
 public class TaskFilterChip extends UiPart<Region> {
     @FXML
@@ -22,7 +22,7 @@ public class TaskFilterChip extends UiPart<Region> {
      */
     public TaskFilterChip(TaskFilter taskFilter, Consumer<TaskFilter> removeTaskFilter) {
         super("TaskFilterChip.fxml");
-        filterNameLabel.setText(taskFilter.toString());
+        filterNameLabel.setText(taskFilter.toDisplayString());
         removeButton.setOnAction((actionEvent) -> removeTaskFilter.accept(taskFilter));
     }
 }
