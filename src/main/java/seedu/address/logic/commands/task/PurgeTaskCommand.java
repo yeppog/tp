@@ -2,8 +2,7 @@ package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 
 import seedu.address.logic.commands.CommandResult;
@@ -11,6 +10,7 @@ import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.filters.TaskFilter;
 
 /**
  * Purges all tasks currently in the task list
@@ -24,7 +24,8 @@ public class PurgeTaskCommand extends TaskCommand {
             + ": Purges all tasks in the displayed task list.\n"
             + "Example: " + FULL_COMMAND_WORD;
 
-    Hashtable<Task, Integer> deletedTasks;
+    TreeMap<Integer, Task> deletedTasks;
+    ArrayList<TaskFilter> deletedFilters;
 
     /**
      * Executes the command and returns the result message.
@@ -42,12 +43,17 @@ public class PurgeTaskCommand extends TaskCommand {
             throw new CommandException(MESSAGE_NO_TASK_TO_PURGE);
         }
 
-        model.getIndexOf()
         // Create a copy of the list for undo with their respective indexes
-        deletedTasks = new Hashtable<>();
-        for (Task task : taskList) {
-
+        deletedTasks = new TreeMap<>();
+        for (Task deletedTask : taskList) {
+            int index = model.indexOf(deletedTask);
+            deletedTasks.put(index, deletedTask);
         }
+
+        deletedFilters = new ArrayList<>();
+        deletedFilters.addAll(model.getSelectedTaskFilters());
+
+        super.canExecute();
 
         model.deleteAllInFilteredTaskList();
         return new CommandResult(MESSAGE_SUCCESS);
@@ -67,9 +73,15 @@ public class PurgeTaskCommand extends TaskCommand {
     @Override
     public CommandResult undo(Model model) throws CommandException {
         super.canUndo();
-        Predicate<? super Task> predicate = model.getFilteredTaskPredicate();
-        model.insertTask(deletedTask, targetIndex.getZeroBased());
+
+        model.setTaskFilters(deletedFilters);
+        for(int index : deletedTasks.keySet()) {
+            Task task = deletedTasks.get(index);
+            model.addTask(task);
+        }
+
         this.canExecute = true;
-        return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
+        return new CommandResult(MESSAGE_SUCCESS);
+
     }
 }

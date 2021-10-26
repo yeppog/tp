@@ -42,7 +42,6 @@ public class FindCommand extends Command {
         super.canExecute();
         this.previousPredicate = model.getFilteredPersonPredicate();
         model.updateFilteredPersonList(predicate);
-        this.canExecute = false;
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
     }

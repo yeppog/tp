@@ -118,7 +118,6 @@ public class EditTaskCommand extends TaskCommand {
                 oldTaskDescriptor);
         model.setTask(taskToEdit,
                 previousEditTask);
-        this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_EDIT_TASK_SUCCESS,
                 taskToEdit));
     }
