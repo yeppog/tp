@@ -1,6 +1,7 @@
 package seedu.address.ui;
 
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -150,6 +151,7 @@ public class MainWindow extends UiPart<Stage> {
                 });
             } catch (GuiException e) {
                 e.printStackTrace();
+                logger.log(Level.SEVERE, "Error occurred when adding task", e);
             }
         };
 

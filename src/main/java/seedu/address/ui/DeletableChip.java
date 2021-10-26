@@ -14,6 +14,7 @@ public class DeletableChip extends UiPart<Region> {
 
     /**
      * Creates a chip UI element representing a selected task filter
+     *
      * @param name The text to display on the chip
      * @param onDelete The callable that is run when the close button is pressed
      */

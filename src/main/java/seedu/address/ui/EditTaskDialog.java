@@ -15,7 +15,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -33,7 +32,7 @@ public class EditTaskDialog extends UiPart<Region> {
     private TextField title;
 
     @FXML
-    private TextArea description;
+    private TextField description;
 
     @FXML
     private TextField timestamp;
@@ -63,51 +62,37 @@ public class EditTaskDialog extends UiPart<Region> {
     public EditTaskDialog(Task t) {
         super(FXML);
 
+        // Initialize final values
         dialog = new Dialog<>();
+        tags = Optional.ofNullable(t)
+                .map(Task::getTags)
+                .map(tags -> tags.toArray(new Tag[]{}))
+                .map(FXCollections::observableSet)
+                .orElse(FXCollections.observableSet());
 
+        initializeDialog(t != null);
+        initializeFields(t);
+    }
+
+    private void initializeFields(Task t) {
+        // Set fields to task content
         Optional<Task> task = Optional.ofNullable(t);
-        dialog.setTitle(task.isPresent() ? "Edit Task" : "Add Task");
-
         title.setText(task.map(Task::getTitle).orElse(""));
         description.setText(task.flatMap(Task::getDescription).orElse(""));
         timestamp.setText(task.flatMap(Task::getTimestamp).map(Timestamp::toString).orElse(""));
         isDone.setSelected(task.map(Task::getIsDone).orElse(false));
+        tags.stream()
+                .map(tag -> new DeletableChip(tag.tagName, () -> tags.remove(tag)).getRoot())
+                .forEach(tagPane.getChildren()::add);
+
+        // Initialize error labels
         tagErrorLabel.setText("");
         titleErrorLabel.setText("Title cannot be empty");
         titleErrorLabel.getStyleClass().add("error");
         titleErrorLabel.setVisible(false);
         titleErrorLabel.setManaged(false);
 
-        //Set the application icon.
-        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(getImage(ICON_APPLICATION));
-
-        dialog.getDialogPane().setPrefWidth(600);
-        dialog.setResizable(true);
-        dialog.getDialogPane().setContent(getRoot());
-        dialog.getDialogPane().getStylesheets().add("view/DarkTheme.css");
-        dialog.getDialogPane().getStyleClass().add("stack-pane");
-        dialog.setResultConverter((buttonType) -> {
-            if (buttonType.getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
-                return getTask();
-            } else {
-                return null;
-            }
-        });
-        ButtonType buttonTypeOk = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        dialog.getDialogPane().getButtonTypes().addAll(buttonTypeOk, buttonTypeCancel);
-        dialog.getDialogPane().lookupButton(buttonTypeOk).addEventFilter(ActionEvent.ACTION, event -> {
-            if (!areFieldsValid()) {
-                event.consume();
-            }
-        });
-
-        tags = task.map(Task::getTags)
-                .map(tags -> tags.toArray(new Tag[]{}))
-                .map(FXCollections::observableSet)
-                .orElse(FXCollections.observableSet());
-
+        // Clear empty title error when anything is typed into the title
         title.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             titleErrorLabel.setVisible(false);
             titleErrorLabel.setManaged(false);
@@ -117,13 +102,7 @@ public class EditTaskDialog extends UiPart<Region> {
             }
         });
 
-        timestamp.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
-            if (event.getCode().equals(KeyCode.ENTER)) {
-                event.consume();
-                description.requestFocus();
-            }
-        });
-
+        // Create new tag when "enter" pressed in tag input
         tagInput.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             tagErrorLabel.setText("");
             if (event.getCode().equals(KeyCode.ENTER)) {
@@ -139,17 +118,51 @@ public class EditTaskDialog extends UiPart<Region> {
             }
         });
 
-        tags.stream()
-                .map(tag -> new DeletableChip(tag.tagName, () -> tags.remove(tag)).getRoot())
-                .forEach(tagPane.getChildren()::add);
-
-
-        // Update FlowPane containing a node for each selected filter
+        // When tag list changes, update tag list
         tags.addListener((Observable observable) -> {
             tagPane.getChildren().clear();
             tags.stream()
                     .map(tag -> new DeletableChip(tag.tagName, () -> tags.remove(tag)).getRoot())
                     .forEach(tagPane.getChildren()::add);
+        });
+    }
+
+    private void initializeDialog(boolean isEditingTask) {
+        //Set the application icon.
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(getImage(ICON_APPLICATION));
+
+        // Set dialog title
+        dialog.setTitle(isEditingTask ? "Edit Task" : "Add Task");
+
+        // Set dialog size
+        dialog.getDialogPane().setPrefWidth(600);
+        dialog.setResizable(true);
+
+        // Set dialog content
+        dialog.getDialogPane().setContent(getRoot());
+        dialog.getDialogPane().getStylesheets().add("view/DarkTheme.css");
+        dialog.getDialogPane().getStyleClass().add("stack-pane");
+
+        // Add dialog buttons
+        ButtonType buttonTypeOk = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        dialog.getDialogPane().getButtonTypes().addAll(buttonTypeOk, buttonTypeCancel);
+
+        // Disallow save if form content is invalid
+        dialog.getDialogPane().lookupButton(buttonTypeOk).addEventFilter(ActionEvent.ACTION, event -> {
+            if (!areFieldsValid()) {
+                event.consume();
+            }
+        });
+
+        // Return new Task when "OK" is pressed
+        dialog.setResultConverter((buttonType) -> {
+            if (buttonType.getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
+                return getTask();
+            } else {
+                return null;
+            }
         });
     }
 
