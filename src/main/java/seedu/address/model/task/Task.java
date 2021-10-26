@@ -91,28 +91,6 @@ public class Task {
                 && Objects.equals(isDone, otherTask.isDone);
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) {
-//            return true;
-//        }
-//        if (!(o instanceof Task)) {
-//            return false;
-//        }
-//        Task task = (Task) o;
-//
-//        return isDone == task.isDone
-//                && Objects.equals(title, task.title)
-//                && Objects.equals(description, task.description)
-//                && Objects.equals(timestamp, task.timestamp)
-//                && Objects.equals(tags, task.tags);
-//    }
-
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(title, description, timestamp, tags, isDone);
-//    }
-//
     @Override
     public String toString() {
         return title;
