@@ -84,7 +84,7 @@ public class EditTaskCommand extends TaskCommand {
                 updatedDescription,
                 updatedTimestamp,
                 updatedTags,
-                taskToEdit.getIsDone(),
+                taskToEdit.isDone(),
                 updatedContacts);
     }
 

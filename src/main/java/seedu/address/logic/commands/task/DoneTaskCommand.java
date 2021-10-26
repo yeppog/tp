@@ -46,7 +46,7 @@ public class DoneTaskCommand extends TaskCommand {
                 task.getDescription().orElse(null),
                 task.getTimestamp().orElse(null),
                 task.getTags(),
-                !task.getIsDone(),
+                !task.isDone(),
                 task.getContacts());
         this.completedTask = completedTask;
         model.setTask(task,

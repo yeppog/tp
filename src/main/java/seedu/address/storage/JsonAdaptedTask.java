@@ -56,7 +56,7 @@ class JsonAdaptedTask {
         title = source.getTitle();
         description = source.getDescription().orElse("null");
         timestamp = source.getTimestamp().map(Timestamp::toString).orElse("null");
-        if (source.getIsDone()) {
+        if (source.isDone()) {
             isDone = "Done";
         } else {
             isDone = "Not Done";

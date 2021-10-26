@@ -194,21 +194,4 @@ public interface Model {
     void executeGuiAction(GuiAction action);
 
     CommandHistory getCommandHistory();
-
-    /**
-     * Given a set of contacts, check if their names appear in address book, and if they do,
-     * update {@code isInAddressBook}. Update false otherwise.
-     *
-     * @param contacts Contact List to check.
-     */
-    void updateTaskContacts(Set<Contact> contacts);
-
-    /**
-     * Given a name, check if it appears in any tasklist,
-     * and if it does, update the tasks' {@code isInAddressBook} with argument {@code isInAddressBook}
-     *
-     * @param name Name to check contact list for.
-     * @param isInAddressBook Whether the given name is now in or no longer in the AddressBook
-     */
-    void updateTaskContacts(Name name, boolean isInAddressBook);
 }

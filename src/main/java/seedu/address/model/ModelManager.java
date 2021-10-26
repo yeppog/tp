@@ -4,10 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -131,27 +128,26 @@ public class ModelManager implements Model {
 
     @Override
     public void deletePerson(Person target) {
-        addressBook.removePerson(target);
         updateTaskContacts(target.getName(), false);
+        addressBook.removePerson(target);
     }
 
     @Override
     public void addPerson(Person person) {
-        addressBook.addPerson(person);
         updateTaskContacts(person.getName(), true);
+        addressBook.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-
-        addressBook.setPerson(target, editedPerson);
         if (!target.getName()
                 .equals(editedPerson.getName())) {
-            updateTaskContacts(target.getName(), false);
             updateTaskContacts(editedPerson.getName(), true);
+            changeTaskContacts(target.getName(), editedPerson.getName());
         }
+        addressBook.setPerson(target, editedPerson);
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -338,32 +334,40 @@ public class ModelManager implements Model {
                 && filteredPersons.equals(other.filteredPersons);
     }
 
-    @Override
-    public void updateTaskContacts(Set<Contact> contacts) {
+    private void updateTaskContacts(Set<Contact> contacts) {
         ObservableList<Person> personList = getAddressBook().getPersonList();
         contacts.forEach(contact -> {
             Name name = contact.getName();
-
             boolean isInAddressBook = personList.stream()
                     .map(Person::getName)
                     .anyMatch(personName -> personName.equals(name));
 
             contact.setInAddressBook(isInAddressBook);
         });
-
     }
 
-    @Override
-    public void updateTaskContacts(Name name, boolean isInAddressBook) {
+    private void updateTaskContacts(Name name, boolean isInAddressBook) {
         ObservableList<Task> taskList = getTaskList().getTasks();
-
         for (Task task : taskList) {
             Set<Contact> contacts = task.getContacts();
             contacts.stream()
                     .filter(contact -> contact.getName().equals(name))
                     .forEach(contact -> contact.setInAddressBook(isInAddressBook));
         }
+    }
 
+    private void changeTaskContacts(Name currName, Name editedName) {
+        ObservableList<Task> taskList = getTaskList().getTasks();
+        for (Task task : taskList) {
+            Set<Contact> contacts = task.getContacts();
+            List<Contact> contactsToReplace = contacts.stream()
+                    .filter(contact -> contact.getName().equals(currName))
+                    .collect(Collectors.toList());
+            for (Contact contact : contactsToReplace) {
+                contacts.remove(contact);
+                contacts.add(new Contact(editedName, true));
+            }
+        }
     }
 
 

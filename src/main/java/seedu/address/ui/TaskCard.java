@@ -33,8 +33,6 @@ public class TaskCard extends UiPart<Region> {
     @FXML
     private FlowPane contacts;
 
-    private final Task task;
-
     /**
      * Creates a card representing a task. Used in a task list to display a task.
      * @param task The task to represent
@@ -42,8 +40,6 @@ public class TaskCard extends UiPart<Region> {
      */
     public TaskCard(Task task, int oneIndex, TaskListPanel.TaskEditor taskEditor) {
         super(FXML);
-
-        this.task = task;
 
         name.setText(oneIndex + ".  " + task.getTitle());
 
@@ -100,7 +96,7 @@ public class TaskCard extends UiPart<Region> {
         }
 
         isCompleted.setText("");
-        isCompleted.setSelected(task.getIsDone());
+        isCompleted.setSelected(task.isDone());
         isCompleted.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
             Task newTask = new Task(
                 task.getTitle(),
