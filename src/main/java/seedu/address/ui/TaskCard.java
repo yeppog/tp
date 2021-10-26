@@ -29,8 +29,6 @@ public class TaskCard extends UiPart<Region> {
     @FXML
     private CheckBox isCompleted;
 
-    private final Task task;
-
     /**
      * Creates a card representing a task. Used in a task list to display a task.
      * @param task The task to represent
@@ -38,8 +36,6 @@ public class TaskCard extends UiPart<Region> {
      */
     public TaskCard(Task task, int oneIndex, TaskListPanel.TaskEditor taskEditor) {
         super(FXML);
-
-        this.task = task;
 
         name.setText(oneIndex + ".  " + task.getTitle());
 

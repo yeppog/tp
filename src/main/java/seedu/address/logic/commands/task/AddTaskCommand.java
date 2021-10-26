@@ -43,7 +43,7 @@ public class AddTaskCommand extends TaskCommand {
     public boolean equals(Object other) {
         return other == this
                 || ((other instanceof AddTaskCommand)
-                && task.equals(((AddTaskCommand) other).task));
+                && task.deepEquals(((AddTaskCommand) other).task));
     }
 
     @Override
