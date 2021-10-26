@@ -1,6 +1,8 @@
 package seedu.address.model.task;
 
-import java.sql.Time;
+
+import java.time.LocalDate;
+import java.util.Arrays;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
@@ -10,6 +12,11 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Timestamp {
     private final String timestamp;
+    private static final String VALIDATION_REGEX = "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)$"
+            + "|^(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))$"
+            + "|^(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))$"
+            + "|^(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))$";
+    public static final String MESSAGE_CONSTRAINTS = "Timestamp should be in YYYY-MM-DD format";
 
     /**
      * Creates a TimeStamp with the given string.
@@ -38,16 +45,20 @@ public class Timestamp {
         return this.timestamp;
     }
 
-    private static Timestamp getToday() {
-        long millis = System.currentTimeMillis();
-        java.sql.Date date = new java.sql.Date(millis);
-        Timestamp today = new Timestamp(date.toString());
-        assert today.toString().length() == 10;
-        return today;
+    private static LocalDate getToday() {
+
+        return LocalDate.now();
+    }
+
+    public static boolean isValidTimeStamp(String test) {
+        return test.matches(VALIDATION_REGEX);
     }
 
     public static boolean checkIsOverdue(Timestamp time) {
-        return false;
+        int[] timeArray = Arrays.stream(time.toString().split("-")).mapToInt(Integer::parseInt).toArray();
+        LocalDate timestamp = LocalDate.of(timeArray[0], timeArray[1], timeArray[2]);
+
+        return getToday().isAfter(timestamp);
     }
 
 }
