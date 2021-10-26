@@ -313,6 +313,12 @@ Deleting tasks may cause associated tags to be deleted from the entire task list
 
 ![Activity diagram showing the task filter list's update when a task is deleted](images/DeleteTaskActivityDiagram.png)
 
+##### Finding tasks
+
+Searching for tasks using a series of keywords also involves adding a `TaskFilter` to the `ModelManager`, but in this case it is needed to check whether an existing `TaskFilter  ` corresponding to a previous keyword search is still present. If so, this previous filter is removed and replaced with a new filter. This `TaskFilter` should be unique in the set  regardless of the keywords that are being searched for. This is implemented via a `KeywordTaskFilter` which extends `TaskFilter`. The `FindTaskCommand` will first remove the previous instance of `KeywordTaskFilter` before adding the new instance into `ModelManager`. 
+
+![Activity diagram showing the task filter list's update when searching tasks with a keyword](images/FindTaskUpdateKeywordTaskFilterActivityDiagram.png)
+
 ##### `TaskFilter` implementation
 
 > Task filters are, in essence, predicates returning true or false depending on certain properties of tasks. For example, filtering by "done" tasks are checking for the completion status of a task. Therefore, task filters could be implemented as wrapper objects of instances of `Predicate<Task>`. Filters based on the same properties of a task are named the same way (e.g., for tag-based filters, `Tagged [important]` and `Tagged [work]`). It therefore made sense for a group of filters to have a common `toString()` implementation.
@@ -607,8 +613,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1.  User requests to list tasks.
 2.  TaskMaster2103 shows a list of tasks.
-3.  User requests to delete a specific tasks in the list.
-4.  TaskMaster2103 deletes the person.
+3.  User requests to delete a specific task in the list.
+4.  TaskMaster2103 deletes the task.
 
     Use case ends.
 
@@ -623,6 +629,96 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   - 3a1. TaskMaster2103 shows an error message.
 
     Use case resumes at step 2.
+
+#### Use case: UCT04 - Mark a task as done
+
+##### MSS
+
+1. User requests to list tasks.
+
+2. TaskMaster2103 shows a list of tasks.
+
+3. User requests to mark a specific task in the list as done.
+
+4. TaskMaster2103 marks the task as done.
+
+   Use case ends.
+
+##### Extensions
+
+- 2a. The list is empty.
+
+  Use case ends.
+
+- 3a. The given index is invalid.
+
+  - 3a1. TaskMaster2103 shows an error message.
+
+    Use case resumes at step 2.
+
+#### Use case: UCT05 - Filter task list by done status
+
+##### MSS
+
+1. User requests to list tasks that are undone.
+
+2. TaskMaster2103 shows a list of tasks.
+
+   Use case ends.
+
+#### Use case: UCT06 - Filter task list by done status
+
+##### MSS
+
+1. User requests to list tasks that are undone.
+
+2. TaskMaster2103 shows a list of tasks.
+
+   Use case ends.
+
+#### Use case: UCT07 - Filter task list by tag
+
+##### MSS
+
+1. User requests to list tasks that contain a specified tag.
+
+2. TaskMaster2103 shows a list of tasks.
+
+   Use case ends.
+
+#### Use case: UCT08 - Search task list by keywords
+
+##### MSS
+
+1. User requests to search for tasks that contain a keyword / list of keywords.
+
+2. TaskMaster2103 shows a list of tasks.
+
+   Use case ends.
+
+#### Use case: UCT09 - Undo previous command
+
+##### MSS
+
+1. User requests to undo a previously entered command.
+
+2. TaskMaster2103 undoes the previous command.
+
+   Use case ends.
+
+##### Extensions
+
+- 2a. There are no previously entered commands.
+
+  - 2a1. TaskMaster2103 shows an error message.
+
+    Use case ends.
+
+- 2b. The undo limit is reached.
+
+  - 3a1. TaskMaster2103 shows an error message.
+
+    Use case ends.
 
 _{More to be added}_
 

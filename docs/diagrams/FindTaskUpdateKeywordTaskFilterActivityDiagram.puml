@@ -1,0 +1,12 @@
+@startuml
+start
+:Request to find task by keyword;
+:Get current TaskFilters;
+if () then ([Previous KeywordTaskFilter present])
+  :Remove previous KeywordTaskFilter;
+else ([else])
+endif
+:Add new KeywordTaskFilter;
+:Recompute filtered task list;
+stop
+@enduml
