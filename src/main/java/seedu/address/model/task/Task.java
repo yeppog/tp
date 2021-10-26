@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import seedu.address.logic.commands.Command;
+import seedu.address.model.TaskList;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -72,9 +74,6 @@ public class Task {
         return this.tags;
     }
 
-    public boolean getIsDone() {
-        return this.isDone;
-    }
 
     public boolean getIsOverdue() {
         return this.isOverdue;
@@ -105,6 +104,26 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(title, description, timestamp, tags, isDone, isOverdue);
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    /**
+     * Returns whether this task has the same fields as the other task.
+     * Used by {@link Command} and {@link TaskList} instances to determine
+     * attribute equivalence in tasks.
+     *
+     * @param otherTask The task to compared with for deep equality
+     * @return true if the task has deeply equal to the given task
+     */
+    public boolean deepEquals(Task otherTask) {
+        return Objects.equals(title, otherTask.title)
+                && Objects.equals(description, otherTask.description)
+                && Objects.equals(timestamp, otherTask.timestamp)
+                && Objects.equals(tags, otherTask.tags)
+                && Objects.equals(isDone, otherTask.isDone);
     }
 
     @Override
