@@ -77,8 +77,8 @@ public class EditTaskCommand extends TaskCommand {
                 .or(taskToEdit::getTimestamp).orElse(null);
         Set<Tag> updatedTags = editTaskDescriptor.getTags()
                 .orElse(taskToEdit.getTags());
-        //TODO
-        Set<Contact> updatedContacts = taskToEdit.getContacts();
+        Set<Contact> updatedContacts = editTaskDescriptor.getContacts()
+                .orElse(taskToEdit.getContacts());
 
         return new Task(updatedTitle,
                 updatedDescription,

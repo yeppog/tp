@@ -36,10 +36,6 @@ public class Contact {
         return isInAddressBook;
     }
 
-    public void setInAddressBook(boolean isInAddressBook) {
-        this.isInAddressBook = isInAddressBook;
-    }
-
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

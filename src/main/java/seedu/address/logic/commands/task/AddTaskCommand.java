@@ -55,6 +55,5 @@ public class AddTaskCommand extends TaskCommand {
     public CommandResult undo(Model model) throws CommandException {
         model.deleteTask(this.task);
         return new CommandResult(String.format(MESSAGE_SUCCESS, task));
-
     }
 }

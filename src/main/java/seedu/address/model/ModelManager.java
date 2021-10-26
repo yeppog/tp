@@ -20,6 +20,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.Timestamp;
 import seedu.address.model.task.filters.TaskFilter;
 import seedu.address.model.task.filters.TaskFilters;
 import seedu.address.storage.CommandHistory;
@@ -128,27 +129,29 @@ public class ModelManager implements Model {
 
     @Override
     public void deletePerson(Person target) {
-        updateTaskContacts(target.getName(), false);
         addressBook.removePerson(target);
+        updateAllTasksContacts();
     }
 
     @Override
     public void addPerson(Person person) {
-        updateTaskContacts(person.getName(), true);
         addressBook.addPerson(person);
+        updateAllTasksContacts();
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
     @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
-        if (!target.getName()
-                .equals(editedPerson.getName())) {
-            updateTaskContacts(editedPerson.getName(), true);
-            changeTaskContacts(target.getName(), editedPerson.getName());
-        }
         addressBook.setPerson(target, editedPerson);
+
+        updateAllTasksContacts();
+        if (!target.getName().equals(editedPerson.getName())) {
+            changeAllTaskContactNames(target.getName(), editedPerson.getName());
+        }
     }
+
+
 
     //=========== Filtered Person List Accessors =============================================================
 
@@ -181,8 +184,8 @@ public class ModelManager implements Model {
 
     @Override
     public void addTask(Task task) {
-        updateTaskContacts(task.getContacts());
-        taskList.addTask(task);
+        Task updatedTask = updateTaskContacts(task);
+        taskList.addTask(updatedTask);
         recomputeAvailableTaskFilters();
     }
 
@@ -296,8 +299,8 @@ public class ModelManager implements Model {
     @Override
     public void setTask(Task target, Task editedTask) {
         requireAllNonNull(target, editedTask);
-        updateTaskContacts(editedTask.getContacts());
-        taskList.setTask(target, editedTask);
+        Task updatedEditedTask = updateTaskContacts(editedTask);
+        taskList.setTask(target, updatedEditedTask);
         updateTaskFilters();
 
     }
@@ -334,39 +337,69 @@ public class ModelManager implements Model {
                 && filteredPersons.equals(other.filteredPersons);
     }
 
-    private void updateTaskContacts(Set<Contact> contacts) {
+    private Task updateTaskContacts(Task task) {
         ObservableList<Person> personList = getAddressBook().getPersonList();
-        contacts.forEach(contact -> {
-            Name name = contact.getName();
-            boolean isInAddressBook = personList.stream()
-                    .map(Person::getName)
-                    .anyMatch(personName -> personName.equals(name));
+        Set<Contact> updatedContacts = new HashSet<>();
+        Set<Contact> currentContactList = task.getContacts();
 
-            contact.setInAddressBook(isInAddressBook);
-        });
+        // Update contact if AB3 contains name
+        for (Contact contact : currentContactList) {
+            Name contactName = contact.getName();
+            if (containsName(personList, contactName)) {
+                updatedContacts.add(new Contact(contactName, true));
+            } else {
+                updatedContacts.add(new Contact(contactName, false));
+            }
+        }
+
+        return new Task(task.getTitle(),
+                task.getDescription().orElse(null),
+                task.getTimestamp().orElse(null),
+                task.getTags(),
+                task.isDone(),
+                updatedContacts);
     }
 
-    private void updateTaskContacts(Name name, boolean isInAddressBook) {
-        ObservableList<Task> taskList = getTaskList().getTasks();
-        for (Task task : taskList) {
-            Set<Contact> contacts = task.getContacts();
-            contacts.stream()
-                    .filter(contact -> contact.getName().equals(name))
-                    .forEach(contact -> contact.setInAddressBook(isInAddressBook));
+    private boolean containsName(List<Person> personList, Name nameToCheck) {
+        return personList.stream()
+                .map(Person::getName)
+                .anyMatch(name -> name.equals(nameToCheck));
+    }
+
+    private void updateAllTasksContacts() {
+        List<Task> tasks = taskList.getTasks();
+        // For every task, check and update their contacts
+        for (Task task : tasks) {
+            Task updatedTask = updateTaskContacts(task);
+            taskList.setTask(task, updatedTask);
         }
     }
 
-    private void changeTaskContacts(Name currName, Name editedName) {
-        ObservableList<Task> taskList = getTaskList().getTasks();
-        for (Task task : taskList) {
-            Set<Contact> contacts = task.getContacts();
-            List<Contact> contactsToReplace = contacts.stream()
-                    .filter(contact -> contact.getName().equals(currName))
-                    .collect(Collectors.toList());
-            for (Contact contact : contactsToReplace) {
-                contacts.remove(contact);
-                contacts.add(new Contact(editedName, true));
-            }
+    private Task changeTaskContactName(Task task, Name oldName, Name newName) {
+        Set<Contact> currentContactList = task.getContacts();
+        Set<Contact> updatedContacts = new HashSet<>(currentContactList);
+
+        if (updatedContacts.removeIf(contact -> contact.getName().equals(oldName))) {
+            updatedContacts.add(new Contact(newName, true));
+
+        }
+
+        return updatedContacts.equals(currentContactList)
+                ? task
+                : new Task(task.getTitle(),
+                        task.getDescription().orElse(null),
+                        task.getTimestamp().orElse(null),
+                        task.getTags(),
+                        task.isDone(),
+                        updatedContacts);
+    }
+
+    private void changeAllTaskContactNames(Name oldName, Name newName) {
+        List<Task> tasks = taskList.getTasks();
+        // For every task, check and update their contacts
+        for (Task task : tasks) {
+            Task updatedTask = changeTaskContactName(task, oldName, newName);
+            taskList.setTask(task, updatedTask);
         }
     }
 
