@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 
+import java.sql.Time;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -130,7 +131,6 @@ public class ParserUtil {
      */
     public static String parseTitle(String title) {
         requireNonNull(title);
-
         return title.trim();
     }
 
@@ -141,7 +141,6 @@ public class ParserUtil {
      */
     public static String parseDescription(String description) {
         requireNonNull(description);
-
         return description.trim();
     }
 
@@ -150,8 +149,12 @@ public class ParserUtil {
      * @param timestamp The timestamp string to parse
      * @return A parsed timestamp
      */
-    public static Timestamp parseTimestamp(String timestamp) {
+    public static Timestamp parseTimestamp(String timestamp) throws ParseException {
         requireNonNull(timestamp);
+        String trimmedTS = timestamp.trim();
+        if (!Timestamp.isValidTimeStamp(trimmedTS)) {
+            throw new ParseException(Timestamp.MESSAGE_CONSTRAINTS);
+        }
         return new Timestamp(timestamp);
     }
 }

@@ -5,6 +5,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 
+import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.logic.commands.task.AddTaskCommand;
@@ -31,8 +32,15 @@ public class AddTaskCommandParser implements Parser<AddTaskCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTaskCommand.MESSAGE_USAGE));
         }
         String description = argMultimap.getValue(PREFIX_DESCRIPTION).orElse(null);
-        Timestamp timestamp = argMultimap.getValue(PREFIX_TIMESTAMP).map(ParserUtil::parseTimestamp).orElse(null);
+
+        Timestamp timestamp;
+        if (argMultimap.getAllValues(PREFIX_TIMESTAMP) == null) {
+            timestamp = null;
+        } else {
+            timestamp = ParserUtil.parseTimestamp(argMultimap.getValue(PREFIX_TIMESTAMP).get());
+        }
         Set<Tag> tags = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
+
 
         return new AddTaskCommand(new Task(title, description, timestamp, tags));
     }
