@@ -57,7 +57,6 @@ public class FindCommand extends Command {
     public CommandResult undo(Model model) throws CommandException {
         super.canUndo();
         model.updateFilteredPersonList(this.previousPredicate);
-        this.canExecute = true;
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
     }

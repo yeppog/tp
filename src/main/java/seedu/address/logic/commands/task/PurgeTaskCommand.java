@@ -81,7 +81,6 @@ public class PurgeTaskCommand extends TaskCommand {
             model.insertTask(task, index);
         }
 
-        this.canExecute = true;
         return new CommandResult(MESSAGE_SUCCESS);
 
     }
