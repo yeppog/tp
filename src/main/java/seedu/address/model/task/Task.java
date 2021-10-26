@@ -6,7 +6,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
+import seedu.address.logic.commands.Command;
+import seedu.address.model.TaskList;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -72,28 +75,44 @@ public class Task {
         return isDone;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Task)) {
-            return false;
-        }
-        Task task = (Task) o;
-
-        return isDone == task.isDone
-                && Objects.equals(title, task.title)
-                && Objects.equals(description, task.description)
-                && Objects.equals(timestamp, task.timestamp)
-                && Objects.equals(tags, task.tags);
+    /**
+     * Returns whether this task has the same fields as the other task.
+     * Used by {@link Command} and {@link TaskList} instances to determine
+     * attribute equivalence in tasks.
+     *
+     * @param otherTask The task to compared with for deep equality
+     * @return true if the task has deeply equal to the given task
+     */
+    public boolean deepEquals(Task otherTask) {
+        return Objects.equals(title, otherTask.title)
+                && Objects.equals(description, otherTask.description)
+                && Objects.equals(timestamp, otherTask.timestamp)
+                && Objects.equals(tags, otherTask.tags)
+                && Objects.equals(isDone, otherTask.isDone);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, description, timestamp, tags, isDone);
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) {
+//            return true;
+//        }
+//        if (!(o instanceof Task)) {
+//            return false;
+//        }
+//        Task task = (Task) o;
+//
+//        return isDone == task.isDone
+//                && Objects.equals(title, task.title)
+//                && Objects.equals(description, task.description)
+//                && Objects.equals(timestamp, task.timestamp)
+//                && Objects.equals(tags, task.tags);
+//    }
 
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(title, description, timestamp, tags, isDone);
+//    }
+//
     @Override
     public String toString() {
         return title;
