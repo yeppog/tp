@@ -1,18 +1,21 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
-import java.util.Optional;
+import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.task.Task;
 import seedu.address.ui.exceptions.GuiException;
 
 public class TaskCard extends UiPart<Region> {
     private static final String FXML = "TaskCard.fxml";
+    private static final Logger logger = LogsCenter.getLogger(UiManager.class);
 
     @FXML
     private Label name;
@@ -68,7 +71,11 @@ public class TaskCard extends UiPart<Region> {
             timestamp.setManaged(false);
         } else {
             timestamp.setText(
-                    Optional.ofNullable(task.getTimestamp()).map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
+                    task.getTimestamp().map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
+            if (task.getIsOverdue()) {
+                logger.info(Boolean.toString(task.getIsOverdue()));
+                timestamp.setTextFill(Color.color(1.0, 0.0, 0.0));
+            }
         }
 
         isCompleted.setText("");
