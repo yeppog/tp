@@ -241,7 +241,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void deleteAllInFilteredTaskList(Task... tasksToDelete) {
+        public void deleteAllInFilteredTaskList() {
             throw new AssertionError("This method should not be called.");
         }
     }

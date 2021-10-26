@@ -2,7 +2,9 @@ package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Hashtable;
 import java.util.List;
+import java.util.function.Predicate;
 
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
@@ -22,6 +24,8 @@ public class PurgeTaskCommand extends TaskCommand {
             + ": Purges all tasks in the displayed task list.\n"
             + "Example: " + FULL_COMMAND_WORD;
 
+    Hashtable<Task, Integer> deletedTasks;
+
     /**
      * Executes the command and returns the result message.
      *
@@ -38,9 +42,14 @@ public class PurgeTaskCommand extends TaskCommand {
             throw new CommandException(MESSAGE_NO_TASK_TO_PURGE);
         }
 
-        // Create a copy of the list and deletes all tasks from the original
-        Task[] tasksToDelete = taskList.toArray(new Task[0]);
-        model.deleteAllInFilteredTaskList(tasksToDelete);
+        model.getIndexOf()
+        // Create a copy of the list for undo with their respective indexes
+        deletedTasks = new Hashtable<>();
+        for (Task task : taskList) {
+
+        }
+
+        model.deleteAllInFilteredTaskList();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
@@ -53,5 +62,14 @@ public class PurgeTaskCommand extends TaskCommand {
 
         // instanceof handles nulls
         return other instanceof PurgeTaskCommand;
+    }
+
+    @Override
+    public CommandResult undo(Model model) throws CommandException {
+        super.canUndo();
+        Predicate<? super Task> predicate = model.getFilteredTaskPredicate();
+        model.insertTask(deletedTask, targetIndex.getZeroBased());
+        this.canExecute = true;
+        return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
     }
 }

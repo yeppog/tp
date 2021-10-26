@@ -279,8 +279,8 @@ public class ModelManager implements Model {
      * @param tasksToDelete List of tasks in the filtered list to delete.
      */
     @Override
-    public void deleteAllInFilteredTaskList(Task... tasksToDelete) {
-        for (Task task : tasksToDelete) {
+    public void deleteAllInFilteredTaskList() {
+        for (Task task : filteredTasks) {
             taskList.removeTask(task);
         }
 

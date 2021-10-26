@@ -107,7 +107,7 @@ public interface Model {
      * Deletes a list of given tasks. The tasks must exist in the task list.
      * @param tasksToDelete List of tasks to delete.
      */
-    void deleteAllInFilteredTaskList(Task... tasksToDelete);
+    void deleteAllInFilteredTaskList();
 
     /**
      * Adds the given task to the task list.
