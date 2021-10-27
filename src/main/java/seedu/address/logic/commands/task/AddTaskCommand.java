@@ -1,5 +1,6 @@
 package seedu.address.logic.commands.task;
 
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
@@ -23,6 +24,7 @@ public class AddTaskCommand extends TaskCommand {
             + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
             + "[" + PREFIX_TIMESTAMP + "TIMESTAMP] "
             + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_CONTACT + "AB3 CONTACT]...\n"
             + "Example: " + FULL_COMMAND_WORD + " Do homework "
             + PREFIX_DESCRIPTION + "Physics assignment "
             + PREFIX_TIMESTAMP + "25/12/2020";
@@ -55,6 +57,5 @@ public class AddTaskCommand extends TaskCommand {
     public CommandResult undo(Model model) throws CommandException {
         model.deleteTask(this.task);
         return new CommandResult(String.format(MESSAGE_SUCCESS, task));
-
     }
 }
