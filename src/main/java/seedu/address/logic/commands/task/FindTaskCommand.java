@@ -8,6 +8,7 @@ import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.TaskContainsKeywordsPredicate;
+import seedu.address.model.task.filters.KeywordTaskFilter;
 import seedu.address.model.task.filters.TaskFilters;
 
 import javax.swing.text.html.Option;
@@ -44,12 +45,14 @@ public class FindTaskCommand extends TaskCommand {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
+
         model.getSelectedTaskFilters().stream()
                 .filter(filter -> filter instanceof TaskFilters.KeywordTaskFilter)
                 .findFirst().ifPresent(filter -> {
                     prevPredicate = Optional.of(filter);
                     model.removeTaskFilter(filter);
         });
+
 
         if (!predicate.equals(TaskContainsKeywordsPredicate.SHOW_ALL_TASKS_PREDICATE)) {
             model.addTaskFilter(TaskFilters.FILTER_KEYWORDS.apply(predicate));

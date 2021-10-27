@@ -14,6 +14,7 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Contact;
 import seedu.address.model.task.Timestamp;
 
 /**
@@ -153,5 +154,28 @@ public class ParserUtil {
     public static Timestamp parseTimestamp(String timestamp) {
         requireNonNull(timestamp);
         return new Timestamp(timestamp);
+    }
+
+    /**
+     * Parses a {@code String tag} into a {@code Tag}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code tag} is invalid.
+     */
+    public static Contact parseContact(String contact) throws ParseException {
+        Name name = parseName(contact);
+        return new Contact(name);
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     */
+    public static Set<Contact> parseContacts(Collection<String> contacts) throws ParseException {
+        requireNonNull(contacts);
+        final Set<Contact> contactsSet = new HashSet<>();
+        for (String contactName : contacts) {
+            contactsSet.add(parseContact(contactName));
+        }
+        return contactsSet;
     }
 }
