@@ -70,7 +70,7 @@ public class TaskCard extends UiPart<Region> {
                     task.getTimestamp().map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
             if (task.isOverdue()) {
                 logger.info(Boolean.toString(task.isOverdue()));
-                name.setTextFill(Color.color(1.0, 0.0, 0.0));
+                timestamp.getStyleClass().add("overdue");
             }
         }
 
