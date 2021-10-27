@@ -53,9 +53,9 @@ public class FindTaskCommand extends TaskCommand {
         model.getSelectedTaskFilters().stream()
                 .filter(filter -> filter instanceof KeywordTaskFilter)
                 .findFirst().ifPresent(filter -> {
-                            prevPredicate = filter;
-                            model.removeTaskFilter(filter);
-        });
+                    prevPredicate = filter;
+                    model.removeTaskFilter(filter);
+                });
 
 
         if (!predicate.equals(TaskContainsKeywordsPredicate.SHOW_ALL_TASKS_PREDICATE)) {
@@ -66,7 +66,7 @@ public class FindTaskCommand extends TaskCommand {
         return new CommandResult(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW,
                 model.getFilteredTaskList().size()));
     }
-    
+
     @Override
     public CommandResult undo(Model model) throws CommandException {
         super.canUndo();
