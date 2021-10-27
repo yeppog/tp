@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 
+import seedu.address.logic.parser.exceptions.ArgumentContainsSlashException;
+import seedu.address.logic.parser.exceptions.IllegalPrefixException;
 import seedu.address.logic.parser.exceptions.MissingPreambleException;
 import seedu.address.logic.parser.exceptions.MissingPrefixException;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -52,11 +54,11 @@ public class ArgumentTokenizer {
             String prefixString = prefixAndValue.substring(0, firstSlashIndex + 1);
             String value = prefixAndValue.substring(firstSlashIndex + 1).trim();
 
-            if (value.contains("/")) {
-                throw new ParseException("Cannot have / in argument value");
-            }
 
             Prefix prefix = new Prefix(prefixString);
+            if (value.contains("/")) {
+                throw new ArgumentContainsSlashException(prefix);
+            }
             argumentMultimap.put(prefix, value);
         }
 
@@ -74,7 +76,7 @@ public class ArgumentTokenizer {
         String preamble = argsString.substring(0, preambleEnd).trim();
 
         if (preamble.contains("/")) {
-            throw new ParseException("Cannot have / in argument value");
+            throw new ArgumentContainsSlashException(PREFIX_PREAMBLE);
         }
 
         // Check for unwanted preamble
