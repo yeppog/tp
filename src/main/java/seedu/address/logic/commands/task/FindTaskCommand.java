@@ -10,6 +10,9 @@ import seedu.address.model.Model;
 import seedu.address.model.task.TaskContainsKeywordsPredicate;
 import seedu.address.model.task.filters.TaskFilters;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 
 public class FindTaskCommand extends TaskCommand {
 
@@ -23,9 +26,11 @@ public class FindTaskCommand extends TaskCommand {
             + "Example: " + FULL_COMMAND_WORD + " CS2103 CS2106 PC3130";
 
     private final TaskContainsKeywordsPredicate predicate;
+    private Optional<TaskFilters.TaskFilter> prevPredicate;
 
     public FindTaskCommand(TaskContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
+        prevPredicate = Optional.empty();
     }
 
     /**
@@ -39,15 +44,34 @@ public class FindTaskCommand extends TaskCommand {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        model.getSelectedTaskFilters().stream().filter(filter -> filter instanceof TaskFilters.KeywordTaskFilter)
-                .findFirst().ifPresent(model::removeTaskFilter);
+        model.getSelectedTaskFilters().stream()
+                .filter(filter -> filter instanceof TaskFilters.KeywordTaskFilter)
+                .findFirst().ifPresent(filter -> {
+                    prevPredicate = Optional.of(filter);
+                    model.removeTaskFilter(filter);
+        });
 
         if (!predicate.equals(TaskContainsKeywordsPredicate.SHOW_ALL_TASKS_PREDICATE)) {
             model.addTaskFilter(TaskFilters.FILTER_KEYWORDS.apply(predicate));
         }
 
+        super.canExecute();
         return new CommandResult(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW,
                 model.getFilteredTaskList().size()));
 
+    }
+
+    @Override
+    public CommandResult undo(Model model) throws CommandException {
+        super.canUndo();
+
+        model.getSelectedTaskFilters().stream()
+                .filter(filter -> filter instanceof TaskFilters.KeywordTaskFilter)
+                .findFirst().ifPresent(model::removeTaskFilter);
+
+        prevPredicate.ifPresent(model::addTaskFilter);
+
+        return new CommandResult(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW,
+                model.getFilteredTaskList().size()));
     }
 }
