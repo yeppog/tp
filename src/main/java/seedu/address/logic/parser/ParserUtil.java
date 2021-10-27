@@ -151,8 +151,8 @@ public class ParserUtil {
      */
     public static Timestamp parseTimestamp(String timestamp) throws ParseException {
         requireNonNull(timestamp);
-        String trimmedTS = timestamp.trim();
-        return Timestamp.of(trimmedTS);
+        String trimmedTs = timestamp.trim();
+        return Timestamp.of(trimmedTs);
     }
 
     /**
