@@ -33,6 +33,12 @@ public class Timestamp {
         return new Timestamp(timestamp);
     }
 
+    /**
+     * Factory method for mapping
+     *
+     * @param timestamp
+     * @return
+     */
     public static Timestamp tryParse(String timestamp) {
         try {
             return new Timestamp(timestamp);

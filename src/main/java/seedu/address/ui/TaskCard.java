@@ -8,8 +8,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
-
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
