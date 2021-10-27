@@ -13,6 +13,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.task.ListTaskCommand;
+import seedu.address.logic.parser.exceptions.UnwantedPreambleException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.filters.TaskFilter;
 import seedu.address.model.task.filters.TaskFilters;
@@ -45,6 +46,7 @@ public class ListTaskCommandParserTest {
 
     @Test
     void parse_withPreamble_failure() {
-        assertParseFailure(parser, " preamble", MESSAGE_USAGE);
+        assertParseFailure(parser, " preamble",
+                String.format(new UnwantedPreambleException("preamble").getMessage(), MESSAGE_USAGE));
     }
 }

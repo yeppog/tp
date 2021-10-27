@@ -2,6 +2,7 @@ package seedu.address.model.task;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -59,7 +60,7 @@ public class Task {
 
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public Optional<String> getDescription() {
@@ -72,6 +73,19 @@ public class Task {
 
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    /**
+     * Checks if timestamp of task occurs before local date.
+     *
+     * @return boolean True if task is overdue
+     */
+    public boolean isOverdue() {
+        if (timestamp == null) {
+            return false;
+        } else {
+            return LocalDate.now().isAfter(timestamp.getTimestamp());
+        }
     }
 
     public boolean isDone() {
@@ -96,11 +110,12 @@ public class Task {
                 && Objects.equals(description, otherTask.description)
                 && Objects.equals(timestamp, otherTask.timestamp)
                 && Objects.equals(tags, otherTask.tags)
-                && Objects.equals(isDone, otherTask.isDone);
+                && Objects.equals(isDone, otherTask.isDone)
+                && Objects.equals(contacts, otherTask.contacts);
     }
 
     @Override
     public String toString() {
-        return title;
+        return this.title;
     }
 }

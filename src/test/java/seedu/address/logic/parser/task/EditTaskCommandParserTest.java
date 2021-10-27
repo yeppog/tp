@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.task.EditTaskCommand;
+import seedu.address.logic.parser.exceptions.MissingPreambleException;
 import seedu.address.testutil.EditTaskDescriptorBuilder;
 
 public class EditTaskCommandParserTest {
@@ -26,7 +27,7 @@ public class EditTaskCommandParserTest {
 
     @Test
     public void parse_emptyArguments_failure() {
-        assertParseFailure(parser, "", String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
+        assertParseFailure(parser, "", String.format(new MissingPreambleException().getMessage(), MESSAGE_USAGE));
     }
 
     @Test
