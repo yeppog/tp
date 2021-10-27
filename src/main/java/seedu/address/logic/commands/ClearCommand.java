@@ -32,11 +32,8 @@ public class ClearCommand extends Command {
 
     @Override
     public CommandResult undo(Model model) throws CommandException {
-        if (this.canExecute) {
-            throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
-        }
+        super.canUndo();
         model.setAddressBook(this.oldAddressBook);
-        this.canExecute = true;
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }

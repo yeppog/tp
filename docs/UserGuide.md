@@ -234,6 +234,14 @@ Deletes a specified task from the tasks list by a given index.
 
 `task delete 2`
 
+### Undo previous command : `undo`
+
+Undos the previous command, returning the user back to the previous state, up to a maximum of 15 previous commands.
+
+Format: `undo`
+
+- Setting a filter is not considered a command that can be undone.
+
 ### Purge all visible tasks : `task purge`
 
 Clears all visible (filtered) tasks from the address book.

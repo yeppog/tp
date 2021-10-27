@@ -65,7 +65,6 @@ public class DoneTaskCommand extends TaskCommand {
     public CommandResult undo(Model model) throws CommandException {
         super.canUndo();
         this.execute(model);
-        this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 this.completedTask));
     }
