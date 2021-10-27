@@ -131,7 +131,6 @@ public class ParserUtil {
      */
     public static String parseTitle(String title) {
         requireNonNull(title);
-
         return title.trim();
     }
 
@@ -142,7 +141,6 @@ public class ParserUtil {
      */
     public static String parseDescription(String description) {
         requireNonNull(description);
-
         return description.trim();
     }
 
@@ -151,9 +149,10 @@ public class ParserUtil {
      * @param timestamp The timestamp string to parse
      * @return A parsed timestamp
      */
-    public static Timestamp parseTimestamp(String timestamp) {
+    public static Timestamp parseTimestamp(String timestamp) throws ParseException {
         requireNonNull(timestamp);
-        return new Timestamp(timestamp);
+        String trimmedTs = timestamp.trim();
+        return Timestamp.of(trimmedTs);
     }
 
     /**

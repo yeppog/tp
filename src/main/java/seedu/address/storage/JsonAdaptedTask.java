@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
@@ -101,7 +102,11 @@ class JsonAdaptedTask {
         if (timestamp.equals("null")) {
             modelTimeStamp = null;
         } else {
-            modelTimeStamp = new Timestamp(timestamp);
+            try {
+                modelTimeStamp = Timestamp.of(timestamp);
+            } catch (ParseException pe) {
+                throw new IllegalValueException(Timestamp.MESSAGE_CONSTRAINTS);
+            }
         }
 
         final String modelDescription;

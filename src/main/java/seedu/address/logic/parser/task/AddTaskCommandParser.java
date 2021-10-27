@@ -34,7 +34,13 @@ public class AddTaskCommandParser implements Parser<AddTaskCommand> {
         }
 
         String description = argMultimap.getValue(PREFIX_DESCRIPTION).orElse(null);
-        Timestamp timestamp = argMultimap.getValue(PREFIX_TIMESTAMP).map(ParserUtil::parseTimestamp).orElse(null);
+
+        Timestamp timestamp;
+        if (argMultimap.getValue(PREFIX_TIMESTAMP).orElse(null) == null) {
+            timestamp = null;
+        } else {
+            timestamp = ParserUtil.parseTimestamp(argMultimap.getValue(PREFIX_TIMESTAMP).get());
+        }
         Set<Tag> tags = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         Set<Contact> contacts = ParserUtil.parseContacts(argMultimap.getAllValues(PREFIX_CONTACT));
 

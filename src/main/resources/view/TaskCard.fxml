@@ -24,7 +24,7 @@
                 <FlowPane fx:id="tags"/>
             </children>
         </VBox>
-        <Label fx:id="timestamp" styleClass="cell_small_label" text="\$timestamp"/>
+        <Label fx:id="timestamp" styleClass="cell_small_label,timestamp" text="\$timestamp"/>
         <Label fx:id="description" styleClass="cell_small_label" text="\$description" wrapText="true"/>
         <FlowPane fx:id="contacts"/>
     </children>

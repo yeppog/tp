@@ -56,9 +56,10 @@ public class EditTaskCommandParser implements Parser<EditTaskCommand> {
         argMultimap.getValue(PREFIX_DESCRIPTION)
                 .map(ParserUtil::parseDescription)
                 .ifPresent(editTaskDescriptor::setDescription);
-        argMultimap.getValue(PREFIX_TIMESTAMP)
-                .map(ParserUtil::parseTimestamp)
-                .ifPresent(editTaskDescriptor::setTimestamp);
+
+        if (argMultimap.getValue(PREFIX_TIMESTAMP).orElse(null) != null) {
+            editTaskDescriptor.setTimestamp(ParserUtil.parseTimestamp(argMultimap.getValue(PREFIX_TIMESTAMP).get()));
+        }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG))
                 .ifPresent(editTaskDescriptor::setTags);
         parseContactsForEdit(argMultimap.getAllValues(PREFIX_CONTACT))
