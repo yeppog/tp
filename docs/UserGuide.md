@@ -176,15 +176,18 @@ Tasks can be filtered by completion status and/or tags. Show only completed task
 
 Allows the user to add a task to the current database.
 
-Each task has a compulsory title field, and textual description, timestamp, and tag as optional fields.
+Each task has a compulsory title field, and textual description, timestamp, and tag and contact as optional fields.
 
 **Format:**
 
-`task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]`
+`task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG] [c/CONTACT]`
+
+- Note that contacts in the AddressBook will be displayed in green, grey otherwise.
+- If the contact's name in the AddressBook is edited, the corresponding tasks' contact name will be changed accordingly as well. (if applicable)
 
 **Example:**
 
-`task add Submit CS2103 UG Draft /ts16/9/2021`
+`task add Submit CS2103 UG Draft /ts16/9/2021 c/Team Member`
 
 ### Editing a task: `task edit`
 
@@ -192,7 +195,7 @@ Edits an existing task in the task list
 
 **Format:**
 
-`task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]…`
+`task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG] [c/CONTACT]…`
 
 - Edits the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1,2,3 …
 - At least one of the optional fields must be provided
