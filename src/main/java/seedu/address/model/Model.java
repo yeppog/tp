@@ -2,15 +2,12 @@ package seedu.address.model;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.guiactions.GuiAction;
-import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
-import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilter;
 import seedu.address.storage.CommandHistory;

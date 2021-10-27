@@ -45,7 +45,8 @@ public class Task {
      * @param tags The tags of the task
      * @param isDone The completion status of the task
      */
-    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean isDone, Set<Contact> contacts) {
+    public Task(String title, String description, Timestamp timestamp,
+                Set<Tag> tags, boolean isDone, Set<Contact> contacts) {
         requireAllNonNull(title, tags, contacts);
         this.title = title;
         this.description = description;
