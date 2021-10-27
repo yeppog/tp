@@ -88,28 +88,6 @@ public class Task {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Task)) {
-            return false;
-        }
-        Task task = (Task) o;
-
-        return isDone == task.isDone
-                && Objects.equals(title, task.title)
-                && Objects.equals(description, task.description)
-                && Objects.equals(timestamp, task.timestamp)
-                && Objects.equals(tags, task.tags);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, description, timestamp, tags, isDone);
-    }
-
     public boolean isDone() {
         return isDone;
     }
@@ -132,7 +110,8 @@ public class Task {
                 && Objects.equals(description, otherTask.description)
                 && Objects.equals(timestamp, otherTask.timestamp)
                 && Objects.equals(tags, otherTask.tags)
-                && Objects.equals(isDone, otherTask.isDone);
+                && Objects.equals(isDone, otherTask.isDone)
+                && Objects.equals(contacts, otherTask.contacts);
     }
 
     @Override
