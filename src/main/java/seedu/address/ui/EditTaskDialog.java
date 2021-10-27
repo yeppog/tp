@@ -3,6 +3,7 @@ package seedu.address.ui;
 import static seedu.address.commons.util.AppUtil.getImage;
 import static seedu.address.ui.UiManager.ICON_APPLICATION;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 import javafx.beans.Observable;
@@ -188,7 +189,8 @@ public class EditTaskDialog extends UiPart<Region> {
                 Optional.of(description.getText()).filter(text -> !text.isBlank()).orElse(null),
                 Optional.of(timestamp.getText()).filter(text -> !text.isBlank()).map(Timestamp::new).orElse(null),
                 tags,
-                isDone.isSelected()
+                isDone.isSelected(),
+                new HashSet<>()
         );
     }
 }
