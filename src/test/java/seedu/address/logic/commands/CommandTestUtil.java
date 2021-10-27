@@ -19,7 +19,6 @@ import java.util.List;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.commands.task.EditTaskCommand;
-import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
@@ -40,6 +39,8 @@ public class CommandTestUtil {
     public static final String VALID_PHONE_BOB = "22222222";
     public static final String VALID_EMAIL_AMY = "amy@example.com";
     public static final String VALID_EMAIL_BOB = "bob@example.com";
+    public static final Timestamp VALID_TIMESTAMP_INTERVIEW = Timestamp.tryParse("2021-07-05");
+    public static final Timestamp VALID_TIMESTAMP_REPORT = Timestamp.tryParse("2021-12-31");
     public static final String VALID_ADDRESS_AMY = "Block 312, Amy Street 1";
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_TAG_HUSBAND = "husband";
@@ -92,10 +93,10 @@ public class CommandTestUtil {
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIEND).build();
         DESC_REPORT = new EditTaskDescriptorBuilder().withTitle(VALID_TITLE_REPORT)
-                .withDescription(VALID_DESCRIPTION_REPORT).withTimestamp(getValidTimestampReport())
+                .withDescription(VALID_DESCRIPTION_REPORT).withTimestamp(VALID_TIMESTAMP_REPORT)
                 .withTags(VALID_TAG_MODULE).build();
         DESC_INTERVIEW = new EditTaskDescriptorBuilder().withTitle(VALID_TITLE_INTERVIEW)
-                .withDescription(VALID_DESCRIPTION_INTERVIEW).withTimestamp(getValidTimestampInterview())
+                .withDescription(VALID_DESCRIPTION_INTERVIEW).withTimestamp(VALID_TIMESTAMP_INTERVIEW)
                 .withTags(VALID_TAG_CAREER).build();
     }
 
@@ -154,23 +155,4 @@ public class CommandTestUtil {
 
         assertEquals(1, model.getFilteredPersonList().size());
     }
-
-    public static Timestamp getValidTimestampReport() {
-        try {
-            return Timestamp.of("2021-12-31");
-        } catch (ParseException pe) {
-            //Should never occur
-            return null;
-        }
-    }
-
-    public static Timestamp getValidTimestampInterview() {
-        try {
-            return Timestamp.of("2021-07-05");
-        } catch (ParseException pe) {
-            //Should never occur
-            return null;
-        }
-    }
-
 }

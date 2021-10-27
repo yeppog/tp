@@ -6,11 +6,11 @@ import static seedu.address.logic.commands.CommandTestUtil.DESC_INTERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_REPORT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_INTERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_CAREER;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TIMESTAMP_INTERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TITLE_INTERVIEW;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.CommandTestUtil;
 import seedu.address.logic.commands.task.EditTaskCommand.EditTaskDescriptor;
 import seedu.address.testutil.EditTaskDescriptorBuilder;
 
@@ -46,7 +46,7 @@ public class EditTaskDescriptorTest {
 
         // different timestamp -> returns false
         editedReport = new EditTaskDescriptorBuilder(DESC_REPORT)
-                .withTimestamp(CommandTestUtil.getValidTimestampInterview()).build();
+                .withTimestamp(VALID_TIMESTAMP_INTERVIEW).build();
         assertFalse(DESC_REPORT.equals(editedReport));
 
         // different tags -> returns false
