@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.TaskList;
 import seedu.address.model.task.Task;
+import seedu.address.ui.exceptions.GuiException;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -96,6 +99,7 @@ public class MainWindow extends UiPart<Stage> {
             if (e.getCode() == KeyCode.Z && e.isShortcutDown()) {
                 CommandResult result = this.logic.undoCommand();
                 resultDisplay.setFeedbackToUser(result.getFeedbackToUser());
+                e.consume();
             }
         });
 
@@ -157,12 +161,24 @@ public class MainWindow extends UiPart<Stage> {
             });
         };
 
+        Consumer<Task> addTask = task -> {
+            try {
+                logic.executeGuiAction((AddressBook addressBook, TaskList taskList) -> {
+                    taskList.addTask(task);
+                });
+            } catch (GuiException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Error occurred when adding task", e);
+            }
+        };
+
         TaskListPanel taskListPanel = new TaskListPanel(
                 logic.getFilteredTaskList(),
                 logic.getAvailableTaskFilters(),
                 logic.getSelectedTaskFilters(),
                 logic::addTaskFilter,
                 logic::removeTaskFilter,
+                addTask,
                 taskEditor
         );
         taskListPanelPlaceholder.getChildren().add(taskListPanel.getRoot());

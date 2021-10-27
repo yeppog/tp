@@ -1,7 +1,6 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
-import java.util.Optional;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -29,8 +28,6 @@ public class TaskCard extends UiPart<Region> {
     @FXML
     private CheckBox isCompleted;
 
-    private final Task task;
-
     /**
      * Creates a card representing a task. Used in a task list to display a task.
      * @param task The task to represent
@@ -39,15 +36,13 @@ public class TaskCard extends UiPart<Region> {
     public TaskCard(Task task, int oneIndex, TaskListPanel.TaskEditor taskEditor) {
         super(FXML);
 
-        this.task = task;
-
         name.setText(oneIndex + ".  " + task.getTitle());
 
-        if (task.getDescription() == null) {
+        if (task.getDescription().isEmpty()) {
             description.setVisible(false);
             description.setManaged(false);
         } else {
-            description.setText(task.getDescription());
+            description.setText(task.getDescription().get());
         }
 
         if (task.getTags().isEmpty()) {
@@ -63,21 +58,21 @@ public class TaskCard extends UiPart<Region> {
             tags.prefWrapLengthProperty().bind(getRoot().widthProperty().divide(1.5));
         }
 
-        if (task.getTimestamp() == null) {
+        if (task.getTimestamp().isEmpty()) {
             timestamp.setVisible(false);
             timestamp.setManaged(false);
         } else {
             timestamp.setText(
-                    Optional.ofNullable(task.getTimestamp()).map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
+                    task.getTimestamp().map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
         }
 
         isCompleted.setText("");
-        isCompleted.setSelected(task.getIsDone());
+        isCompleted.setSelected(task.isDone());
         isCompleted.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
             Task newTask = new Task(
                 task.getTitle(),
-                task.getDescription(),
-                task.getTimestamp(),
+                task.getDescription().orElse(null),
+                task.getTimestamp().orElse(null),
                 task.getTags(),
                 newValue
             );
