@@ -241,12 +241,27 @@ public class AddCommandTest {
         }
 
         @Override
+        public String getHistoryCommand(boolean isNext, String currentString) {
+            return null;
+        }
+
+        @Override
         public void deleteAllInFilteredTaskList() {
             throw new AssertionError("This method should not be called.");
         }
 
         @Override
         public int indexOf(Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addCommandToHistory(String command) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void resetHistoryPosition() {
             throw new AssertionError("This method should not be called.");
         }
     }

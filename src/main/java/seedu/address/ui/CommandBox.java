@@ -54,6 +54,27 @@ public class CommandBox extends UiPart<Region> {
     }
 
     /**
+     * Set the current commandTextField text to the input text of the function.
+     * @param text The text to change to.
+     */
+    public void setCommandText(String text) {
+        commandTextField.setText(text);
+        commandTextField.positionCaret(text.length());
+    }
+
+    /**
+     * Obtain the current content in the TextField.
+     * @return String of the current content.
+     */
+    public String getContent() {
+        return commandTextField.getText();
+    }
+
+    public boolean isEmpty() {
+        return commandTextField.getText().equals("");
+    }
+
+    /**
      * Sets the command box style to use the default style.
      */
     private void setStyleToDefault() {
