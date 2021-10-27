@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -197,6 +198,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public int indexOf(Task task) {
+        return taskList.indexOf(task);
+    }
+
+    @Override
     public void insertTask(Task task, int index) {
         taskList.addTaskAtIndex(task, index);
         recomputeAvailableTaskFilters();
@@ -289,13 +295,13 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Deletes a list of given tasks.
+     * Deletes the filtered list and their filters from the task list.
      * This method does not {@code updateTaskFilters} so as to show distinct changes to the task list, if any.
      * Instead, it removes all currently selected task filters from {@code availableTaskFilters}
-     * @param tasksToDelete List of tasks in the filtered list to delete.
      */
     @Override
-    public void deleteAllInFilteredTaskList(Task... tasksToDelete) {
+    public void deleteAllInFilteredTaskList() {
+        List<Task> tasksToDelete = new ArrayList<>(filteredTasks);
         for (Task task : tasksToDelete) {
             taskList.removeTask(task);
         }
