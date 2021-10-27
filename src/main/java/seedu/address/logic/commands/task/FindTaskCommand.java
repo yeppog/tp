@@ -28,6 +28,11 @@ public class FindTaskCommand extends TaskCommand {
     private final TaskContainsKeywordsPredicate predicate;
     private TaskFilter prevPredicate;
 
+    /**
+     * Contructor for command. Sets previous predicate to null.
+     *
+     * @param predicate Predicate to filter the task with.
+     */
     public FindTaskCommand(TaskContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
         prevPredicate = null;
@@ -48,8 +53,8 @@ public class FindTaskCommand extends TaskCommand {
         model.getSelectedTaskFilters().stream()
                 .filter(filter -> filter instanceof KeywordTaskFilter)
                 .findFirst().ifPresent(filter -> {
-                    prevPredicate = filter;
-                    model.removeTaskFilter(filter);
+                            prevPredicate = filter;
+                            model.removeTaskFilter(filter);
         });
 
 
@@ -60,7 +65,6 @@ public class FindTaskCommand extends TaskCommand {
         super.canExecute();
         return new CommandResult(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW,
                 model.getFilteredTaskList().size()));
-
     }
     
     @Override
