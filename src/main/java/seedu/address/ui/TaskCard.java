@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.Timestamp;
 import seedu.address.ui.exceptions.GuiException;
 
 public class TaskCard extends UiPart<Region> {
@@ -62,8 +63,11 @@ public class TaskCard extends UiPart<Region> {
             timestamp.setVisible(false);
             timestamp.setManaged(false);
         } else {
-            timestamp.setText(
-                    task.getTimestamp().map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
+            String text = task.getTimestamp()
+                            .map(Timestamp::toString)
+                            .map(TaskCard::prependTimestampIcon)
+                            .orElse("");
+            timestamp.setText(text);
         }
 
         isCompleted.setText("");
@@ -82,5 +86,9 @@ public class TaskCard extends UiPart<Region> {
                 e.printStackTrace();
             }
         });
+    }
+
+    private static String prependTimestampIcon(String text) {
+        return "\uD83D\uDD52 " + text;
     }
 }
