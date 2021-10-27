@@ -1,9 +1,15 @@
 package seedu.address.logic.parser;
 
+import java.util.regex.Pattern;
+
 /**
  * Contains Command Line Interface (CLI) syntax definitions common to multiple commands
  */
 public class CliSyntax {
+    public static final String PREFIX_REGEX = "[A-Za-z]+/";
+    public static final Prefix PREFIX_PREAMBLE = new Prefix("");
+    public static final Pattern PREFIX_PATTERN = Pattern
+            .compile("(?:^|\\s)(" + PREFIX_REGEX + ".*?)(?:\\s+" + PREFIX_REGEX + "|$)");
 
     /* Prefix definitions */
     public static final Prefix PREFIX_NAME = new Prefix("n/");

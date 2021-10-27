@@ -41,6 +41,7 @@ public class TaskCommandParser implements Parser<TaskCommand> {
 
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
+
         switch (commandWord) {
         case AddTaskCommand.COMMAND_WORD:
             return new AddTaskCommandParser().parse(arguments);
@@ -58,7 +59,8 @@ public class TaskCommandParser implements Parser<TaskCommand> {
             return new ListTaskCommandParser().parse(arguments);
 
         case PurgeTaskCommand.COMMAND_WORD:
-            return new PurgeTaskCommand();
+            return new NoArgumentCommandParser<>(PurgeTaskCommand.class, PurgeTaskCommand.FULL_COMMAND_WORD)
+                    .parse(arguments);
 
         case FindTaskCommand.COMMAND_WORD:
             return new FindTaskCommandParser().parse(arguments);
