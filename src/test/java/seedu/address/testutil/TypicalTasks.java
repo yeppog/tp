@@ -17,11 +17,13 @@ public class TypicalTasks {
     public static final Task CLEAN_ROOM = new TaskBuilder()
             .withTitle("Clean my room")
             .withTags("important")
+            .withContacts("Mother")
             .build();
     public static final Task ARRANGE_MEETING = new TaskBuilder()
             .withTitle("Arrange meeting")
             .withTags("work", "important")
             .withDone(true)
+            .withContacts("Alejandro")
             .build();
 
     /**
