@@ -58,7 +58,7 @@ public class FindTaskCommand extends TaskCommand {
                 model.getFilteredTaskList().size()));
 
     }
-
+    
     @Override
     public CommandResult undo(Model model) throws CommandException {
         super.canUndo();
