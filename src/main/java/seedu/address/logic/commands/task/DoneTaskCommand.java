@@ -19,13 +19,14 @@ public class DoneTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "done";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
     public static final String MESSAGE_SUCCESS = "Task completed: %1$s";
-    public static final String MESSAGE_ALREADY_DONE = "Task has already been completed: %1$s";
+    public static final String MESSAGE_UNDONE = "Task has been undone: %1$s";
     public static final String MESSAGE_USAGE =
             FULL_COMMAND_WORD + ": Completes an existing task in the task list.\n"
                     + "Parameters: INDEX (must be a positive integer) " + "Example: " + FULL_COMMAND_WORD + " 1";
 
     private final Index index;
     private Task completedTask;
+    private String displayedString;
 
     public DoneTaskCommand(Index index) {
         this.index = index;
@@ -42,17 +43,21 @@ public class DoneTaskCommand extends TaskCommand {
         super.canExecute();
 
         Task task = taskList.get(index.getZeroBased());
+        boolean isDone = task.isDone();
         Task completedTask = new Task(task.getTitle(),
-                task.getDescription(),
-                task.getTimestamp(),
+                task.getDescription().orElse(null),
+                task.getTimestamp().orElse(null),
                 task.getTags(),
-                !task.getIsDone());
+                !task.isDone(),
+                task.getContacts());
         this.completedTask = completedTask;
-        model.setTask(task,
-                completedTask);
+        model.setTask(task, completedTask);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS,
-                completedTask));
+        displayedString = isDone
+                ? MESSAGE_UNDONE
+                : MESSAGE_SUCCESS;
+
+        return new CommandResult(String.format(displayedString, completedTask));
     }
 
     @Override
@@ -64,7 +69,6 @@ public class DoneTaskCommand extends TaskCommand {
     public CommandResult undo(Model model) throws CommandException {
         super.canUndo();
         this.execute(model);
-        this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 this.completedTask));
     }

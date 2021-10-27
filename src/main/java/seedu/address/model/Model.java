@@ -9,7 +9,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
-import seedu.address.model.task.filters.TaskFilters.TaskFilter;
+import seedu.address.model.task.filters.TaskFilter;
 import seedu.address.storage.CommandHistory;
 
 /**
@@ -104,10 +104,9 @@ public interface Model {
     void deleteTask(Task deletedTask);
 
     /**
-     * Deletes a list of given tasks. The tasks must exist in the task list.
-     * @param tasksToDelete List of tasks to delete.
+     * Deletes the list of Filtered Tasks and their filters.
      */
-    void deleteAllInFilteredTaskList(Task... tasksToDelete);
+    void deleteAllInFilteredTaskList();
 
     /**
      * Adds the given task to the task list.
@@ -121,6 +120,13 @@ public interface Model {
      * @param index The index to insert the task at.
      */
     void insertTask(Task task, int index);
+
+    /**
+     * Checks the index of the given task in the task list.
+     * @param task Task to check the index of.
+     * @return The 0-based index of the task.
+     */
+    int indexOf(Task task);
 
     /** Returns an unmodifiable view of the task list */
     ObservableList<Task> getFilteredTaskList();

@@ -2,10 +2,14 @@ package seedu.address.model.task;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
+import seedu.address.logic.commands.Command;
+import seedu.address.model.TaskList;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -20,6 +24,7 @@ public class Task {
     private final Timestamp timestamp;
     private final Set<Tag> tags = new HashSet<>();
     private final boolean isDone;
+    private final Set<Contact> contacts = new HashSet<>();
 
     /**
      * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
@@ -28,8 +33,8 @@ public class Task {
      * @param timestamp The optional timestamp of the task
      * @param tags The tags of the task
      */
-    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags) {
-        this(title, description, timestamp, tags, false);
+    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, Set<Contact> contacts) {
+        this(title, description, timestamp, tags, false, contacts);
     }
 
     /**
@@ -41,13 +46,15 @@ public class Task {
      * @param tags The tags of the task
      * @param isDone The completion status of the task
      */
-    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean isDone) {
-        requireAllNonNull(title);
+    public Task(String title, String description, Timestamp timestamp,
+                Set<Tag> tags, boolean isDone, Set<Contact> contacts) {
+        requireAllNonNull(title, tags, contacts);
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;
         this.tags.addAll(tags);
         this.isDone = isDone;
+        this.contacts.addAll(contacts);
     }
 
 
@@ -55,42 +62,41 @@ public class Task {
         return title;
     }
 
-    public String getDescription() {
-        return description;
+    public Optional<String> getDescription() {
+        return Optional.ofNullable(description);
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public Optional<Timestamp> getTimestamp() {
+        return Optional.ofNullable(timestamp);
     }
 
     public Set<Tag> getTags() {
-        return tags;
+        return Collections.unmodifiableSet(tags);
     }
 
-    public boolean getIsDone() {
+    public boolean isDone() {
         return isDone;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Task)) {
-            return false;
-        }
-        Task task = (Task) o;
-
-        return isDone == task.isDone
-                && Objects.equals(title, task.title)
-                && Objects.equals(description, task.description)
-                && Objects.equals(timestamp, task.timestamp)
-                && Objects.equals(tags, task.tags);
+    public Set<Contact> getContacts() {
+        return contacts;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, description, timestamp, tags, isDone);
+
+    /**
+     * Returns whether this task has the same fields as the other task.
+     * Used by {@link Command} and {@link TaskList} instances to determine
+     * attribute equivalence in tasks.
+     *
+     * @param otherTask The task to compared with for deep equality
+     * @return true if the task has deeply equal to the given task
+     */
+    public boolean deepEquals(Task otherTask) {
+        return Objects.equals(title, otherTask.title)
+                && Objects.equals(description, otherTask.description)
+                && Objects.equals(timestamp, otherTask.timestamp)
+                && Objects.equals(tags, otherTask.tags)
+                && Objects.equals(isDone, otherTask.isDone);
     }
 
     @Override
