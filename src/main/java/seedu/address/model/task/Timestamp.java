@@ -33,6 +33,15 @@ public class Timestamp {
         return new Timestamp(timestamp);
     }
 
+    public static Timestamp tryParse(String timestamp) {
+        try {
+            return new Timestamp(timestamp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

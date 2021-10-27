@@ -187,7 +187,7 @@ public class EditTaskDialog extends UiPart<Region> {
         return new Task(
                 title.getText(),
                 Optional.of(description.getText()).filter(text -> !text.isBlank()).orElse(null),
-                Optional.of(timestamp.getText()).filter(text -> !text.isBlank()).map(Timestamp::new).orElse(null),
+                Optional.of(timestamp.getText()).filter(text -> !text.isBlank()).map(Timestamp::tryParse).orElse(null),
                 tags,
                 isDone.isSelected(),
                 new HashSet<>()
