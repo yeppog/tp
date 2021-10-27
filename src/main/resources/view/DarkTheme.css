@@ -431,6 +431,30 @@
     -fx-font-size: 11;
 }
 
+#contacts {
+    -fx-hgap: 7;
+    -fx-vgap: 3;
+}
+
+#contacts .label {
+    -fx-text-fill: white;
+    -fx-background-color: #0d630a;
+    -fx-padding: 1 3 1 3;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-font-size: 11;
+}
+
+#contacts .notIn {
+    -fx-text-fill: white;
+    -fx-background-color: #4a463f;
+    -fx-padding: 1 3 1 3;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-font-size: 11;
+}
+
+
 
 .label.label-header-small {
     -fx-font-size: 10pt;
