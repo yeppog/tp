@@ -67,11 +67,12 @@ use via a CLI while still having the benefits of a GUI.
 - Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-- If a parameter is expected only once in the command but you specified it multiple times, only the last occurrence of the parameter will be taken.<br>
-  e.g. if you specify `p/12341234 p/56785678`, only `p/56785678` will be taken.
-
-- Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+- Parameters must be provided exactly
+  
+    - If a parameter is expected only once in the command, but you specified it multiple times,
+      an error message will be shown.
+      
+    - If an extraneous parameter is specified, an error message will be shown.
 
 </div>
 

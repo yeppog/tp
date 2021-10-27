@@ -1,6 +1,5 @@
 package seedu.address.logic.parser.task;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.DESCRIPTION_DESC_REPORT;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_CAREER;
 import static seedu.address.logic.commands.CommandTestUtil.TIMESTAMP_DESC_REPORT;
@@ -14,6 +13,7 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.task.AddTaskCommand;
+import seedu.address.logic.parser.exceptions.MissingPreambleException;
 import seedu.address.model.task.Task;
 import seedu.address.testutil.TaskBuilder;
 
@@ -23,7 +23,8 @@ public class AddTaskCommandParserTest {
 
     @Test
     void parse_emptyArguments_failure() {
-        assertParseFailure(parser, "", String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddTaskCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "",
+                String.format(new MissingPreambleException().getMessage(), AddTaskCommand.MESSAGE_USAGE));
     }
 
     @Test

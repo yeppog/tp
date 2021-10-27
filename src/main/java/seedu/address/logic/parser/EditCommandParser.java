@@ -2,11 +2,16 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.EditCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CommandArgument.optionalMultiple;
+import static seedu.address.logic.parser.CommandArgument.optionalSingle;
+import static seedu.address.logic.parser.CommandArgument.requiredSingle;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +21,7 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.address.logic.parser.exceptions.IllegalPrefixException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
 
@@ -31,15 +37,24 @@ public class EditCommandParser implements Parser<EditCommand> {
      */
     public EditCommand parse(String args) throws ParseException {
         requireNonNull(args);
-        ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
-
+        ArgumentMultimap argMultimap;
         Index index;
 
         try {
+            argMultimap =
+                ArgumentTokenizer.tokenize(args,
+                        requiredSingle(PREFIX_PREAMBLE),
+                        optionalSingle(PREFIX_NAME),
+                        optionalSingle(PREFIX_PHONE),
+                        optionalSingle(PREFIX_EMAIL),
+                        optionalSingle(PREFIX_ADDRESS),
+                        optionalMultiple(PREFIX_TAG));
+
             index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (ParseException pe) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE), pe);
+        } catch (IllegalPrefixException e) {
+            throw new ParseException(String.format(e.getMessage(), MESSAGE_USAGE), e);
+        } catch (ParseException e) {
+            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
         }
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Stores mapping of prefixes to their respective arguments.
@@ -26,7 +27,7 @@ public class ArgumentMultimap {
      * @param argValue Argument value to be associated with the specified prefix key
      */
     public void put(Prefix prefix, String argValue) {
-        List<String> argValues = getAllValues(prefix);
+        List<String> argValues = argMultimap.getOrDefault(prefix, new ArrayList<>());
         argValues.add(argValue);
         argMultimap.put(prefix, argValues);
     }
@@ -56,5 +57,13 @@ public class ArgumentMultimap {
      */
     public String getPreamble() {
         return getValue(new Prefix("")).orElse("");
+    }
+
+    public boolean contains(Prefix p) {
+        return argMultimap.containsKey(p);
+    }
+
+    public Set<Prefix> getPrefixes() {
+        return argMultimap.keySet();
     }
 }
