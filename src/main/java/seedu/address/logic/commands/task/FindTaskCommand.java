@@ -2,6 +2,8 @@ package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Optional;
+
 import seedu.address.commons.core.Messages;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
@@ -9,10 +11,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.TaskContainsKeywordsPredicate;
 import seedu.address.model.task.filters.TaskFilters;
-
-import javax.swing.text.html.Option;
-import java.util.Optional;
-
 
 public class FindTaskCommand extends TaskCommand {
 
@@ -26,11 +24,11 @@ public class FindTaskCommand extends TaskCommand {
             + "Example: " + FULL_COMMAND_WORD + " CS2103 CS2106 PC3130";
 
     private final TaskContainsKeywordsPredicate predicate;
-    private Optional<TaskFilters.TaskFilter> prevPredicate;
+    private TaskFilters.TaskFilter prevPredicate;
 
     public FindTaskCommand(TaskContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
-        prevPredicate = Optional.empty();
+        prevPredicate = null;
     }
 
     /**
@@ -47,7 +45,7 @@ public class FindTaskCommand extends TaskCommand {
         model.getSelectedTaskFilters().stream()
                 .filter(filter -> filter instanceof TaskFilters.KeywordTaskFilter)
                 .findFirst().ifPresent(filter -> {
-                    prevPredicate = Optional.of(filter);
+                    prevPredicate = filter;
                     model.removeTaskFilter(filter);
         });
 
@@ -69,7 +67,7 @@ public class FindTaskCommand extends TaskCommand {
                 .filter(filter -> filter instanceof TaskFilters.KeywordTaskFilter)
                 .findFirst().ifPresent(model::removeTaskFilter);
 
-        prevPredicate.ifPresent(model::addTaskFilter);
+        Optional.of(prevPredicate).ifPresent(model::addTaskFilter);
 
         return new CommandResult(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW,
                 model.getFilteredTaskList().size()));
