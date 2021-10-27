@@ -1,5 +1,7 @@
 package seedu.address.model;
 
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.task.Task;
@@ -44,7 +46,20 @@ public class TaskList implements ReadOnlyTaskList {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof TaskList // instanceof handles nulls
-                && tasks.equals(((TaskList) other).tasks));
+                && TaskList.taskListEquals(tasks, ((TaskList) other).tasks));
+    }
+
+    private static boolean taskListEquals(List<? extends Task> taskList1, List<? extends Task> taskList2) {
+        if (taskList1.size() != taskList2.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < taskList1.size(); i++) {
+            if (!taskList1.get(i).deepEquals(taskList2.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
