@@ -340,6 +340,12 @@ public class ModelManager implements Model {
                 && filteredPersons.equals(other.filteredPersons);
     }
 
+    /**
+     * Checks and updates contacts for a given {@code Task}, to see if they appear in AddressBook.
+     *
+     * @param task Given task to check the AddressBook with.
+     * @return A copy of the given Task with the updated AddressBook fields.
+     */
     private Task updateTaskContacts(Task task) {
         ObservableList<Person> personList = getAddressBook().getPersonList();
         Set<Contact> updatedContacts = new HashSet<>();
@@ -363,12 +369,22 @@ public class ModelManager implements Model {
                 updatedContacts);
     }
 
+    /**
+     * Determines if a name exists within a given a list of {@code Person}s.
+     *
+     * @param personList List of Persons to check through
+     * @param nameToCheck Name to check the list with
+     * @return Boolean indicating whether the personList contains nameToCheck.
+     */
     private boolean containsName(List<Person> personList, Name nameToCheck) {
         return personList.stream()
                 .map(Person::getName)
                 .anyMatch(name -> name.equals(nameToCheck));
     }
 
+    /**
+     * Checks and updates all task contacts, to see if they appear in AddressBook.
+     */
     private void updateAllTasksContacts() {
         List<Task> tasks = taskList.getTasks();
         // For every task, check and update their contacts
@@ -378,6 +394,15 @@ public class ModelManager implements Model {
         }
     }
 
+    /**
+     * Changes the {@code oldName} in the given {@code Task} to the new name.
+     * Used when a {@code Person}'s {@code Name} is edited.
+     *
+     * @param task Given task to update
+     * @param oldName Old name to change
+     * @param newName New name to change to
+     * @return A new copy of the changed task. If there is no change, the task itself is returned.
+     */
     private Task changeTaskContactName(Task task, Name oldName, Name newName) {
         Set<Contact> currentContactList = task.getContacts();
         Set<Contact> updatedContacts = new HashSet<>(currentContactList);
@@ -397,6 +422,13 @@ public class ModelManager implements Model {
                         updatedContacts);
     }
 
+    /**
+     * Changes all {@code oldName}s in all task's contacts to the new name.
+     * Used when a {@code Person}'s {@code Name} is edited.
+     *
+     * @param oldName Old name to change
+     * @param newName New name to change to
+     */
     private void changeAllTaskContactNames(Name oldName, Name newName) {
         List<Task> tasks = taskList.getTasks();
         // For every task, check and update their contacts
