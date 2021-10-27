@@ -38,6 +38,10 @@ public class TaskList implements ReadOnlyTaskList {
         tasks.set(tasks.indexOf(oldTask), newTask);
     }
 
+    public int indexOf(Task task) {
+        return tasks.indexOf(task);
+    }
+
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object

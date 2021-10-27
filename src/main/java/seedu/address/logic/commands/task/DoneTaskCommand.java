@@ -46,7 +46,8 @@ public class DoneTaskCommand extends TaskCommand {
                 task.getDescription().orElse(null),
                 task.getTimestamp().orElse(null),
                 task.getTags(),
-                !task.isDone());
+                !task.isDone(),
+                task.getContacts());
         this.completedTask = completedTask;
         model.setTask(task,
                 completedTask);
@@ -64,7 +65,6 @@ public class DoneTaskCommand extends TaskCommand {
     public CommandResult undo(Model model) throws CommandException {
         super.canUndo();
         this.execute(model);
-        this.canExecute = true;
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 this.completedTask));
     }
