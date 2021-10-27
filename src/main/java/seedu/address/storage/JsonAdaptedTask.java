@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
 
@@ -27,20 +28,25 @@ class JsonAdaptedTask {
     private final String timestamp;
     private final String isDone;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
+    private final List<JsonAdaptedContact> contacts = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonAdaptedPerson} with the given person details.
+     * Constructs a {@code JsonAdaptedTask} with the given person details.
      */
     @JsonCreator
     public JsonAdaptedTask(@JsonProperty("title") String title, @JsonProperty("description") String description,
                              @JsonProperty("timestamp") String timestamp, @JsonProperty("isDone") String isDone,
-                             @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
+                             @JsonProperty("tagged") List<JsonAdaptedTag> tagged,
+                             @JsonProperty("contacts") List<JsonAdaptedContact> contacts) {
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;
         this.isDone = isDone;
         if (tagged != null) {
             this.tagged.addAll(tagged);
+        }
+        if (contacts != null) {
+            this.contacts.addAll(contacts);
         }
     }
 
@@ -61,6 +67,11 @@ class JsonAdaptedTask {
                     .map(JsonAdaptedTag::new)
                     .collect(Collectors.toList()));
         }
+        if (!source.getContacts().isEmpty()) {
+            contacts.addAll(source.getContacts().stream()
+                    .map(JsonAdaptedContact::new)
+                    .collect(Collectors.toList()));
+        }
     }
 
     /**
@@ -74,6 +85,14 @@ class JsonAdaptedTask {
             taskTags.add(tag.toModelType());
         }
         final Set<Tag> modelTags = new HashSet<>(taskTags);
+
+
+        final List<Contact> taskContacts = new ArrayList<>();
+        for (JsonAdaptedContact contact : contacts) {
+            taskContacts.add(contact.toModelType());
+        }
+        final Set<Contact> modelContacts = new HashSet<>(taskContacts);
+
 
         if (title == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "title"));
@@ -106,7 +125,7 @@ class JsonAdaptedTask {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "isDone"));
         }
 
-        return new Task(title, modelDescription, modelTimeStamp, modelTags, modelIsDone);
+        return new Task(title, modelDescription, modelTimeStamp, modelTags, modelIsDone, modelContacts);
     }
 
 }

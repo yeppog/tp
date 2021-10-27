@@ -5,6 +5,7 @@ import java.util.Set;
 
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
 import seedu.address.model.util.SampleDataUtil;
@@ -14,6 +15,7 @@ public class TaskBuilder {
     public static final String DEFAULT_DESCRIPTION = "Two eggs, one carton of milk and five tomatoes";
     public static final Set<Tag> DEFAULT_TAGS = new HashSet<>();
     public static final boolean DEFAULT_IS_DONE = false;
+    public static final Set<Contact> DEFAULT_CONTACTS = new HashSet<>();
 
 
     private String title;
@@ -21,6 +23,7 @@ public class TaskBuilder {
     private Timestamp timestamp;
     private Set<Tag> tags;
     private boolean isDone;
+    private Set<Contact> contacts;
 
     /**
      * Creates a new {@code TaskBuilder} instance initialized with default values.
@@ -36,6 +39,7 @@ public class TaskBuilder {
         }
         this.tags = DEFAULT_TAGS;
         this.isDone = DEFAULT_IS_DONE;
+        this.contacts = DEFAULT_CONTACTS;
     }
 
     /**
@@ -47,6 +51,7 @@ public class TaskBuilder {
         timestamp = taskToCopy.getTimestamp().orElse(null);
         isDone = taskToCopy.isDone();
         tags = new HashSet<>(taskToCopy.getTags());
+        contacts = new HashSet<>(taskToCopy.getContacts());
     }
 
     /**
@@ -89,7 +94,15 @@ public class TaskBuilder {
         return this;
     }
 
+    /**
+     * Parses the {@code contacts} into a {@code Set<Contact>} and set it to the {@code Task} that we are building.
+     */
+    public TaskBuilder withContacts(String ... contacts) {
+        this.contacts = SampleDataUtil.getContactSet(contacts);
+        return this;
+    }
+
     public Task build() {
-        return new Task(title, description, timestamp, tags, isDone);
+        return new Task(title, description, timestamp, tags, isDone, contacts);
     }
 }

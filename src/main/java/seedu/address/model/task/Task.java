@@ -2,8 +2,11 @@ package seedu.address.model.task;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.time.LocalDate;
+
+
+import java.util.Collections;
 import java.util.HashSet;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -24,6 +27,7 @@ public class Task {
     private final Timestamp timestamp;
     private final Set<Tag> tags = new HashSet<>();
     private final boolean isDone;
+    private final Set<Contact> contacts = new HashSet<>();
 
     /**
      * Creates a task with a given title, and optionally a description, timestamp and a set of tags.
@@ -32,8 +36,8 @@ public class Task {
      * @param timestamp The optional timestamp of the task
      * @param tags The tags of the task
      */
-    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags) {
-        this(title, description, timestamp, tags, false);
+    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, Set<Contact> contacts) {
+        this(title, description, timestamp, tags, false, contacts);
     }
 
     /**
@@ -45,13 +49,15 @@ public class Task {
      * @param tags The tags of the task
      * @param isDone The completion status of the task
      */
-    public Task(String title, String description, Timestamp timestamp, Set<Tag> tags, boolean isDone) {
-        requireAllNonNull(title, tags);
+    public Task(String title, String description, Timestamp timestamp,
+                Set<Tag> tags, boolean isDone, Set<Contact> contacts) {
+        requireAllNonNull(title, tags, contacts);
         this.title = title;
         this.description = description;
         this.timestamp = timestamp;
         this.tags.addAll(tags);
         this.isDone = isDone;
+        this.contacts.addAll(contacts);
     }
 
 
@@ -68,7 +74,7 @@ public class Task {
     }
 
     public Set<Tag> getTags() {
-        return this.tags;
+        return Collections.unmodifiableSet(tags);
     }
 
     /**
@@ -109,6 +115,11 @@ public class Task {
     public boolean isDone() {
         return isDone;
     }
+
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
 
     /**
      * Returns whether this task has the same fields as the other task.

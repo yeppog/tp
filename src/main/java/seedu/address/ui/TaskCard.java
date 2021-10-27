@@ -9,8 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
+
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.Timestamp;
 import seedu.address.ui.exceptions.GuiException;
 
 public class TaskCard extends UiPart<Region> {
@@ -31,6 +34,9 @@ public class TaskCard extends UiPart<Region> {
 
     @FXML
     private CheckBox isCompleted;
+
+    @FXML
+    private FlowPane contacts;
 
     /**
      * Creates a card representing a task. Used in a task list to display a task.
@@ -66,12 +72,39 @@ public class TaskCard extends UiPart<Region> {
             timestamp.setVisible(false);
             timestamp.setManaged(false);
         } else {
-            timestamp.setText(
-                    task.getTimestamp().map(ts -> "\uD83D\uDD52 " + ts.toString()).orElse(""));
+            String text = task.getTimestamp()
+                        .map(Timestamp::toString)
+                        .map(TaskCard::prependTimestampIcon)
+                        .orElse("");
+            timestamp.setText(text);
             if (task.isOverdue()) {
                 logger.info(Boolean.toString(task.isOverdue()));
                 timestamp.getStyleClass().add("overdue");
             }
+        }
+
+        if (task.getContacts().isEmpty()) {
+            contacts.setVisible(false);
+            contacts.setManaged(false);
+        } else {
+            task.getContacts().stream()
+                    .filter(Contact::getIsInAddressBook)
+                    .sorted(Comparator.comparing(contact -> contact.getName().fullName))
+                    .map(contact -> new Label(contact.getName().fullName))
+                    .forEach(contacts.getChildren()::add);
+
+            task.getContacts().stream()
+                    .filter(contact -> !contact.getIsInAddressBook())
+                    .sorted(Comparator.comparing(contact -> contact.getName().fullName))
+                    .map(contact -> {
+                        Label label = new Label(contact.getName().fullName);
+                        label.getStyleClass().add("notIn");
+                        return label;
+                    })
+                    .forEach(contacts.getChildren()::add);
+
+            // Set the max width of the tag container related to the width of the task card
+            contacts.prefWrapLengthProperty().bind(getRoot().widthProperty().divide(1.5));
         }
 
         isCompleted.setText("");
@@ -82,7 +115,8 @@ public class TaskCard extends UiPart<Region> {
                 task.getDescription().orElse(null),
                 task.getTimestamp().orElse(null),
                 task.getTags(),
-                newValue
+                newValue,
+                task.getContacts()
             );
             try {
                 taskEditor.updateTask(task, newTask);
@@ -90,5 +124,11 @@ public class TaskCard extends UiPart<Region> {
                 e.printStackTrace();
             }
         });
+
+
+    }
+
+    private static String prependTimestampIcon(String text) {
+        return "\uD83D\uDD52 " + text;
     }
 }
