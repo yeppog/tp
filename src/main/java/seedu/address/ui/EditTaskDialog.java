@@ -80,7 +80,7 @@ public class EditTaskDialog extends UiPart<Region> {
         title.setText(task.map(Task::getTitle).orElse(""));
         description.setText(task.flatMap(Task::getDescription).orElse(""));
         timestamp.setText(task.flatMap(Task::getTimestamp).map(Timestamp::toString).orElse(""));
-        isDone.setSelected(task.map(Task::getIsDone).orElse(false));
+        isDone.setSelected(task.map(Task::isDone).orElse(false));
         tags.stream()
                 .map(tag -> new DeletableChip(tag.tagName, () -> tags.remove(tag)).getRoot())
                 .forEach(tagPane.getChildren()::add);
