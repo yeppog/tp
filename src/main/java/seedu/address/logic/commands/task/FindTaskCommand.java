@@ -11,6 +11,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.TaskContainsKeywordsPredicate;
 import seedu.address.model.task.filters.KeywordTaskFilter;
+import seedu.address.model.task.filters.TaskFilter;
 import seedu.address.model.task.filters.TaskFilters;
 
 public class FindTaskCommand extends TaskCommand {
@@ -25,7 +26,7 @@ public class FindTaskCommand extends TaskCommand {
             + "Example: " + FULL_COMMAND_WORD + " CS2103 CS2106 PC3130";
 
     private final TaskContainsKeywordsPredicate predicate;
-    private TaskFilters.TaskFilter prevPredicate;
+    private TaskFilter prevPredicate;
 
     public FindTaskCommand(TaskContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
@@ -45,7 +46,7 @@ public class FindTaskCommand extends TaskCommand {
 
 
         model.getSelectedTaskFilters().stream()
-                .filter(filter -> filter instanceof TaskFilters.KeywordTaskFilter)
+                .filter(filter -> filter instanceof KeywordTaskFilter)
                 .findFirst().ifPresent(filter -> {
                     prevPredicate = filter;
                     model.removeTaskFilter(filter);
@@ -67,7 +68,7 @@ public class FindTaskCommand extends TaskCommand {
         super.canUndo();
 
         model.getSelectedTaskFilters().stream()
-                .filter(filter -> filter instanceof TaskFilters.KeywordTaskFilter)
+                .filter(filter -> filter instanceof KeywordTaskFilter)
                 .findFirst().ifPresent(model::removeTaskFilter);
 
         Optional.of(prevPredicate).ifPresent(model::addTaskFilter);

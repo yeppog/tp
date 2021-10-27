@@ -43,7 +43,7 @@ public class DoneTaskCommand extends TaskCommand {
         super.canExecute();
 
         Task task = taskList.get(index.getZeroBased());
-        boolean isDone = task.getIsDone();
+        boolean isDone = task.isDone();
         Task completedTask = new Task(task.getTitle(),
                 task.getDescription().orElse(null),
                 task.getTimestamp().orElse(null),
