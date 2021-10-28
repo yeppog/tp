@@ -265,6 +265,8 @@ Each `Command` will have a different way of implementing `undo()`, depending on 
 
     - Find/Sort/Filter: Restores the previous `Predicate` or `List<Filters>` that was in the `FilteredList`
     
+![Activity Diagram showing the process of an undo command](images/UndoSequenceActivityDiagram.png)
+    
 ### Redo feature
 
 #### Current Implementation
@@ -312,6 +314,10 @@ null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> DeleteCommand4
 `redo` cannot be called when no commands have been undone, as the `Command`s now have a boolean `canExecute` to
 determine the state of the command. Executing `undo()` on a `Command` allows `execute()` to be called, and vice-versa,
 executing `execute()` on a `Command` then allows for `undo()` to be called.
+
+#### Activity Diagram
+
+![Activity Diagram showing the process of a redo command](images/RedoSequenceActivityDiagram.png)
 
 ### Task filter feature
 
