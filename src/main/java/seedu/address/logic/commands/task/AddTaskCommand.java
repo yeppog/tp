@@ -55,7 +55,7 @@ public class AddTaskCommand extends TaskCommand {
 
     @Override
     public CommandResult undo(Model model) throws CommandException {
-        model.deleteTask(this.task);
+        model.deleteTaskAtLastIndex();
         return new CommandResult(String.format(MESSAGE_SUCCESS, task));
     }
 }

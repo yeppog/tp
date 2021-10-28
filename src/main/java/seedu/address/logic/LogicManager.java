@@ -145,6 +145,15 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public CommandResult redoCommand() {
+        try {
+            return this.execute("redo");
+        } catch (CommandException | ParseException e) {
+            return new CommandResult(e.getMessage());
+        }
+    }
+
+    @Override
     public String getHistoryCommand(boolean isNext, String currentString) {
         return model.getHistoryCommand(isNext, currentString);
     }

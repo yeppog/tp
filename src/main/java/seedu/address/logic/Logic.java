@@ -100,9 +100,15 @@ public interface Logic {
 
     /**
      * Executes an undo command.
-     * @return The command result of the command being executed.
+     * @return The command result of the command being undone.
      */
     CommandResult undoCommand();
+
+    /**
+     * Executes a redo command.
+     * @return The command result of the command being redone.
+     */
+    CommandResult redoCommand();
 
     /**
      * Get the next or previous command in the command history.

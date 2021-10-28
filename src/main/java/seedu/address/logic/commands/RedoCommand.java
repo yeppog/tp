@@ -6,20 +6,20 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.storage.CommandHistory;
 
-public class UndoCommand extends Command {
+public class RedoCommand extends Command {
 
-    public static final String COMMAND_WORD = "undo";
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Undoes the last executed command. \n"
+    public static final String COMMAND_WORD = "redo";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Redoes the last executed command. \n"
             + "Example: " + COMMAND_WORD;
-    public static final String MESSAGE_UNDO_SUCCESS = "Successfully undid: ";
-    public static final String MESSAGE_NOT_UNDONE = "Cannot undo any further.";
+    public static final String MESSAGE_UNDO_SUCCESS = "Successfully redid: ";
+    public static final String MESSAGE_NOT_UNDONE = "Cannot redo any further.";
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         CommandHistory commandHistory = model.getCommandHistory();
-        Optional<Command> commandToUndo = commandHistory.getHistoryCommand(false);
-        if (commandToUndo.isPresent()) {
-            CommandResult result = commandToUndo.get().undo(model);
+        Optional<Command> commandToRedo = commandHistory.getHistoryCommand(true);
+        if (commandToRedo.isPresent()) {
+            CommandResult result = commandToRedo.get().execute(model);
             return new CommandResult(MESSAGE_UNDO_SUCCESS + result.getFeedbackToUser());
         } else {
             return new CommandResult(MESSAGE_NOT_UNDONE);

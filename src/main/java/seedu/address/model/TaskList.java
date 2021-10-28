@@ -34,6 +34,15 @@ public class TaskList implements ReadOnlyTaskList {
         tasks.remove(deletedTask);
     }
 
+    /**
+     * Removes the last item in the list. Bypass for undoing add tasks.
+     */
+    public void removeTaskAtLastIndex() {
+        if (tasks.size() > 0) {
+            tasks.remove(tasks.size() - 1);
+        }
+    }
+
     public void setTask(Task oldTask, Task newTask) {
         tasks.set(tasks.indexOf(oldTask), newTask);
     }

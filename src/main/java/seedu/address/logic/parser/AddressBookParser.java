@@ -15,6 +15,7 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -72,6 +73,9 @@ public class AddressBookParser {
 
         case UndoCommand.COMMAND_WORD:
             return new NoArgumentCommandParser<>(UndoCommand.class, UndoCommand.MESSAGE_USAGE).parse(arguments);
+
+        case RedoCommand.COMMAND_WORD:
+            return new NoArgumentCommandParser<>(RedoCommand.class, RedoCommand.MESSAGE_USAGE).parse(arguments);
 
         // Every command starting with "task" delegated to TaskCommandParser
         case TaskCommand.COMMAND_WORD:
