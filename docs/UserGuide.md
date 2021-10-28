@@ -259,7 +259,16 @@ Undos the previous command, returning the user back to the previous state, up to
 
 Format: `undo`
 
-- Setting a filter is not considered a command that can be undone.
+This command can also be invoked through using the shortcut `CTRL + Z` or `CMD + Z`.
+
+### Undo previous command : `redo`
+
+Redo the previous command, returning the user back to the previous state, up to a maximum of 15 previous commands.
+
+Format: `redo`
+
+This command can also be invoked through using the shortcut `CTRL + Y` or `CMD + Y` or `CTRL + SHIFT + Z` 
+or `CMD + SHIFT + Z`.
 
 ### Purge all visible tasks : `task purge`
 
@@ -274,6 +283,16 @@ Format: `task purge`
 Clears all entries from the address book.
 
 Format: `clear`
+
+### Retrieving previous commands:
+
+Retrieves the previous successfully executed commands.
+
+This only works through the CLI by using the `UP` or `DOWN` arrow keys. Anything that was typed but not executed is
+automatically cached, but is removed when a new command is executed.
+
+By pressing the `UP` or `DOWN` arrow keys, the text box will have its text input cycle through the past executed commands. Nothing
+happens if there were no commands executed.
 
 ### Exiting the program : `exit`
 
@@ -323,4 +342,6 @@ _Details coming soon ..._
 | **Task Edit**   | `task edit INDEX [t/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [tag/TAG]…` <br> e.g.,`task edit 1 t/CS2103 Week 6 Quiz`                                                    |
 | **Find**        | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
 | **List**        | `list`                                                                                                                                                                |
+| **Undo**        | `undo`                                                                                                                                                                |
+| **Redo**        | `redo`                                                                                                                                                                |
 | **Help**        | `help`                                                                                                                                                                |
