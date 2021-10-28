@@ -249,6 +249,7 @@ null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> DeleteCommand3
 6. The `undo()` method mutates `Model` to restore the state before the initial execution of the command.
 7. The pointer in `CommandHistory` now shifts to the previous element in the stack if it exists.
 
+![Activity Diagram showing the process of an undo command](images/UndoSequenceActivityDiagram.png)
 
 #### Implementation of `undo()`
 
@@ -265,7 +266,6 @@ Each `Command` will have a different way of implementing `undo()`, depending on 
 
     - Find/Sort/Filter: Restores the previous `Predicate` or `List<Filters>` that was in the `FilteredList`
     
-![Activity Diagram showing the process of an undo command](images/UndoSequenceActivityDiagram.png)
     
 ### Redo feature
 
@@ -309,15 +309,35 @@ null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> DeleteCommand4
 7. The pointer in `CommandHistory` now shifts to the previous element in the stack if it exists.
 8. The user now can use the `redo` command to redo the command in **Step 2**.
 
+![Activity Diagram showing the process of a redo command](images/RedoSequenceActivityDiagram.png)
+
 #### Important Note
 
 `redo` cannot be called when no commands have been undone, as the `Command`s now have a boolean `canExecute` to
 determine the state of the command. Executing `undo()` on a `Command` allows `execute()` to be called, and vice-versa,
 executing `execute()` on a `Command` then allows for `undo()` to be called.
 
-#### Activity Diagram
+### Input history feature
 
-![Activity Diagram showing the process of a redo command](images/RedoSequenceActivityDiagram.png)
+Input history works similar to a terminal, where the up and down arrow keys can bring up recently executed commands.
+
+#### Current implementation
+
+The Input History feature uses a doubly linked list to store the string commands in the stack, and the up and down arrow
+keys allow for traversing and returning the previous and next command respectively. 
+
+#### Example usage
+
+1. User launches TaskMaster2103 and inputs a standard new `Command`.
+2. If the command is valid, the executed command will be in the `InputHistory` stack and can be accessed by pressing UP.
+3. Upon pressing UP, the user will see the command that was entered in Step 1 in the text box, and can quickly execute
+that command again by pressing ENTER.
+4. The user can also navigate to the top of the stack by using the DOWN key. If the stack reaches the end, it will
+display either an empty string, or whatever string the user had input before using the arrow keys. This input is reset
+everytime a new successful command is executed.
+
+
+![Activity Diagram showing the process of retrieving an executed command string](images/InputHistoryActivityDiagram.png)
 
 ### Task filter feature
 

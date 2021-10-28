@@ -1,0 +1,24 @@
+@startuml
+!include style.puml
+
+start
+:Retrieve previous command;
+if() then ([UP pressed])
+    :Retrieve previous Input from InputHistory;
+else([DOWN pressed])
+    :Retrieve next Input from InputHistory;
+endif
+
+if() then ([Retrieved Input is not null])
+    : Update GUI text box to show retrieved string;
+else([Retrieved input is null])
+    if() then ([UP pressed]))
+        : Do not update GUI text box;
+    else([DOWN pressed])
+        : Update GUI text box to show current input;
+    endif
+
+endif
+stop
+
+@enduml
