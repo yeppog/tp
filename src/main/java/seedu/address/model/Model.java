@@ -104,6 +104,11 @@ public interface Model {
     void deleteTask(Task deletedTask);
 
     /**
+     * Deletes the task at index. Bypass due to object inequality.
+     */
+    void deleteTaskAtLastIndex();
+
+    /**
      * Deletes the list of Filtered Tasks and their filters.
      */
     void deleteAllInFilteredTaskList();

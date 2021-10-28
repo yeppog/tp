@@ -294,6 +294,12 @@ public class ModelManager implements Model {
         updateTaskFilters();
     }
 
+    @Override
+    public void deleteTaskAtLastIndex() {
+        taskList.removeTaskAtLastIndex();
+        updateTaskFilters();
+    }
+
     /**
      * Deletes the filtered list and their filters from the task list.
      * This method does not {@code updateTaskFilters} so as to show distinct changes to the task list, if any.
