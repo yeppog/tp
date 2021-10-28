@@ -214,27 +214,41 @@ The `delete` feature is implemented by acting on the current filtered`TaskList` 
 #### Current Implementation
 
 The current implementation of the `undo` feature is through storing the command history of the user in `CommandHistory`
-as a command stack, and popping off the stack whenever `undo` is called.
+as a command stack, and returning the command from the stack whenever `undo` is called.
 
 The abstract class `Command` has an additional method `undo()` to be implemented by the inheriting class
 to model the correct undo behaviour. Commands that have previous states, such as `Find` with a specific `Predicate`,
 store the previous state in the class.
 
-`Redo` can be implemented by maintaining this `CommandHistory` stack instead of popping, and calling `execute` on the
-`Command` object again.
+The implementation of `CommandHistory` relies on a doubly linked list to efficiently traverse the stack and store the
+state. A simple description of the stack can be seen below:
+
+```text
+Stack when commands are executed:
+null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> null
+                                                                   ^current
+                                                                   
+Stack when a single undo is called
+null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> null
+                                                           ^current
+                                                           
+Stack after adding a command to the above state
+
+null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
+                                                                                       ^current
+```
 
 #### Example usage of `undo`
 
 1. User launches TaskMaster2103 and a new `CommandHistory` object is initialised in `Model`.
 2. User invokes any valid command into TaskMaster2103 that successfully gets executed.
 3. The successfully invoked command gets stored in the `CommandHistory` stack through `LogicManager`.
-4. The user can now invoke `undo`, and when the user does so, the top-most `Command` in `CommandHistory` will be popped.
-5. The top-most `Command` that was popped with have its `undo()` method executed.
-6. The `undo()` method mutates `Model` to restore the state before the initial executiion of the command.
-7. The successfully invoked command gets stored in the `CommandHistory` stack through `LogicManager`.
-8. The user can now invoke `undo`, and when the user does so, the top-most `Command` in `CommandHistory` will be popped.
-9. The top-most `Command` that was popped with have its `undo()` method executed.
-10. The `undo()` method mutates `Model` to restore the state before the initial execution of the command.
+4. The user can now invoke `undo`, and when the user does so, the top-most `Command` in `CommandHistory` 
+   will be returned.
+5. The top-most `Command` that was returned with have its `undo()` method executed.
+6. The `undo()` method mutates `Model` to restore the state before the initial execution of the command.
+7. The pointer in `CommandHistory` now shifts to the previous element in the stack if it exists.
+
 
 #### Implementation of `undo()`
 
@@ -245,10 +259,59 @@ Each `Command` will have a different way of implementing `undo()`, depending on 
     - Add: Deletes the object at the last index
     - Delete: Adds the deleted task at the original deleted index
     - Edit: Restores the state to the pre-edit state
+    - Purge: Restores all the tasks that were purged
 
 2. GUI View Commands:
 
-    - Find/Sort/Filter: Restores the previous `Predicate` that was in the `FilteredList`
+    - Find/Sort/Filter: Restores the previous `Predicate` or `List<Filters>` that was in the `FilteredList`
+    
+### Redo feature
+
+#### Current Implementation
+
+Redo builds upon the fact that each command has its pre-defined function `execute()` and its own inverse `undo()`. This
+allows for commands to be easily re-executed, simply by calling it's `execute()` method again.
+
+
+The implementation of `CommandHistory` relies on a doubly linked list to efficiently traverse the stack and store the
+state. A simple description of the stack with redo and undo actions can be seen below:
+
+```text
+Stack when commands are executed:
+null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
+                                                                   ^current
+                                                                   
+Stack when two undo commands are called
+null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
+                                      ^current
+                                                           
+Stack after a single redo command is called
+null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
+                                                         ^current
+                                      
+Stack after adding a command to the above state
+
+null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> DeleteCommand4 <-> null
+                                                                                       ^current
+```
+
+#### Example usage of `redo`
+
+1. User launches TaskMaster2103 and a new `CommandHistory` object is initialised in `Model`.
+2. User invokes any valid command into TaskMaster2103 that successfully gets executed.
+3. The successfully invoked command gets stored in the `CommandHistory` stack through `LogicManager`.
+4. The user can now invoke `undo`, and when the user does so, the top-most `Command` in `CommandHistory`
+   will be returned.
+5. The top-most `Command` that was returned with have its `undo()` method executed.
+6. The `undo()` method mutates `Model` to restore the state before the initial execution of the command.
+7. The pointer in `CommandHistory` now shifts to the previous element in the stack if it exists.
+8. The user now can use the `redo` command to redo the command in **Step 2**.
+
+#### Important Note
+
+`redo` cannot be called when no commands have been undone, as the `Command`s now have a boolean `canExecute` to
+determine the state of the command. Executing `undo()` on a `Command` allows `execute()` to be called, and vice-versa,
+executing `execute()` on a `Command` then allows for `undo()` to be called.
 
 ### Task filter feature
 
