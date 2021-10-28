@@ -173,6 +173,24 @@ Tasks can be filtered by completion status and/or tags. Show only completed task
 
 `task list [done/] [undone/] [t/TAG]`
 
+### Finding tasks: `task find`
+
+Finds tasks which have contain any of the given keywords in their title or description
+
+Format: `task find KEYWORD [MORE_KEYWORDS]`
+
+- The search is case-insensitive. e.g `cs2103` will match `CS2103`
+- The order of the keywords does not matter. e.g. `PE dry run` will match `dry run PE`
+- Only the title and description will be searched.
+- Only full words will be matched e.g. `meeting` will not match `meetings`
+- Tasks matching at least one keyword will be returned (i.e. `OR` search).
+  e.g. `CS2103 meeting` will return `CS2103 tP`, `online meeting`
+
+Examples:
+
+- `task find CS2103` returns `CS2103 tP` and `CS2103 PE`
+- `task find CS2103 project` returns `CS2103 tP`, `UROPS project`<br>
+
 ### Adding a task: `task add`
 
 Allows the user to add a task to the current database.
