@@ -88,7 +88,8 @@ Shows a message explaning how to access the help page.
 Format: `help`
 
 <a name="ab3comm"></a>
-##Address Book Commands
+
+## Address Book Commands
 
 ### Adding a person: `add`
 
@@ -170,7 +171,8 @@ Clears all entries from the address book.
 Format: `clear`
 
 <a name="tasklistcomm"></a>
-##Task List Commands
+
+## Task List Commands
 
 ### Adding a task: `task add`
 
@@ -279,7 +281,7 @@ Format: `task purge`
 
 <a name="shortcuts"></a>
 
-##Other Shortcuts/Commands
+## Other Shortcuts/Commands
 
 ### Undo previous command : `undo`
 
