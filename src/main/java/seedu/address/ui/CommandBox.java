@@ -31,6 +31,10 @@ public class CommandBox extends UiPart<Region> {
         commandTextField.textProperty().addListener((unused1, unused2, unused3) -> setStyleToDefault());
     }
 
+    public void focus() {
+        commandTextField.requestFocus();
+    }
+
     /**
      * Handles the Enter button pressed event.
      */
@@ -47,6 +51,27 @@ public class CommandBox extends UiPart<Region> {
         } catch (CommandException | ParseException e) {
             setStyleToIndicateCommandFailure();
         }
+    }
+
+    /**
+     * Set the current commandTextField text to the input text of the function.
+     * @param text The text to change to.
+     */
+    public void setCommandText(String text) {
+        commandTextField.setText(text);
+        commandTextField.positionCaret(text.length());
+    }
+
+    /**
+     * Obtain the current content in the TextField.
+     * @return String of the current content.
+     */
+    public String getContent() {
+        return commandTextField.getText();
+    }
+
+    public boolean isEmpty() {
+        return commandTextField.getText().equals("");
     }
 
     /**

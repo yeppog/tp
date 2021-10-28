@@ -3,6 +3,14 @@
     -fx-text-fill: #d06651 !important; /* The error class should always override the default text-fill style */
 }
 
+.timestamp {
+    -fx-padding: 4 4 4 7;
+}
+
+.overdue {
+    -fx-background-color: #78392c;
+}
+
 .list-cell:empty {
     /* Empty cells will not have alternating colours */
     -fx-background: #383838;
@@ -16,5 +24,32 @@
 }
 
 .tooltip-text {
+    -fx-text-fill: white;
+}
+
+.filter-chip {
+    -fx-background-radius: 50;
+    -fx-background-color: #2F2F2F;
+}
+
+.filter-chip .button {
+    -fx-background-color: transparent;
+    -fx-padding: 2 6 2 6;
+    -fx-margin: 0;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-border-width: 0;
+}
+
+.filter-chip .button:hover {
+    -fx-background-color: #383838;
+    -fx-background-radius: 100;
+}
+
+.filter-combo-box.combo-box-base .list-cell {
+    -fx-text-fill: transparent;
+}
+
+.filter-combo-box .combo-box-popup .list-cell {
     -fx-text-fill: white;
 }

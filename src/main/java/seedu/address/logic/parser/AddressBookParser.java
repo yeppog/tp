@@ -15,6 +15,8 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.TaskCommand;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
 /**
@@ -54,19 +56,26 @@ public class AddressBookParser {
             return new DeleteCommandParser().parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
-            return new ClearCommand();
+            return new NoArgumentCommandParser<>(ClearCommand.class, ClearCommand.MESSAGE_USAGE).parse(arguments);
 
         case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
 
         case ListCommand.COMMAND_WORD:
-            return new ListCommand();
+            return new NoArgumentCommandParser<>(ListCommand.class, ListCommand.MESSAGE_USAGE).parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
-            return new ExitCommand();
+            return new NoArgumentCommandParser<>(ExitCommand.class, ExitCommand.MESSAGE_USAGE).parse(arguments);
 
         case HelpCommand.COMMAND_WORD:
-            return new HelpCommand();
+            return new NoArgumentCommandParser<>(HelpCommand.class, HelpCommand.MESSAGE_USAGE).parse(arguments);
+
+        case UndoCommand.COMMAND_WORD:
+            return new NoArgumentCommandParser<>(UndoCommand.class, UndoCommand.MESSAGE_USAGE).parse(arguments);
+
+        // Every command starting with "task" delegated to TaskCommandParser
+        case TaskCommand.COMMAND_WORD:
+            return new TaskCommandParser().parse(arguments);
 
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);

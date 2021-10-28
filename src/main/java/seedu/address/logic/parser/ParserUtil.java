@@ -14,6 +14,8 @@ import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Contact;
+import seedu.address.model.task.Timestamp;
 
 /**
  * Contains utility methods used for parsing strings in the various *Parser classes.
@@ -120,5 +122,59 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses {@code String title} into a trimmed {@code String title}
+     * @param title The title to parse
+     * @return A parsed title
+     */
+    public static String parseTitle(String title) {
+        requireNonNull(title);
+        return title.trim();
+    }
+
+    /**
+     * Parses {@code String description} into a trimmed {@code String description}
+     * @param description The description to parse
+     * @return A parsed description
+     */
+    public static String parseDescription(String description) {
+        requireNonNull(description);
+        return description.trim();
+    }
+
+    /**
+     * Parses {@code String timestamp} into a {@code Timestamp}.
+     * @param timestamp The timestamp string to parse
+     * @return A parsed timestamp
+     */
+    public static Timestamp parseTimestamp(String timestamp) throws ParseException {
+        requireNonNull(timestamp);
+        String trimmedTs = timestamp.trim();
+        return Timestamp.of(trimmedTs);
+    }
+
+    /**
+     * Parses a {@code String tag} into a {@code Tag}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code tag} is invalid.
+     */
+    public static Contact parseContact(String contact) throws ParseException {
+        Name name = parseName(contact);
+        return new Contact(name);
+    }
+
+    /**
+     * Parses {@code Collection<String> tags} into a {@code Set<Tag>}.
+     */
+    public static Set<Contact> parseContacts(Collection<String> contacts) throws ParseException {
+        requireNonNull(contacts);
+        final Set<Contact> contactsSet = new HashSet<>();
+        for (String contactName : contacts) {
+            contactsSet.add(parseContact(contactName));
+        }
+        return contactsSet;
     }
 }

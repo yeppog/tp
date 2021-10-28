@@ -9,6 +9,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -16,11 +17,16 @@ import org.junit.jupiter.api.Test;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyTaskList;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.filters.TaskFilter;
+import seedu.address.storage.CommandHistory;
 import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandTest {
@@ -144,7 +150,118 @@ public class AddCommandTest {
         }
 
         @Override
-        public void updateFilteredPersonList(Predicate<Person> predicate) {
+        public void updateFilteredPersonList(Predicate<? super Person> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addTask(Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<Task> getFilteredTaskList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<TaskFilter> getAvailableTaskFilters() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ObservableList<TaskFilter> getSelectedTaskFilters() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addTaskFilter(TaskFilter taskFilter) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void removeTaskFilter(TaskFilter taskFilter) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setTaskFilters(List<TaskFilter> taskFilter) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public List<TaskFilter> getOldTaskFilters() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void updateFilteredTaskList(Predicate<Task> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public ReadOnlyTaskList getTaskList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void setTask(Task target, Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void executeGuiAction(GuiAction action) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void deleteTask(Task task) {
+
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Predicate<? super Person> getFilteredPersonPredicate() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void insertTask(Task task, int index) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public Predicate<? super Task> getFilteredTaskPredicate() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public CommandHistory getCommandHistory() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public String getHistoryCommand(boolean isNext, String currentString) {
+            return null;
+        }
+
+        @Override
+        public void deleteAllInFilteredTaskList() {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public int indexOf(Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addCommandToHistory(String command) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void resetHistoryPosition() {
             throw new AssertionError("This method should not be called.");
         }
     }
