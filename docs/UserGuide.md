@@ -3,15 +3,18 @@ layout: page
 title: User Guide
 ---
 
-# User Guide V1.2
+# User Guide V1.3
 
-TaskMaster2103 V1.2 is a desktop app for managing contacts as well as tasks, optimized for
+TaskMaster2103 V1.3 is a desktop app for managing contacts as well as tasks, optimized for
 use via a CLI while still having the benefits of a GUI.
 
 ## Table of Contents
 
 1. [Quick Start](#quickstart)
 2. [Features](#features)
+   1. [Address Book Commands](#ab3comm)
+   2. [Task List Commands](#tasklistcomm)
+   3. [Other Shortcuts/Commands](#shortcuts)
 3. [FAQ](#faq)
 4. [Command Summary](#commandsummary)
 
@@ -83,6 +86,9 @@ Shows a message explaning how to access the help page.
 ![help message](images/helpMessage.png)
 
 Format: `help`
+
+<a name="ab3comm"></a>
+##Address Book Commands
 
 ### Adding a person: `add`
 
@@ -157,39 +163,14 @@ Examples:
 - `list` followed by `delete 2` deletes the 2nd person in the address book.
 - `find Betsy` followed by `delete 1` deletes the 1st person in the results of the `find` command.
 
-### Listing tasks: `task list`
+### Clearing all entries : `clear`
 
-Lists all tasks in the task list. Clears any existing filters.
+Clears all entries from the address book.
 
-**Format:**
+Format: `clear`
 
-`task list`
-
-#### Filtering tasks
-
-Tasks can be filtered by completion status and/or tags. Show only completed tasks with `done/`, pending tasks with `undone/` and tasks with a certain tag `TAG` with `tag/TAG`.
-
-**Format:**
-
-`task list [done/] [undone/] [t/TAG]`
-
-### Finding tasks: `task find`
-
-Finds tasks which have contain any of the given keywords in their title or description
-
-Format: `task find KEYWORD [MORE_KEYWORDS]`
-
-- The search is case-insensitive. e.g `cs2103` will match `CS2103`
-- The order of the keywords does not matter. e.g. `PE dry run` will match `dry run PE`
-- Only the title and description will be searched.
-- Only full words will be matched e.g. `meeting` will not match `meetings`
-- Tasks matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `CS2103 meeting` will return `CS2103 tP`, `online meeting`
-
-Examples:
-
-- `task find CS2103` returns `CS2103 tP` and `CS2103 PE`
-- `task find CS2103 project` returns `CS2103 tP`, `UROPS project`<br>
+<a name="tasklistcomm"></a>
+##Task List Commands
 
 ### Adding a task: `task add`
 
@@ -208,6 +189,22 @@ Each task has a compulsory title field, and textual description, timestamp, and 
 
 `task add Submit CS2103 UG Draft /ts16/9/2021 c/Team Member`
 
+### Listing tasks: `task list`
+
+Lists all tasks in the task list. Clears any existing filters.
+
+**Format:**
+
+`task list`
+
+#### Filtering tasks
+
+Tasks can be filtered by completion status and/or tags. Show only completed tasks with `done/`, pending tasks with `undone/` and tasks with a certain tag `TAG` with `tag/TAG`.
+
+**Format:**
+
+`task list [done/] [undone/] [t/TAG]`
+
 ### Editing a task: `task edit`
 
 Edits an existing task in the task list
@@ -224,6 +221,24 @@ Edits an existing task in the task list
 **Example:**
 
 `task edit 1 ti/CS2103 Week 6 Quiz`
+
+### Finding tasks: `task find`
+
+Finds tasks which have contain any of the given keywords in their title or description
+
+Format: `task find KEYWORD [MORE_KEYWORDS]`
+
+- The search is case-insensitive. e.g `cs2103` will match `CS2103`
+- The order of the keywords does not matter. e.g. `PE dry run` will match `dry run PE`
+- Only the title and description will be searched.
+- Only full words will be matched e.g. `meeting` will not match `meetings`
+- Tasks matching at least one keyword will be returned (i.e. `OR` search).
+  e.g. `CS2103 meeting` will return `CS2103 tP`, `online meeting`
+
+Examples:
+
+- `task find CS2103` returns `CS2103 tP` and `CS2103 PE`
+- `task find CS2103 project` returns `CS2103 tP`, `UROPS project`<br>
 
 ### Completing a task: `task done`
 
@@ -253,6 +268,19 @@ Deletes a specified task from the tasks list by a given index.
 
 `task delete 2`
 
+### Purge all visible tasks : `task purge`
+
+Clears and deletes all visible (filtered) tasks from the TaskMaster.
+
+Format: `task purge`
+
+- Any active filter(s) will remain even after the purge to prevent possible confusion.
+
+
+<a name="shortcuts"></a>
+
+##Other Shortcuts/Commands
+
 ### Undo previous command : `undo`
 
 Undos the previous command, returning the user back to the previous state, up to a maximum of 15 previous commands.
@@ -270,19 +298,6 @@ Format: `redo`
 This command can also be invoked through using the shortcut `CTRL + Y` or `CMD + Y` or `CTRL + SHIFT + Z` 
 or `CMD + SHIFT + Z`.
 
-### Purge all visible tasks : `task purge`
-
-Clears all visible (filtered) tasks from the address book.
-
-Format: `task purge`
-
-- Any active filter(s) will remain even after the purge to prevent possible confusion.
-
-### Clearing all entries : `clear`
-
-Clears all entries from the address book.
-
-Format: `clear`
 
 ### Retrieving previous commands:
 
@@ -302,19 +317,15 @@ Format: `exit`
 
 ### Saving the data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+TaskMaster data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
 ### Editing the data file
 
-AddressBook data are saved as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+TaskMaster data are saved as JSON files corresponding to the task list and address book  at `[JAR file location]/data/`. Advanced users are welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run.
+If your changes to the data file makes its format invalid, TaskMaster will discard all data and start with an empty data file at the next run.
 </div>
-
-### Archiving data files `[coming in v2.0]`
-
-_Details coming soon ..._
 
 ---
 
@@ -333,15 +344,22 @@ _Details coming soon ..._
 
 | Action          | Format, Examples                                                                                                                                                      |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|***Address Book Commands*** |
 | **Add**         | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
-| **Task Add**    | `task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [tag/TAG}`                                                                                                             |
-| **Clear**       | `clear`                                                                                                                                                               |
-| **Delete**      | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
-| **Task Delete** | `task delete INDEX`<br> e.g., `task delete 3`                                                                                                                         |
-| **Edit**        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
-| **Task Edit**   | `task edit INDEX [t/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [tag/TAG]…` <br> e.g.,`task edit 1 t/CS2103 Week 6 Quiz`                                                    |
-| **Find**        | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
 | **List**        | `list`                                                                                                                                                                |
+| **Edit**        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
+| **Find**        | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
+| **Delete**      | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
+| **Clear**       | `clear`                                                                                                                                                               |
+|***Task List Commands***    |
+| **Task Add**    | `task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [tag/TAG}`                                                                                                             |
+| **Task List**   | `task list [done/] [undone/] [t/TAG]` |
+| **Task Edit**   | `task edit INDEX [t/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [tag/TAG]…` <br> e.g.,`task edit 1 t/CS2103 Week 6 Quiz`                                                    |
+| **Task Find**   | `task find KEYWORD [MORE_KEYWORDS]`|
+| **Task Delete** | `task delete INDEX`<br> e.g., `task delete 3`                                                                                                                         |
+| **Task Purge** | `task purge`                                                                                                                         |
+|***Other Commands***|
 | **Undo**        | `undo`                                                                                                                                                                |
 | **Redo**        | `redo`                                                                                                                                                                |
 | **Help**        | `help`                                                                                                                                                                |
+| **Exit**        | `exit`                                                                                                                                                                |
