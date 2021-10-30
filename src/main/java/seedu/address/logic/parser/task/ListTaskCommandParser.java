@@ -48,7 +48,7 @@ public class ListTaskCommandParser implements Parser<ListTaskCommand> {
 
         // Both done and undone flags are present
         if (argMultimap.getValue(PREFIX_DONE).isPresent()
-                && argMultimap.getValue(PREFIX_DONE).isPresent()) {
+                && argMultimap.getValue(PREFIX_UNDONE).isPresent()) {
             throw new ParseException(MESSAGE_ONE_DONE_FILTER + "\n" + MESSAGE_USAGE);
         }
 
