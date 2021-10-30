@@ -68,8 +68,19 @@ public class DoneTaskCommand extends TaskCommand {
     @Override
     public CommandResult undo(Model model) throws CommandException {
         super.canUndo();
-        this.execute(model);
-        return new CommandResult(String.format(MESSAGE_SUCCESS,
-                this.completedTask));
+        List<Task> taskList = model.getFilteredTaskList();
+
+        Task task = taskList.get(index.getZeroBased());
+        Task completedTask = new Task(task.getTitle(),
+                task.getDescription().orElse(null),
+                task.getTimestamp().orElse(null),
+                task.getTags(),
+                !task.isDone(),
+                task.getContacts());
+
+        this.completedTask = completedTask;
+        model.setTask(task, completedTask);
+
+        return new CommandResult(String.format(displayedString, this.completedTask));
     }
 }
