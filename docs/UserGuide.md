@@ -301,7 +301,7 @@ Format: `undo`
 
 This command can also be invoked through using the shortcut `CTRL + Z` or `CMD + Z`.
 
-### Undo previous command : `redo`
+### Redo previous command : `redo`
 
 Redo the previous command, returning the user back to the previous state, up to a maximum of 15 previous commands.
 
