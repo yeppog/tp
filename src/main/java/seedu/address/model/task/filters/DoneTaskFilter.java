@@ -10,7 +10,7 @@ class DoneTaskFilter extends TaskFilter {
     }
 
     private DoneTaskFilter(boolean isInverted) {
-        super(Task::isDone, isInverted);
+        super(task -> task.isDone() != isInverted, isInverted);
     }
 
     @Override
