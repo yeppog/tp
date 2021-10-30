@@ -37,11 +37,7 @@ public class KeywordTaskFilter extends TaskFilter {
 
     @Override
     public boolean hasConflictWith(TaskFilter other) {
-        if (!(other instanceof KeywordTaskFilter)) {
-            return false;
-        }
-        KeywordTaskFilter otherKeywordTaskFilter = (KeywordTaskFilter) other;
-        return keywords.equals(otherKeywordTaskFilter.keywords);
+        return other instanceof KeywordTaskFilter;
     }
 
     @Override
