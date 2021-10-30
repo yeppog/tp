@@ -70,9 +70,9 @@ use via a CLI while still having the benefits of a GUI.
 - Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-- Parameters must be provided exactly
+- Parameters must be provided exactly.
   
-    - If a parameter is expected only once in the command. If you specified it multiple times,
+    - Each parameter is expected only once in the command. If you specified it multiple times,
       an error message will be shown.
       
     - If an extraneous parameter is specified, an error message will be shown.
