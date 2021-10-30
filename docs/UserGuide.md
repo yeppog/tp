@@ -76,6 +76,8 @@ use via a CLI while still having the benefits of a GUI.
       an error message will be shown.
       
     - If an extraneous parameter is specified, an error message will be shown.
+    
+    - Parameter or argument values cannot contain the character `/`. An error message will be shown if `/` is present in the argument value. For example, `task add 1/2` is invalid, and can be replaced with valid alternatives such as `task add 1 or 2` instead.
 
 </div>
 
