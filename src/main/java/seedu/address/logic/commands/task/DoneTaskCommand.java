@@ -35,27 +35,11 @@ public class DoneTaskCommand extends TaskCommand {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        List<Task> taskList = model.getFilteredTaskList();
-
-        if (index.getZeroBased() >= taskList.size()) {
-            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
-        }
         super.canExecute();
-
-        Task task = taskList.get(index.getZeroBased());
-        boolean isDone = task.isDone();
-        Task completedTask = new Task(task.getTitle(),
-                task.getDescription().orElse(null),
-                task.getTimestamp().orElse(null),
-                task.getTags(),
-                !task.isDone(),
-                task.getContacts());
-        this.completedTask = completedTask;
-        model.setTask(task, completedTask);
-
+        boolean isDone = changeTaskIsDone(model);
         displayedString = isDone
-                ? MESSAGE_UNDONE
-                : MESSAGE_SUCCESS;
+                ? MESSAGE_SUCCESS
+                : MESSAGE_UNDONE;
 
         return new CommandResult(String.format(displayedString, completedTask));
     }
@@ -67,8 +51,17 @@ public class DoneTaskCommand extends TaskCommand {
 
     @Override
     public CommandResult undo(Model model) throws CommandException {
+        requireNonNull(model);
         super.canUndo();
+        changeTaskIsDone(model);
+        return new CommandResult(String.format(displayedString, this.completedTask));
+    }
+
+    private boolean changeTaskIsDone(Model model) throws CommandException {
         List<Task> taskList = model.getFilteredTaskList();
+        if (index.getZeroBased() >= taskList.size()) {
+            throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+        }
 
         Task task = taskList.get(index.getZeroBased());
         Task completedTask = new Task(task.getTitle(),
@@ -81,6 +74,6 @@ public class DoneTaskCommand extends TaskCommand {
         this.completedTask = completedTask;
         model.setTask(task, completedTask);
 
-        return new CommandResult(String.format(displayedString, this.completedTask));
+        return completedTask.isDone();
     }
 }
