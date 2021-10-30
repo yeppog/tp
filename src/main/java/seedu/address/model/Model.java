@@ -138,8 +138,8 @@ public interface Model {
 
 
     /**
-     * Returns a list of available task filters.
-     * @return The list of available task filters.
+     * Returns a list of selectable task filters.
+     * @return The list of selectable task filters.
      */
     ObservableList<TaskFilter> getSelectableTaskFilters();
 
