@@ -1,6 +1,7 @@
 package seedu.address.logic.parser.task;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.task.ListTaskCommand.MESSAGE_ONE_DONE_FILTER;
 import static seedu.address.logic.commands.task.ListTaskCommand.MESSAGE_USAGE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -44,6 +45,12 @@ public class ListTaskCommandParser implements Parser<ListTaskCommand> {
 
         Set<Tag> tags = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
         List<TaskFilter> taskFilters = tags.stream().map(TaskFilters.FILTER_TAG).collect(Collectors.toList());
+
+        // Both done and undone flags are present
+        if (argMultimap.getValue(PREFIX_DONE).isPresent()
+                && argMultimap.getValue(PREFIX_DONE).isPresent()) {
+            throw new ParseException(MESSAGE_ONE_DONE_FILTER + "\n" + MESSAGE_USAGE);
+        }
 
         if (argMultimap.getValue(PREFIX_DONE).isPresent()) {
             taskFilters.add(TaskFilters.FILTER_DONE);

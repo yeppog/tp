@@ -19,6 +19,11 @@ class DoneTaskFilter extends TaskFilter {
     }
 
     @Override
+    public boolean hasConflictWith(TaskFilter other) {
+        return other instanceof DoneTaskFilter;
+    }
+
+    @Override
     public DoneTaskFilter invert() {
         return new DoneTaskFilter(!isInverted);
     }
