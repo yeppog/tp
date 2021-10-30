@@ -254,13 +254,15 @@ Examples:
 
 ### Completing a task: `task done`
 
-Completes an existing task in the task list
+Completes an existing task in the task list, or marks it as not done if already done.
 
 **Format:**
 
 `task done INDEX`
 
 - Completes the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1,2,3 …
+
+- If the task at the specified INDEX is already done, this command should un-complete the task, marking it as not done.
 
 **Example:**
 
