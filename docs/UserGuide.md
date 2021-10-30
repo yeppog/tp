@@ -189,7 +189,7 @@ Each task has a compulsory title field, and textual description, timestamp, and 
 
 **Example:**
 
-`task add Submit CS2103 UG Draft ts/16-9-2021 c/Team Member`
+`task add Submit CS2103 UG Draft ts/16-09-2021 c/Team Member`
 
 ### Listing tasks: `task list`
 

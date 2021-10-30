@@ -13,8 +13,8 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Represents a timestamp for a task.
  */
 public class Timestamp {
-    public static final String MESSAGE_CONSTRAINTS = "Timestamp should be in d-M-YYYY format";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d-M-yyyy");
+    public static final String MESSAGE_CONSTRAINTS = "Timestamp should be in DD-MM-YYYY format";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private final LocalDate timestamp;
 
