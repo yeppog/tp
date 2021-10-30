@@ -75,7 +75,7 @@ use via a CLI while still having the benefits of a GUI.
     - If a parameter is expected only once in the command, but you specified it multiple times,
       an error message will be shown.
       
-    - If an extraneous parameter is specified, an error message will be shown.
+    - If an extraneous parameter is specified, an error message will be shown. (Does not apply for tags or contacts)
     
     - Parameter or argument values cannot contain the character `/`. An error message will be shown if `/` is present in the argument value. For example, `task add 1/2` is invalid, and can be replaced with valid alternatives such as `task add 1 or 2` instead.
 
@@ -136,6 +136,8 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 - When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 - You can remove all the person’s tags by typing `t/` without
   specifying any tags after it.
+- If the edited Person's name corresponds to a name of a contact in any task, the corresponding tasks' contact name will be changed accordingly as well. (if applicable)
+
 
 Examples:
 
@@ -194,10 +196,8 @@ Each task has a compulsory title field, and textual description, timestamp, and 
 
 **Format:**
 
-`task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG] [c/CONTACT]`
+`task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]… [c/CONTACT]…`
 
-- Note that contacts in the AddressBook will be displayed in green, grey otherwise.
-- If the contact's name in the AddressBook is edited, the corresponding tasks' contact name will be changed accordingly as well. (if applicable)
 
 **Example:**
 
@@ -217,7 +217,7 @@ Tasks can be filtered by completion status and/or tags. Show only completed task
 
 **Format:**
 
-`task list [done/] [undone/] [t/TAG]`
+`task list [done/] [undone/] [t/TAG]…`
 
 ### Editing a task: `task edit`
 
@@ -225,12 +225,12 @@ Edits an existing task in the task list
 
 **Format:**
 
-`task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG] [c/CONTACT]…`
+`task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]… [c/CONTACT]…`
 
 - Edits the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1,2,3 …
 - At least one of the optional fields must be provided
-- Existing values will be updated to the input values.When editing tags, the existing tags of the task will be removed i.e adding of tags is not cumulative.
-- You can remove all the task’s tags by typing tag/ without specifying any tags after it.
+- Existing values will be updated to the input values. When editing tags or contacts, the existing tags of the task will be removed i.e adding of tags and contact are not cumulative.
+- You can remove all the task’s tags by typing `t/` without specifying any tags after it. This applies to contacts and `c/` as well.
 
 **Example:**
 
@@ -344,6 +344,72 @@ If your changes to the data file makes its format invalid, TaskMaster will disca
 </div>
 
 ---
+
+## Using the GUI
+
+The following image shows an example of the main menu. The task list is shown on the left of the app, while the address book is shown on the right.
+
+![main menu gui](images/guiMainMenu.png)
+
+### 1. CLI
+
+- A Command Line Interface is provided for users to type commands. 
+- If not focused on the CLI, pressing the `/` key will allow the user to focus on the text box and immediately begin typing. 
+- To retrieve previously typed commands, you may see "Retrieving previous commands" in the "Other Shortcuts/Commands" section above.
+
+### 2. Filter Dropdown
+
+- A filter can be used to filter the list of tasks. By clicking the filter dropdown, the following dropdown will be shown.
+
+![Filter dropdown gui](images/guiFilterDropdown.png)
+
+Clicking on any one of the dropdown options will filter the task list based on the filter chosen, as shown.
+
+![result for filtering by homework](images/guiFilterHomework.png)
+
+- More than 1 filter can be applied at any time. However, for the `Done` and `Undone` filters, only one can be selected at any time.
+- Using the `task find` command also adds to the list of filters.
+
+### 3. Adding a task via GUI
+
+Upon clicking the Add Task Dialog button, the following popup window should appear.
+
+![result for pressing +new button](images/guiAddTaskDialog.png)
+
+Enter relevant text into the text fields.
+
+**[TODO: PLACE FILLED ADD TASK DIALOG HERE]**
+
+To add tags, type the tag into the text field and press the `Enter` key. The tag should be displayed as seen below.
+
+![result for adding new tag](images/guiAddTag.png)
+
+To finish adding a task, click the `Save` button. The task should be added to the task list.
+
+- Pressing the `Enter` key on text fields other than the "Tags" field should add the task to the task list.
+- If invalid arguments are provided, the task will still be added without the invalid arguments upon clicking "Save" or the `Enter` key.
+
+### The Task pane
+
+Each task pane represents one task in the task list. Below are examples of 2 tasks. For your reference, relevant components are numbered from 1-5.
+
+![2 task examples](images/guiTasks.png)
+
+Legend:
+
+| **Number**  | **Name** | **Description** |
+| ------------- | ------------- | ------------- |
+| 1  | Task title  | Mandatory field. |
+| 2  | Done checkbox |  Checkbox will be ticked if the task is complete. It will not be ticked otherwise. <br/><br/> Checkboxes can be clicked to toggle the task's completion status from the GUI directly. |
+| 3  | Timestamp  | Optional field. <br/><br/> No highlight by default. If the task date has past, the timestamp would be highlighted in red. |
+| 4  | Description of the task  | Optional field. |
+| 5  | Tags  | Optional field. <br/><br/> All tags are displayed in alphabetical order and highlighted blue. |
+| 6  | Timestamp, represents a date  |  Optional field. <br/><br/> By default, contacts are highlighted grey. However, should a contact's name correspond to a person in the Address Book, it would be highlighted green instead. <br/><br/> All contacts are displayed in alphabetical order, grouped by whether or not the appear in the Address Book. <br/><br/> If the edited Person's name corresponds to a name of a contact in any task, the corresponding tasks' contact name will be changed accordingly as well.
+
+### Editing a task via GUI
+
+Double-clicking on a task pane will bring the user to the Edit Task Dialog. See the above section "Adding a task via GUI" for details regarding the task dialog.
+
 
 <a name="faq"></a>
 
