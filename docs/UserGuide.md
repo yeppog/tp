@@ -229,7 +229,7 @@ Edits an existing task in the task list
 
 - Edits the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1,2,3 …
 - At least one of the optional fields must be provided
-- Existing values will be updated to the input values. When editing tags or contacts, the existing tags of the task will be removed i.e adding of tags and contact are not cumulative.
+- Existing values will be updated to the input values. When editing tags or contacts, the existing tags of the task will be removed i.e adding of tags and contacts are not cumulative.
 - You can remove all the task’s tags by typing `t/` without specifying any tags after it. This applies to contacts and `c/` as well.
 
 **Example:**
@@ -256,7 +256,7 @@ Examples:
 
 ### Completing a task: `task done`
 
-Completes an existing task in the task list, or marks it as not done if already done.
+Completes an existing task in the task list, or marks it as not done if it is already done.
 
 **Format:**
 
@@ -391,7 +391,7 @@ To finish adding a task, click the `Save` button. The task should be added to th
 
 ### The Task pane
 
-Each task pane represents one task in the task list. Below are examples of 2 tasks. For your reference, relevant components are numbered from 1-5.
+Each task pane represents one task in the task list. Below are examples of 2 tasks. For your reference, relevant components are numbered from 1-6.
 
 ![2 task examples](images/guiTasks.png)
 
