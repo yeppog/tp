@@ -7,12 +7,11 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 
 import seedu.address.logic.parser.exceptions.ArgumentContainsSlashException;
-import seedu.address.logic.parser.exceptions.MissingPreambleException;
-import seedu.address.logic.parser.exceptions.MissingPrefixException;
+import seedu.address.logic.parser.exceptions.MissingCommandArgumentException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.exceptions.TooManyPrefixesException;
+import seedu.address.logic.parser.exceptions.UnwantedCommandArgumentException;
 import seedu.address.logic.parser.exceptions.UnwantedPreambleException;
-import seedu.address.logic.parser.exceptions.UnwantedPrefixException;
 
 /**
  * Tokenizes arguments string of the form: {@code preamble <prefix>value <prefix>value ...}<br>
@@ -23,17 +22,31 @@ import seedu.address.logic.parser.exceptions.UnwantedPrefixException;
  * in the above example.<br>
  */
 public class ArgumentTokenizer {
+    private final CommandSpecification specs;
+    private final List<CommandArgument> argumentList;
+
+    /**
+     * Creates an ArgumentTokenizer that parses arguments specified by the given command specifications,
+     * @param specs The command specifications to parse arguments according to
+     */
+    public ArgumentTokenizer(CommandSpecification specs) {
+        this.specs = specs;
+        argumentList = specs.getCommandArguments();
+    }
+
+    private CommandArgument getCommandArgumentWithPrefix(Prefix prefix) {
+        return Optional.ofNullable(
+                specs.getCommandArgumentWithPrefix(prefix)).orElseGet(() -> CommandArgument.unknown(prefix));
+    }
 
     /**
      * Tokenizes an arguments string and returns an {@code ArgumentMultimap} object that maps prefixes to their
      * respective argument values. Only the given prefixes will be recognized in the arguments string.
      *
      * @param argsString Arguments string of the form: {@code preamble <prefix>value <prefix>value ...}
-     * @param arguments  the arguments expected to appear in the argsString
      * @return ArgumentMultimap object that maps prefixes to their arguments
      */
-    public static ArgumentMultimap tokenize(String argsString, CommandArgument... arguments) throws ParseException {
-        List<CommandArgument> argumentList = List.of(arguments);
+    public ArgumentMultimap tokenize(String argsString) throws ParseException {
         Matcher matcher = CliSyntax.PREFIX_PATTERN.matcher(argsString);
         ArgumentMultimap argumentMultimap = new ArgumentMultimap();
 
@@ -56,7 +69,7 @@ public class ArgumentTokenizer {
 
             Prefix prefix = new Prefix(prefixString);
             if (value.contains("/")) {
-                throw new ArgumentContainsSlashException(prefix);
+                throw new ArgumentContainsSlashException(getCommandArgumentWithPrefix(prefix), specs);
             }
             argumentMultimap.put(prefix, value);
         }
@@ -69,13 +82,13 @@ public class ArgumentTokenizer {
                 .filter(p -> !argumentMultimap.contains(p))
                 .findAny();
         if (missingPrefix.isPresent()) {
-            throw new MissingPrefixException(missingPrefix.get());
+            throw new MissingCommandArgumentException(getCommandArgumentWithPrefix(missingPrefix.get()), specs);
         }
 
         String preamble = argsString.substring(0, preambleEnd).trim();
 
         if (preamble.contains("/")) {
-            throw new ArgumentContainsSlashException(PREFIX_PREAMBLE);
+            throw new ArgumentContainsSlashException(getCommandArgumentWithPrefix(PREFIX_PREAMBLE), specs);
         }
 
         // Check for unwanted preamble
@@ -83,7 +96,7 @@ public class ArgumentTokenizer {
             boolean isPreambleExpected = argumentList.stream().map(CommandArgument::getPrefix)
                     .anyMatch(p -> p.equals(PREFIX_PREAMBLE));
             if (!isPreambleExpected) {
-                throw new UnwantedPreambleException(preamble);
+                throw new UnwantedPreambleException(preamble, specs);
             }
             argumentMultimap.put(PREFIX_PREAMBLE, preamble);
         } else {
@@ -93,7 +106,7 @@ public class ArgumentTokenizer {
                             .equals(PREFIX_PREAMBLE));
             // Check for missing preamble
             if (isPreambleRequired) {
-                throw new MissingPreambleException();
+                throw new MissingCommandArgumentException(getCommandArgumentWithPrefix(PREFIX_PREAMBLE), specs);
             }
         }
 
@@ -103,10 +116,10 @@ public class ArgumentTokenizer {
                     .findFirst();
             if (argument.isEmpty()) {
                 // Argument not in expected list
-                throw new UnwantedPrefixException(prefix);
+                throw new UnwantedCommandArgumentException(getCommandArgumentWithPrefix(prefix), specs);
             } else {
                 if (!argument.get().isMultiple() && argumentMultimap.getAllValues(prefix).size() > 1) {
-                    throw new TooManyPrefixesException(prefix);
+                    throw new TooManyPrefixesException(getCommandArgumentWithPrefix(prefix), specs);
                 }
             }
         }

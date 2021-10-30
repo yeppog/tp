@@ -1,17 +1,12 @@
 package seedu.address.logic.parser.task;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.task.EditTaskCommand.MESSAGE_USAGE;
+import static seedu.address.logic.commands.task.EditTaskCommand.COMMAND_SPECS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CONTACT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
-import static seedu.address.logic.parser.CommandArgument.optionalMultiple;
-import static seedu.address.logic.parser.CommandArgument.optionalSingle;
-import static seedu.address.logic.parser.CommandArgument.requiredSingle;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,67 +17,47 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.task.EditTaskCommand;
 import seedu.address.logic.commands.task.EditTaskCommand.EditTaskDescriptor;
 import seedu.address.logic.parser.ArgumentMultimap;
-import seedu.address.logic.parser.ArgumentTokenizer;
-import seedu.address.logic.parser.Parser;
+import seedu.address.logic.parser.ArgumentMultimapParser;
+import seedu.address.logic.parser.ArgumentParser;
 import seedu.address.logic.parser.ParserUtil;
-import seedu.address.logic.parser.exceptions.IllegalPrefixException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Contact;
+import seedu.address.model.task.Timestamp;
 
 /**
  * Parses input arguments and creates a new EditTaskCommand object
  */
-public class EditTaskCommandParser implements Parser<EditTaskCommand> {
+public class EditTaskCommandParser extends ArgumentMultimapParser<EditTaskCommand> {
 
-    /**
-     * Parses the given {@code String} of arguments in the context of the EditTaskCommand
-     * and returns an EditTaskCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public EditTaskCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap;
-        try {
-            argMultimap = ArgumentTokenizer.tokenize(args,
-                    requiredSingle(PREFIX_PREAMBLE),
-                    optionalSingle(PREFIX_TITLE),
-                    optionalSingle(PREFIX_DESCRIPTION),
-                    optionalSingle(PREFIX_TIMESTAMP),
-                    optionalMultiple(PREFIX_TAG),
-                    optionalMultiple(PREFIX_CONTACT));
-        } catch (IllegalPrefixException e) {
-            throw new ParseException(String.format(e.getMessage(), MESSAGE_USAGE));
-        } catch (ParseException e) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
-        }
+    public EditTaskCommandParser() {
+        super(COMMAND_SPECS);
+    }
 
-        Index index;
-
-        try {
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (ParseException pe) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditTaskCommand.MESSAGE_USAGE), pe);
-        }
-
+    @Override
+    public EditTaskCommand parseArgumentMultimap(ArgumentMultimap argMultimap) throws ParseException {
         EditTaskDescriptor editTaskDescriptor = new EditTaskDescriptor();
-        argMultimap.getValue(PREFIX_TITLE)
-                .map(ParserUtil::parseTitle)
-                .ifPresent(editTaskDescriptor::setTitle);
-        argMultimap.getValue(PREFIX_DESCRIPTION)
-                .map(ParserUtil::parseDescription)
-                .ifPresent(editTaskDescriptor::setDescription);
 
-        if (argMultimap.getValue(PREFIX_TIMESTAMP).orElse(null) != null) {
-            editTaskDescriptor.setTimestamp(ParserUtil.parseTimestamp(argMultimap.getValue(PREFIX_TIMESTAMP).get()));
-        }
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG))
-                .ifPresent(editTaskDescriptor::setTags);
-        parseContactsForEdit(argMultimap.getAllValues(PREFIX_CONTACT))
-                .ifPresent(editTaskDescriptor::setContacts);
+        Index index = ArgumentParser.parseValue(PREFIX_PREAMBLE, ParserUtil::parseIndex, argMultimap, COMMAND_SPECS);
+        Optional<String> title = ArgumentParser.parseOptionalValue(PREFIX_TITLE, ParserUtil::parseTitle, argMultimap,
+                COMMAND_SPECS);
+        Optional<String> description = ArgumentParser.parseOptionalValue(PREFIX_DESCRIPTION,
+                ParserUtil::parseDescription, argMultimap, COMMAND_SPECS);
+        Optional<Timestamp> timestamp = ArgumentParser.parseOptionalValue(PREFIX_TIMESTAMP,
+                ParserUtil::parseTimestamp, argMultimap, COMMAND_SPECS);
+        Optional<Set<Tag>> tags = ArgumentParser.parseAllValues(PREFIX_TAG, EditTaskCommandParser::parseTagsForEdit,
+                argMultimap, COMMAND_SPECS);
+        Optional<Set<Contact>> contacts = ArgumentParser.parseAllValues(PREFIX_CONTACT,
+                EditTaskCommandParser::parseContactsForEdit, argMultimap, COMMAND_SPECS);
+
+        title.ifPresent(editTaskDescriptor::setTitle);
+        description.ifPresent(editTaskDescriptor::setDescription);
+        timestamp.ifPresent(editTaskDescriptor::setTimestamp);
+        tags.ifPresent(editTaskDescriptor::setTags);
+        contacts.ifPresent(editTaskDescriptor::setContacts);
 
         if (!editTaskDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(EditTaskCommand.MESSAGE_NOT_EDITED);
+            throw new ParseException(EditTaskCommand.MESSAGE_NOT_EDITED + "\n" + COMMAND_SPECS.getUsageMessage());
         }
 
         return new EditTaskCommand(index, editTaskDescriptor);
@@ -93,7 +68,7 @@ public class EditTaskCommandParser implements Parser<EditTaskCommand> {
      * If {@code tags} contain only one element which is an empty string, it will be parsed into a
      * {@code Set<Tag>} containing zero tags.
      */
-    private Optional<Set<Tag>> parseTagsForEdit(Collection<String> tags) throws ParseException {
+    private static Optional<Set<Tag>> parseTagsForEdit(Collection<String> tags) throws ParseException {
         assert tags != null;
 
         if (tags.isEmpty()) {
@@ -108,7 +83,7 @@ public class EditTaskCommandParser implements Parser<EditTaskCommand> {
      * If {@code contacts} contain only one element which is an empty string, it will be parsed into a
      * {@code Set<Contact>} containing zero contacts.
      */
-    private Optional<Set<Contact>> parseContactsForEdit(Collection<String> contacts) throws ParseException {
+    private static Optional<Set<Contact>> parseContactsForEdit(Collection<String> contacts) throws ParseException {
         assert contacts != null;
 
         if (contacts.isEmpty()) {
@@ -116,8 +91,8 @@ public class EditTaskCommandParser implements Parser<EditTaskCommand> {
         }
         Collection<String> contactSet = contacts.size() == 1
                 && contacts.contains("")
-                    ? Collections.emptySet()
-                    : contacts;
+                ? Collections.emptySet()
+                : contacts;
         return Optional.of(ParserUtil.parseContacts(contactSet));
     }
 }

@@ -1,6 +1,5 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
@@ -20,7 +19,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIEND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
+import static seedu.address.logic.commands.EditCommand.COMMAND_SPECS;
+import static seedu.address.logic.commands.EditCommand.MESSAGE_NOT_EDITED;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -33,9 +38,10 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
-import seedu.address.logic.parser.exceptions.MissingPreambleException;
+import seedu.address.logic.parser.exceptions.InvalidCommandArgumentFormatException;
+import seedu.address.logic.parser.exceptions.MissingCommandArgumentException;
 import seedu.address.logic.parser.exceptions.TooManyPrefixesException;
-import seedu.address.logic.parser.exceptions.UnwantedPrefixException;
+import seedu.address.logic.parser.exceptions.UnwantedCommandArgumentException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -44,63 +50,89 @@ import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 public class EditCommandParserTest {
-
+    private static final String MESSAGE_INVALID_NAME =
+            new InvalidCommandArgumentFormatException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_NAME),
+                    Name.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage();
+    private static final String MESSAGE_INVALID_PHONE =
+            new InvalidCommandArgumentFormatException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_PHONE),
+                    Phone.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage();
+    private static final String MESSAGE_INVALID_EMAIL =
+            new InvalidCommandArgumentFormatException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_EMAIL),
+                    Email.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage();
+    private static final String MESSAGE_INVALID_TAG =
+            new InvalidCommandArgumentFormatException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_TAG),
+                    Tag.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage();
+    private static final String MESSAGE_INVALID_ADDRESS =
+            new InvalidCommandArgumentFormatException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_ADDRESS),
+            Address.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage();
+    private static final String MESSAGE_INVALID_INDEX =
+            new InvalidCommandArgumentFormatException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_PREAMBLE),
+                    ParserUtil.MESSAGE_INVALID_INDEX, COMMAND_SPECS).getMessage();
+    private static final String MESSAGE_NOT_EDITED =
+            EditCommand.MESSAGE_NOT_EDITED + "\n" + COMMAND_SPECS.getUsageMessage();
     private static final String TAG_EMPTY = " " + PREFIX_TAG;
-
-    private static final String MESSAGE_INVALID_FORMAT =
-            String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
 
     private final EditCommandParser parser = new EditCommandParser();
 
     @Test
     public void parse_missingParts_failure() {
         // no index specified
-        assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, VALID_NAME_AMY, MESSAGE_INVALID_INDEX);
 
         // no field specified
-        assertParseFailure(parser, "1", EditCommand.MESSAGE_NOT_EDITED);
+        assertParseFailure(parser, "1", MESSAGE_NOT_EDITED);
 
         // no index and no field specified
         assertParseFailure(parser, "",
-                String.format(new MissingPreambleException().getMessage(), EditCommand.MESSAGE_USAGE));
+                new MissingCommandArgumentException(
+                        COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_PREAMBLE), COMMAND_SPECS).getMessage());
     }
 
     @Test
     public void parse_invalidPreamble_failure() {
         // negative index
-        assertParseFailure(parser, "-5" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "-5" + NAME_DESC_AMY, MESSAGE_INVALID_INDEX);
 
         // zero index
-        assertParseFailure(parser, "0" + NAME_DESC_AMY, MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "0" + NAME_DESC_AMY, MESSAGE_INVALID_INDEX);
 
         // invalid arguments being parsed as preamble
-        assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_FORMAT);
+        assertParseFailure(parser, "1 some random string", MESSAGE_INVALID_INDEX);
 
         // invalid prefix
         assertParseFailure(parser, "1 i/ string",
-                String.format(new UnwantedPrefixException(new Prefix("i/")).getMessage(), EditCommand.MESSAGE_USAGE));
+                new UnwantedCommandArgumentException(
+                        CommandArgument.unknown(new Prefix("i/")), COMMAND_SPECS).getMessage());
     }
 
     @Test
     public void parse_invalidValue_failure() {
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC, Name.MESSAGE_CONSTRAINTS); // invalid name
-        assertParseFailure(parser, "1" + INVALID_PHONE_DESC, Phone.MESSAGE_CONSTRAINTS); // invalid phone
-        assertParseFailure(parser, "1" + INVALID_EMAIL_DESC, Email.MESSAGE_CONSTRAINTS); // invalid email
-        assertParseFailure(parser, "1" + INVALID_ADDRESS_DESC, Address.MESSAGE_CONSTRAINTS); // invalid address
-        assertParseFailure(parser, "1" + INVALID_TAG_DESC, Tag.MESSAGE_CONSTRAINTS); // invalid tag
-
+        // invalid name
+        assertParseFailure(parser, "1" + INVALID_NAME_DESC, MESSAGE_INVALID_NAME);
+        // invalid phone
+        assertParseFailure(parser, "1" + INVALID_PHONE_DESC, MESSAGE_INVALID_PHONE);
+        // invalid email
+        assertParseFailure(parser, "1" + INVALID_EMAIL_DESC, MESSAGE_INVALID_EMAIL);
+        // invalid address
+        assertParseFailure(parser, "1" + INVALID_ADDRESS_DESC, MESSAGE_INVALID_ADDRESS);
+        // invalid tag
+        assertParseFailure(parser, "1" + INVALID_TAG_DESC, MESSAGE_INVALID_TAG);
         // invalid phone followed by valid email
-        assertParseFailure(parser, "1" + INVALID_PHONE_DESC + EMAIL_DESC_AMY, Phone.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, "1" + INVALID_PHONE_DESC + EMAIL_DESC_AMY, MESSAGE_INVALID_PHONE);
 
         // while parsing {@code PREFIX_TAG} alone will reset the tags of the {@code Person} being edited,
         // parsing it together with a valid tag results in error
-        assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_EMPTY + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
-        assertParseFailure(parser, "1" + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND, Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_DESC_HUSBAND + TAG_EMPTY,
+                MESSAGE_INVALID_TAG);
+        assertParseFailure(parser, "1" + TAG_DESC_FRIEND + TAG_EMPTY + TAG_DESC_HUSBAND,
+                MESSAGE_INVALID_TAG);
+        assertParseFailure(parser, "1" + TAG_EMPTY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND,
+                MESSAGE_INVALID_TAG);
 
         // multiple invalid values, but only the first invalid value is captured
-        assertParseFailure(parser, "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PHONE_AMY,
-                Name.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser,
+                "1" + INVALID_NAME_DESC + INVALID_EMAIL_DESC + VALID_ADDRESS_AMY + VALID_PHONE_AMY,
+                MESSAGE_INVALID_NAME);
     }
 
     @Test
@@ -170,7 +202,7 @@ public class EditCommandParserTest {
                 + TAG_DESC_FRIEND + PHONE_DESC_AMY + TAG_DESC_FRIEND + TAG_DESC_HUSBAND;
 
         assertParseFailure(parser, userInput,
-                String.format(new TooManyPrefixesException(PREFIX_PHONE).getMessage(), EditCommand.MESSAGE_USAGE));
+                new TooManyPrefixesException(CommandArgument.unknown(PREFIX_PHONE), COMMAND_SPECS).getMessage());
     }
 
     @Test
