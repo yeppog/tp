@@ -226,7 +226,7 @@ Edits an existing task in the task list
 
 ### Finding tasks: `task find`
 
-Finds tasks which have contain any of the given keywords in their title or description
+Finds all tasks which contain any of the given keywords in their title or description
 
 Format: `task find KEYWORD [MORE_KEYWORDS]`
 
