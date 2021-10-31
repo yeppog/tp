@@ -217,13 +217,15 @@ public class EditTaskDialog extends UiPart<Region> {
         });
 
         tagInput.focusedProperty().addListener((observable) -> {
-            if (!contactInput.isFocused())
+            if (!contactInput.isFocused()) {
                 dialog.getDialogPane().getScene().getWindow().sizeToScene();
+            }
         });
 
         contactInput.focusedProperty().addListener((observable) -> {
-            if (!tagInput.isFocused())
+            if (!tagInput.isFocused()) {
                 dialog.getDialogPane().getScene().getWindow().sizeToScene();
+            }
         });
 
         // When tag list changes, update tag chip list
