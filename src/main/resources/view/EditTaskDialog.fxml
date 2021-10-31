@@ -64,7 +64,7 @@
                </VBox.margin></FlowPane>
          </children>
          <VBox.margin>
-            <Insets bottom="8.0" />
+            <Insets bottom="16.0" />
          </VBox.margin>
       </VBox>
       <VBox layoutX="26.0" layoutY="252.0">
@@ -81,8 +81,14 @@
                   <Insets top="8.0" />
                </VBox.margin></FlowPane>
          </children>
+         <VBox.margin>
+            <Insets bottom="16.0" />
+         </VBox.margin>
       </VBox>
-      <CheckBox fx:id="isDone" mnemonicParsing="false" text="Mark task as done" />
+      <CheckBox fx:id="isDone" mnemonicParsing="false" text="Mark task as done">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin></CheckBox>
    </children>
    <padding>
       <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />

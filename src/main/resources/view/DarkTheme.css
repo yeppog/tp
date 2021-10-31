@@ -6,7 +6,7 @@
     -fx-color-bg-raised: derive(-fx-color-bg, 8%);
     -fx-color-raised: derive(-fx-color-bg-raised, 15%);
     -fx-color-hovered: derive(-fx-color-bg-raised, 20%);
-    -fx-color-focused: derive(-fx-color-bg-raised, 16%);
+    -fx-color-focused: derive(-fx-color-bg-raised, 40%);
     -fx-color-pressed: derive(-fx-color-bg-raised, 16%);
     -fx-color-selected: derive(-fx-color-bg-raised, 10%);
     -fx-text-fill: #EEEEEE;

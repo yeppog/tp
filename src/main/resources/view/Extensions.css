@@ -54,11 +54,15 @@
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-border-width: 0;
+    -fx-background-radius: 100;
 }
 
 .filter-chip .button:hover {
     -fx-background-color: -fx-color-hovered;
-    -fx-background-radius: 100;
+}
+
+.filter-chip .button:focused {
+    -fx-background-color: -fx-color-focused;
 }
 
 .filter-combo-box.combo-box-base .list-cell {
