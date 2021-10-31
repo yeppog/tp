@@ -86,13 +86,13 @@ public class TaskCard extends UiPart<Region> {
             contacts.setManaged(false);
         } else {
             task.getContacts().stream()
-                    .filter(Contact::getIsInAddressBook)
+                    .filter(Contact::isInAddressBook)
                     .sorted(Comparator.comparing(contact -> contact.getName().fullName))
                     .map(contact -> new Label(contact.getName().fullName))
                     .forEach(contacts.getChildren()::add);
 
             task.getContacts().stream()
-                    .filter(contact -> !contact.getIsInAddressBook())
+                    .filter(contact -> !contact.isInAddressBook())
                     .sorted(Comparator.comparing(contact -> contact.getName().fullName))
                     .map(contact -> {
                         Label label = new Label(contact.getName().fullName);

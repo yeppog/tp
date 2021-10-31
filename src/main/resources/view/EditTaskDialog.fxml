@@ -3,42 +3,86 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
 
-<VBox spacing="16.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox spacing="8.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <VBox>
+      <Label fx:id="dialogTitleLabel" styleClass="label-header" text="Title" />
+      <HBox spacing="8.0">
          <children>
-            <Label text="Title *" />
-            <TextField fx:id="title" styleClass="text-field" />
-            <Label fx:id="titleErrorLabel" />
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Title *" />
+                  <TextField fx:id="title" />
+                  <Label fx:id="titleErrorLabel" wrapText="true">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label text="Timestamp">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Label>
+                  <DatePicker fx:id="timestamp" styleClass="timestamp-date-picker" />
+                  <Label fx:id="timestampClearLabel" styleClass="hint,timestamp-clear-label" text="Clear" />
+               </children>
+            </VBox>
          </children>
-      </VBox>
-      <VBox>
-         <children>
-            <Label text="Timestamp" />
-            <TextField fx:id="timestamp" styleClass="text-field" />
-         </children>
-      </VBox>
+      </HBox>
       <VBox>
          <children>
             <Label text="Description" />
-            <TextField fx:id="description" styleClass="text-field" />
+            <TextField fx:id="description" />
          </children>
+         <VBox.margin>
+            <Insets bottom="16.0" />
+         </VBox.margin>
       </VBox>
       <VBox>
          <children>
             <Label text="Tags" />
             <TextField fx:id="tagInput" promptText="Enter tag name..." />
-            <Label fx:id="tagErrorLabel" text="Label" />
-            <FlowPane fx:id="tagPane" hgap="8.0" prefWidth="200.0" vgap="8.0" />
+            <TextFlow>
+               <children>
+                  <Label fx:id="tagInfoLabel" styleClass="hint" text="Label" wrapText="true" />
+               </children>
+            </TextFlow>
+            <FlowPane fx:id="tagPane" hgap="8.0" prefWidth="200.0" vgap="8.0">
+               <VBox.margin>
+                  <Insets top="8.0" />
+               </VBox.margin></FlowPane>
+         </children>
+         <VBox.margin>
+            <Insets bottom="8.0" />
+         </VBox.margin>
+      </VBox>
+      <VBox layoutX="26.0" layoutY="252.0">
+         <children>
+            <Label text="Contacts" />
+            <TextField fx:id="contactInput" promptText="Enter contact name..." />
+            <TextFlow>
+               <children>
+                  <Label fx:id="contactInfoLabel" ellipsisString="" styleClass="hint" text="Label" textOverrun="CLIP" wrapText="true" />
+               </children>
+            </TextFlow>
+            <FlowPane fx:id="contactPane" hgap="8.0" prefWidth="200.0" vgap="8.0">
+               <VBox.margin>
+                  <Insets top="8.0" />
+               </VBox.margin></FlowPane>
          </children>
       </VBox>
-      <CheckBox fx:id="isDone" mnemonicParsing="false" text="Mark as done" />
+      <CheckBox fx:id="isDone" mnemonicParsing="false" text="Mark task as done" />
    </children>
    <padding>
       <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />

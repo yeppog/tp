@@ -84,7 +84,7 @@ public class Task {
         if (timestamp == null) {
             return false;
         } else {
-            return LocalDate.now().isAfter(timestamp.getTimestamp());
+            return LocalDate.now().isAfter(timestamp.getDate());
         }
     }
 

@@ -30,7 +30,7 @@ class JsonAdaptedContact {
      */
     public JsonAdaptedContact(Contact source) {
         name = source.getName().fullName;
-        isInAddressBook = source.getIsInAddressBook();
+        isInAddressBook = source.isInAddressBook();
     }
 
     /**

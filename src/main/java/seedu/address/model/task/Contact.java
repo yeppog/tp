@@ -8,7 +8,7 @@ import seedu.address.model.person.Name;
 public class Contact {
     private final Name name;
 
-    private boolean isInAddressBook;
+    private final boolean isInAddressBook;
 
     /**
      * Creates a Name with the given string.
@@ -32,7 +32,7 @@ public class Contact {
         return name;
     }
 
-    public boolean getIsInAddressBook() {
+    public boolean isInAddressBook() {
         return isInAddressBook;
     }
 

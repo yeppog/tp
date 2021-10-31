@@ -1,10 +1,20 @@
 
 .error {
-    -fx-text-fill: #d06651 !important; /* The error class should always override the default text-fill style */
+    -fx-opacity: 1;
+    -fx-text-fill: #f5826c !important; /* The error class should always override the default text-fill style */
 }
 
 .timestamp {
     -fx-padding: 4 4 4 7;
+}
+
+.timestamp-date-picker * {
+    -fx-text-fill: #aaaaaa;
+    -fx-opacity: 1;
+}
+
+.timestamp-clear-label:hover {
+    -fx-opacity: 0.9;
 }
 
 .overdue {
@@ -29,12 +39,17 @@
 
 .filter-chip {
     -fx-background-radius: 50;
-    -fx-background-color: #2F2F2F;
+    -fx-background-color: -fx-color-raised;
+}
+
+.filter-chip .label {
+    -fx-font-size: 12;
+    -fx-font-weight: bold;
 }
 
 .filter-chip .button {
     -fx-background-color: transparent;
-    -fx-padding: 2 6 2 6;
+    -fx-padding: 1 3 1 3;
     -fx-margin: 0;
     -fx-text-fill: white;
     -fx-font-weight: bold;
@@ -42,7 +57,7 @@
 }
 
 .filter-chip .button:hover {
-    -fx-background-color: #383838;
+    -fx-background-color: -fx-color-hovered;
     -fx-background-radius: 100;
 }
 
