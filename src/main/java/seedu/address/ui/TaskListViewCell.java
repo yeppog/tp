@@ -8,8 +8,9 @@ import javafx.scene.control.ListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.task.Task;
-import seedu.address.ui.exceptions.GuiException;
 
 public class TaskListViewCell extends ListCell<Task> {
     private final Logger logger = LogsCenter.getLogger(TaskListViewCell.class);
@@ -47,13 +48,6 @@ public class TaskListViewCell extends ListCell<Task> {
     private void showEditDialog(Task task) {
         EditTaskDialog editTaskDialog = new EditTaskDialog(task);
         Optional<Task> editedTask = editTaskDialog.getDialog().showAndWait();
-        if (editedTask.isPresent()) {
-            try {
-                taskEditor.updateTask(task, editedTask.get());
-            } catch (GuiException e) {
-                e.printStackTrace();
-                logger.log(Level.SEVERE, "Error when updating task", e);
-            }
-        }
+        editedTask.ifPresent(value -> taskEditor.updateTask(task, value));
     }
 }

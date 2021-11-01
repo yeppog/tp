@@ -5,7 +5,7 @@ import seedu.address.model.Model;
 /**
  * Terminates the program.
  */
-public class ExitCommand extends Command {
+public class ExitCommand implements Command {
 
     public static final String COMMAND_WORD = "exit";
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Exists TaskMaster2103. "

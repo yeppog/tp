@@ -33,14 +33,13 @@ public class DoneTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
         List<Task> taskList = model.getFilteredTaskList();
 
         if (index.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        super.canExecute();
 
         Task task = taskList.get(index.getZeroBased());
         boolean isDone = task.isDone();
@@ -61,15 +60,14 @@ public class DoneTaskCommand extends TaskCommand {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return this == o || (o instanceof DoneTaskCommand && index.equals(((DoneTaskCommand) o).index));
-    }
-
-    @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
+    protected CommandResult executeUndo(Model model) throws CommandException {
         this.execute(model);
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 this.completedTask));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || (o instanceof DoneTaskCommand && index.equals(((DoneTaskCommand) o).index));
     }
 }

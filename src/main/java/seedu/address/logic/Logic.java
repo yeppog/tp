@@ -5,16 +5,15 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyTaskList;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilter;
-import seedu.address.ui.exceptions.GuiException;
 
 /**
  * API of the Logic component
@@ -30,10 +29,12 @@ public interface Logic {
     CommandResult execute(String commandText) throws CommandException, ParseException;
 
     /**
-     * Executes the GUI action.
-     * @param action The GUI action to execute
+     * Executes the command and returns the result.
+     * @param command The command to execute.
+     * @return the result of the command execution.
+     * @throws CommandException If an error occurs during command execution.
      */
-    void executeGuiAction(GuiAction action) throws GuiException;
+    CommandResult executeCommand(Command command) throws CommandException;
 
     /**
      * Adds a task filter to the list of selected filters.

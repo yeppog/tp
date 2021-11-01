@@ -19,7 +19,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
@@ -282,12 +281,6 @@ public class ModelManager implements Model {
     public Predicate<? super Task> getFilteredTaskPredicate() {
         return Optional.ofNullable(filteredTasks.getPredicate()).orElse(unused -> true);
     }
-
-    @Override
-    public void executeGuiAction(GuiAction action) {
-        action.executeWith(addressBook, taskList);
-    }
-
 
     @Override
     public void deleteTask(Task deletedTask) {

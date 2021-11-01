@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilter;
@@ -194,12 +193,6 @@ public interface Model {
      * setTask uses targetIndex rather than target Person; This is because tasks may not be unique, unlike persons
      */
     void setTask(Task target, Task editedTask);
-
-    /**
-     * Executes the given GUI action with the model context.
-     * @param action The GUI action to execute
-     */
-    void executeGuiAction(GuiAction action);
 
     /**
      * Returns the command history instance.

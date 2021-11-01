@@ -15,7 +15,6 @@ import seedu.address.model.task.filters.TaskFilter;
 import seedu.address.model.task.filters.TaskFilters;
 
 public class FindTaskCommand extends TaskCommand {
-
     public static final String COMMAND_WORD = "find";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
 
@@ -46,9 +45,8 @@ public class FindTaskCommand extends TaskCommand {
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
-
 
         model.getSelectedTaskFilters().stream()
                 .filter(filter -> filter instanceof KeywordTaskFilter)
@@ -62,15 +60,12 @@ public class FindTaskCommand extends TaskCommand {
             model.addTaskFilter(TaskFilters.FILTER_KEYWORDS.apply(predicate));
         }
 
-        super.canExecute();
         return new CommandResult(String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW,
                 model.getFilteredTaskList().size()));
     }
 
     @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
-
+    protected CommandResult executeUndo(Model model) throws CommandException {
         model.getSelectedTaskFilters().stream()
                 .filter(filter -> filter instanceof KeywordTaskFilter)
                 .findFirst().ifPresent(model::removeTaskFilter);

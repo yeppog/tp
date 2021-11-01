@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
+import seedu.address.logic.commands.UndoableCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
@@ -36,8 +37,14 @@ public class AddTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         model.addTask(task);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, task));
+    }
+
+    @Override
+    protected CommandResult executeUndo(Model model) throws CommandException {
+        model.deleteTaskAtLastIndex();
         return new CommandResult(String.format(MESSAGE_SUCCESS, task));
     }
 
@@ -52,10 +59,5 @@ public class AddTaskCommand extends TaskCommand {
     public int hashCode() {
         return task.hashCode();
     }
-
-    @Override
-    public CommandResult undo(Model model) throws CommandException {
-        model.deleteTaskAtLastIndex();
-        return new CommandResult(String.format(MESSAGE_SUCCESS, task));
-    }
 }
+

@@ -14,7 +14,7 @@ import seedu.address.model.person.Person;
 /**
  * Adds a person to the address book.
  */
-public class AddCommand extends Command {
+public class AddCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "add";
 
@@ -47,7 +47,7 @@ public class AddCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
 
         if (model.hasPerson(toAdd)) {
@@ -59,15 +59,15 @@ public class AddCommand extends Command {
     }
 
     @Override
+    protected CommandResult executeUndo(Model model) {
+        model.deletePerson(this.toAdd);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
+    }
+
+    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof AddCommand // instanceof handles nulls
                 && toAdd.equals(((AddCommand) other).toAdd));
-    }
-
-    @Override
-    public CommandResult undo(Model model) throws CommandException {
-        model.deletePerson(this.toAdd);
-        return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
     }
 }
