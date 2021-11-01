@@ -136,7 +136,7 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 - When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
 - You can remove all the person’s tags by typing `t/` without
   specifying any tags after it.
-- If the edited Person's name corresponds to a name of a contact in any task, the corresponding tasks' contact name will be changed accordingly as well. (if applicable)
+- If the edited Person's name corresponds to a name of a contact in any task, the corresponding tasks' contacts name will be changed accordingly as well. (if applicable)
 
 
 Examples:
