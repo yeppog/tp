@@ -18,6 +18,9 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.tag.Tag;
+import seedu.address.model.task.filters.TaskFilter;
+import seedu.address.model.task.filters.TaskFilters;
 import seedu.address.testutil.AddressBookBuilder;
 import seedu.address.testutil.TaskListBuilder;
 
@@ -94,6 +97,30 @@ public class ModelManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void getSelectableTaskFilters_withUndoneFilterApplied_doesNotContainDoneFilters() {
+        modelManager.addTaskFilter(TaskFilters.FILTER_UNDONE);
+        assertFalse(modelManager.getSelectableTaskFilters().contains(TaskFilters.FILTER_DONE));
+        assertFalse(modelManager.getSelectableTaskFilters().contains(TaskFilters.FILTER_UNDONE));
+    }
+
+    @Test
+    public void getSelectableTaskFilters_withDoneFilterApplied_doesNotContainDoneFilters() {
+        modelManager.addTaskFilter(TaskFilters.FILTER_DONE);
+        assertFalse(modelManager.getSelectableTaskFilters().contains(TaskFilters.FILTER_DONE));
+        assertFalse(modelManager.getSelectableTaskFilters().contains(TaskFilters.FILTER_UNDONE));
+    }
+
+    @Test
+    public void getSelectableTaskFilters_withTagFilterApplied_doesNotContainTagFilterAgain() {
+        TaskFilter filter = TaskFilters.FILTER_TAG.apply(new Tag("test"));
+        modelManager.addTaskFilter(filter);
+        assertTrue(modelManager.getSelectableTaskFilters().contains(TaskFilters.FILTER_DONE));
+        assertTrue(modelManager.getSelectableTaskFilters().contains(TaskFilters.FILTER_UNDONE));
+        assertTrue(modelManager.getSelectedTaskFilters().contains(filter));
+        assertFalse(modelManager.getSelectableTaskFilters().contains(filter));
     }
 
     @Test

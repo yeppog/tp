@@ -165,7 +165,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<TaskFilter> getAvailableTaskFilters() {
+        public ObservableList<TaskFilter> getSelectableTaskFilters() {
             throw new AssertionError("This method should not be called.");
         }
 
