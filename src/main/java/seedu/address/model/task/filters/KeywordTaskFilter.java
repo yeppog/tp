@@ -1,5 +1,6 @@
 package seedu.address.model.task.filters;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.StringUtil;
@@ -32,5 +33,27 @@ public class KeywordTaskFilter extends TaskFilter {
     public String toDisplayString() {
         return (this.isInverted ? "Without " : "Contains ")
                 + StringUtil.limitString(keywords, "...", KeywordTaskFilter.MAX_KEYWORDS_LENGTH);
+    }
+
+    @Override
+    public boolean hasConflictWith(TaskFilter other) {
+        return other instanceof KeywordTaskFilter;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        KeywordTaskFilter that = (KeywordTaskFilter) o;
+        return keywords.equals(that.keywords) && isInverted == that.isInverted;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(keywords, isInverted);
     }
 }

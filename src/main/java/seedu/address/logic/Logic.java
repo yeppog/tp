@@ -57,7 +57,7 @@ public interface Logic {
      * Returns a list of available task filters.
      * @return The list of available task filters
      */
-    ObservableList<TaskFilter> getAvailableTaskFilters();
+    ObservableList<TaskFilter> getSelectableTaskFilters();
 
     /**
      * Returns the list of selected filters to filter tasks by.
