@@ -179,7 +179,7 @@ public class MainWindow extends UiPart<Stage> {
 
         TaskListPanel taskListPanel = new TaskListPanel(
                 logic.getFilteredTaskList(),
-                logic.getAvailableTaskFilters(),
+                logic.getSelectableTaskFilters(),
                 logic.getSelectedTaskFilters(),
                 logic::addTaskFilter,
                 logic::removeTaskFilter,

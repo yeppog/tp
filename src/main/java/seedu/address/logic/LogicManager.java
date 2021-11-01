@@ -82,8 +82,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObservableList<TaskFilter> getAvailableTaskFilters() {
-        return model.getAvailableTaskFilters();
+    public ObservableList<TaskFilter> getSelectableTaskFilters() {
+        return model.getSelectableTaskFilters();
     }
 
     @Override

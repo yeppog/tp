@@ -43,6 +43,7 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Task> filteredTasks;
     private final ObservableList<TaskFilter> availableTaskFilters;
+    private final FilteredList<TaskFilter> selectableTaskFilters;
     private final ObservableList<TaskFilter> selectedTaskFilters;
 
     /**
@@ -62,9 +63,9 @@ public class ModelManager implements Model {
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredTasks = new FilteredList<>(this.taskList.getTasks());
         availableTaskFilters = FXCollections.observableArrayList();
+        selectableTaskFilters = new FilteredList<>(availableTaskFilters,
+            filter -> getSelectedTaskFilters().stream().noneMatch(filter::hasConflictWith));
         selectedTaskFilters = FXCollections.observableArrayList();
-
-
     }
 
     public ModelManager() {
@@ -73,12 +74,13 @@ public class ModelManager implements Model {
 
     /**
      * Returns a new ModelManager initialize from the given {@link Model}.
+     *
      * @param model The model to initialize the {@link ModelManager} from
      * @return The initialized ModelManager
      */
     public static ModelManager from(Model model) {
         return new ModelManager(
-                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()) , new UserPrefs());
+                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
     }
 
     //=========== UserPrefs ==================================================================================
@@ -160,7 +162,6 @@ public class ModelManager implements Model {
     }
 
 
-
     //=========== Filtered Person List Accessors =============================================================
 
     /**
@@ -229,10 +230,15 @@ public class ModelManager implements Model {
         availableTaskFilters.addAll(tagFilters);
     }
 
+    private void refreshSelectableTaskFiltersPredicate() {
+        selectableTaskFilters.setPredicate(
+            filter -> getSelectedTaskFilters().stream().noneMatch(filter::hasConflictWith));
+    }
+
     @Override
-    public ObservableList<TaskFilter> getAvailableTaskFilters() {
+    public ObservableList<TaskFilter> getSelectableTaskFilters() {
         recomputeAvailableTaskFilters();
-        return availableTaskFilters;
+        return selectableTaskFilters;
     }
 
     @Override
@@ -244,12 +250,14 @@ public class ModelManager implements Model {
     public void addTaskFilter(TaskFilter taskFilter) {
         selectedTaskFilters.add(taskFilter);
         recalculateFilteredTaskList();
+        refreshSelectableTaskFiltersPredicate();
     }
 
     @Override
     public void removeTaskFilter(TaskFilter taskFilter) {
         selectedTaskFilters.remove(taskFilter);
         recalculateFilteredTaskList();
+        refreshSelectableTaskFiltersPredicate();
     }
 
     @Override
@@ -257,6 +265,7 @@ public class ModelManager implements Model {
         selectedTaskFilters.clear();
         selectedTaskFilters.addAll(taskFilters);
         recalculateFilteredTaskList();
+        refreshSelectableTaskFiltersPredicate();
     }
 
     @Override
@@ -315,7 +324,6 @@ public class ModelManager implements Model {
         Task updatedEditedTask = updateTaskContacts(editedTask);
         taskList.setTask(target, updatedEditedTask);
         updateTaskFilters();
-
     }
 
     /**
@@ -382,7 +390,7 @@ public class ModelManager implements Model {
     /**
      * Determines if a name exists within a given a list of {@code Person}s.
      *
-     * @param personList List of Persons to check through
+     * @param personList  List of Persons to check through
      * @param nameToCheck Name to check the list with
      * @return Boolean indicating whether the personList contains nameToCheck.
      */
@@ -408,7 +416,7 @@ public class ModelManager implements Model {
      * Changes the {@code oldName} in the given {@code Task} to the new name.
      * Used when a {@code Person}'s {@code Name} is edited.
      *
-     * @param task Given task to update
+     * @param task    Given task to update
      * @param oldName Old name to change
      * @param newName New name to change to
      * @return A new copy of the changed task. If there is no change, the task itself is returned.
@@ -425,11 +433,11 @@ public class ModelManager implements Model {
         return updatedContacts.equals(currentContactList)
                 ? task
                 : new Task(task.getTitle(),
-                        task.getDescription().orElse(null),
-                        task.getTimestamp().orElse(null),
-                        task.getTags(),
-                        task.isDone(),
-                        updatedContacts);
+                task.getDescription().orElse(null),
+                task.getTimestamp().orElse(null),
+                task.getTags(),
+                task.isDone(),
+                updatedContacts);
     }
 
     /**
