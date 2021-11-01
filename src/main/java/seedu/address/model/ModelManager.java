@@ -319,11 +319,12 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void setTask(Task target, Task editedTask) {
+    public Task setTask(Task target, Task editedTask) {
         requireAllNonNull(target, editedTask);
         Task updatedEditedTask = updateTaskContacts(editedTask);
         taskList.setTask(target, updatedEditedTask);
         updateTaskFilters();
+        return updatedEditedTask;
     }
 
     /**

@@ -17,7 +17,7 @@ public class RedoCommand implements Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         CommandHistory commandHistory = model.getCommandHistory();
-        Optional<Command> commandToRedo = commandHistory.getHistoryCommand(true);
+        Optional<UndoableCommand> commandToRedo = commandHistory.redo();
         if (commandToRedo.isPresent()) {
             CommandResult result = commandToRedo.get().execute(model);
             return new CommandResult(MESSAGE_UNDO_SUCCESS + result.getFeedbackToUser());

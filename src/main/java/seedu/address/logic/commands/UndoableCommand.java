@@ -12,9 +12,11 @@ public abstract class UndoableCommand implements Command {
     }
 
     /**
-     * Checks if the current object state is able to call execute(). If it is able to,
-     * allow execution and toggle canExecute, else throw CommandException.
-     * @throws CommandException to prevent execution.
+     * Tries to execute the undoable command with the given model, using
+     * {@link UndoableCommand#executeDo}.
+     *
+     * If the command has been executed, a CommandException will be thrown.
+     * Otherwise, the command will be marked as executed, and can be undone.
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
@@ -27,6 +29,13 @@ public abstract class UndoableCommand implements Command {
         return result;
     }
 
+    /**
+     * Tries to undo the undoable command with the given model, using
+     * {@link UndoableCommand#executeUndo}.
+     *
+     * If the command has been undone, a CommandException will be thrown.
+     * Otherwise, the command will be marked as undone, and can be executed again.
+     */
     public CommandResult undo(Model model) throws CommandException {
         if (this.canExecute) {
             throw new CommandException(Messages.MESSAGE_UNABLE_TO_UNDO);
