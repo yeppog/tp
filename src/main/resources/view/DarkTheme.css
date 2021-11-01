@@ -222,8 +222,7 @@
     -fx-text-fill: #010504;
 }
 
-.menu-bar
-{
+.menu-bar {
      -fx-background-color: -fx-color-bg-raised;
 }
 
@@ -261,9 +260,19 @@
 }
 
 .context-menu {
-    -fx-background-color: derive(#1d1d1d, 50%);
+    -fx-background-color: -fx-color-raised;
 }
 
+.menu-button:hover,
+.menu-item:hover {
+    -fx-background-color: -fx-color-hovered;
+}
+
+.menu-button:focused,
+.menu-button:showing,
+.menu-item:focused {
+    -fx-background-color: -fx-color-focused;
+}
 
 .menu-bar .label {
     -fx-font-size: 14pt;
