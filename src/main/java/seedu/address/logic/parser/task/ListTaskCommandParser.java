@@ -1,6 +1,7 @@
 package seedu.address.logic.parser.task;
 
 import static seedu.address.logic.commands.task.ListTaskCommand.COMMAND_SPECS;
+import static seedu.address.logic.commands.task.ListTaskCommand.MESSAGE_ONE_DONE_FILTER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNDONE;
@@ -32,6 +33,12 @@ public class ListTaskCommandParser extends ArgumentMultimapParser<ListTaskComman
     public ListTaskCommand parseArgumentMultimap(ArgumentMultimap argMultimap) throws ParseException {
         Set<Tag> tags = ArgumentParser.parseAllValues(PREFIX_TAG, ParserUtil::parseTags, argMultimap, COMMAND_SPECS);
         List<TaskFilter> taskFilters = tags.stream().map(TaskFilters.FILTER_TAG).collect(Collectors.toList());
+
+        // Both done and undone flags are present
+        if (argMultimap.getValue(PREFIX_DONE).isPresent()
+                && argMultimap.getValue(PREFIX_UNDONE).isPresent()) {
+            throw new ParseException(MESSAGE_ONE_DONE_FILTER + "\n" + COMMAND_SPECS.getUsageMessage());
+        }
 
         if (argMultimap.getValue(PREFIX_DONE).isPresent()) {
             taskFilters.add(TaskFilters.FILTER_DONE);

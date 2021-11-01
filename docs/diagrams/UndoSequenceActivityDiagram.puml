@@ -1,0 +1,20 @@
+@startuml
+!include style.puml
+
+start
+:Request undo;
+if() then ([CommandHistory contains commands])
+    :Retrieve task from CommandHistory;
+    if() then ([Task can be undone])
+        :Call execute() method of task;
+        :Return redo() command message;
+    else([Task cannot be undone])
+        :Return error message to user;
+    endif
+else([CommandHistory is empty])
+    :Return error message to user;
+endif
+:Recompute task filters and update GUI;
+stop
+
+@enduml

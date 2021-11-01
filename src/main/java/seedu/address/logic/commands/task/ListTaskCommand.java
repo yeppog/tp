@@ -24,7 +24,7 @@ public class ListTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "list";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
     public static final String MESSAGE_SUCCESS = "Task list updated";
-
+    public static final String MESSAGE_ONE_DONE_FILTER = "Tasks can only be filtered by done or undone at one time.";
     public static final CommandSpecification COMMAND_SPECS = new CommandSpecification(
             FULL_COMMAND_WORD,
             "List tasks matching the given search conditions.",

@@ -33,7 +33,7 @@ public class ListTaskCommandParserTest {
 
     @Test
     void parse_showUndone_showUndoneTasks() {
-        assertParseSuccess(parser, " " + PREFIX_UNDONE, new ListTaskCommand(List.of(TaskFilters.FILTER_DONE.invert())));
+        assertParseSuccess(parser, " " + PREFIX_UNDONE, new ListTaskCommand(List.of(TaskFilters.FILTER_UNDONE)));
     }
 
     @Test

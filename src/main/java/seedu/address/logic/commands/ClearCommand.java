@@ -30,7 +30,10 @@ public class ClearCommand extends Command {
             throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
         }
         requireNonNull(model);
-        this.oldAddressBook = model.getAddressBook();
+
+        // Save a copy of the previous AddressBook
+        this.oldAddressBook = new AddressBook(model.getAddressBook());
+
         model.setAddressBook(new AddressBook());
         this.canExecute = false;
         return new CommandResult(MESSAGE_SUCCESS);

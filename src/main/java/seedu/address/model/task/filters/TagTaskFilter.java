@@ -20,6 +20,15 @@ public class TagTaskFilter extends TaskFilter {
     }
 
     @Override
+    public boolean hasConflictWith(TaskFilter other) {
+        if (!(other instanceof TagTaskFilter)) {
+            return false;
+        }
+        TagTaskFilter otherTagTaskFilter = (TagTaskFilter) other;
+        return tag.equals(otherTagTaskFilter.tag);
+    }
+
+    @Override
     public TagTaskFilter invert() {
         return new TagTaskFilter(tag, !isInverted);
     }
