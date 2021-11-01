@@ -207,7 +207,7 @@ Tasks can be filtered by completion status and/or tags. Show only completed task
 
 **Format:**
 
-`task list [done/ OR undone/] [t/TAG]...`
+`task list [done/ OR undone/] [t/TAG]…`
 
 ### Editing a task: `task edit`
 
@@ -215,7 +215,7 @@ Edits an existing task in the task list
 
 **Format:**
 
-`task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG] [c/CONTACT]...`
+`task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG] [c/CONTACT]…`
 
 - Edits the task at the specified INDEX. The index refers to the index number shown in the displayed task list. The index must be a positive integer 1,2,3 …
 - At least one of the optional fields must be provided
@@ -349,16 +349,16 @@ If your changes to the data file makes its format invalid, TaskMaster will disca
 | Action          | Format, Examples                                                                                                                                                      |
 | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 |***Address Book Commands*** |
-| **Add**         | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
+| **Add**         | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
 | **List**        | `list`                                                                                                                                                                |
-| **Edit**        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
+| **Edit**        | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
 | **Find**        | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
 | **Delete**      | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
 | **Clear**       | `clear`                                                                                                                                                               |
 |***Task List Commands***    |
 | **Task Add**    | `task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]`                                                                                                             |
-| **Task List**   | `task list [done/ OR undone/] [t/TAG]...` |
-| **Task Edit**   | `task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]...` <br> e.g.,`task edit 1 t/CS2103 Week 6 Quiz`                                                    |
+| **Task List**   | `task list [done/ OR undone/] [t/TAG]…` |
+| **Task Edit**   | `task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]…` <br> e.g.,`task edit 1 t/CS2103 Week 6 Quiz`                                                    |
 | **Task Find**   | `task find KEYWORD [MORE_KEYWORDS]`|
 | **Task Delete** | `task delete INDEX`<br> e.g., `task delete 3`                                                                                                                         |
 | **Task Purge** | `task purge`                                                                                                                         |
