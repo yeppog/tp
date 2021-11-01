@@ -438,9 +438,8 @@
     -fx-background-insets: 0;
     -fx-border-radius: 4;
     -fx-background-radius: 4;
-    -fx-border-color: -fx-color-raised -fx-color-raised -fx-color-focused -fx-color-raised;
     -fx-border-insets: 0;
-    -fx-border-width: 1;
+    -fx-border-width: 0;
     -fx-font-size: 13pt;
     -fx-text-fill: white;
 }
