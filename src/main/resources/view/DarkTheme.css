@@ -329,6 +329,8 @@
 
 .button:default {
     -fx-background-color: -fx-color-focused;
+    -fx-opacity: 0.9;
+    -fx-text-fill: white;
 }
 
 .button:default:hover {
