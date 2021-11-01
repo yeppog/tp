@@ -28,6 +28,7 @@ public class CommandSpecification {
 
     /**
      * Returns the command specification with an example of a command execution added to it.
+     *
      * @param filledCommandArguments A list of filled arguments representing the example command
      * @return The same command specification, with an example of a command execution added to it
      */

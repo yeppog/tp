@@ -27,6 +27,7 @@ public class ArgumentTokenizer {
 
     /**
      * Creates an ArgumentTokenizer that parses arguments specified by the given command specifications,
+     *
      * @param specs The command specifications to parse arguments according to
      */
     public ArgumentTokenizer(CommandSpecification specs) {
@@ -41,7 +42,9 @@ public class ArgumentTokenizer {
 
     /**
      * Tokenizes an arguments string and returns an {@code ArgumentMultimap} object that maps prefixes to their
-     * respective argument values. Only the given prefixes will be recognized in the arguments string.
+     * respective argument values. All character sequences of the form "abc/def" will be recognized as a prefix
+     * along with its argument. A prefix is a non-empty alphabetical sequence, while an argument to a prefix
+     * is the trimmed portion of text from the end of the prefix until the start of the next prefix.
      *
      * @param argsString Arguments string of the form: {@code preamble <prefix>value <prefix>value ...}
      * @return ArgumentMultimap object that maps prefixes to their arguments
