@@ -117,7 +117,6 @@ public class ModelManager implements Model {
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
-        userPrefs.setAddressBookFilePath(addressBookFilePath);
     }
 
     //=========== AddressBook ================================================================================
