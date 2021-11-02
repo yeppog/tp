@@ -191,7 +191,7 @@ public interface Model {
      * Replaces the given task {@code target} with {@code editedTask}.
      * {@code target} must exist in the task list.
      * setTask uses targetIndex rather than target Person; This is because tasks may not be unique, unlike persons
-     * 
+     *
      * @return The edited task with updated contact information
      */
     Task setTask(Task target, Task editedTask);
