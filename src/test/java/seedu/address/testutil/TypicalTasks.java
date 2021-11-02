@@ -7,6 +7,8 @@ import java.util.List;
 import seedu.address.model.TaskList;
 import seedu.address.model.task.Task;
 
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+
 public class TypicalTasks {
     public static final Task BUY_GROCERIES = new TaskBuilder().build();
     public static final Task DO_HOMEWORK = new TaskBuilder()
@@ -23,7 +25,7 @@ public class TypicalTasks {
             .withTitle("Arrange meeting")
             .withTags("work", "important")
             .withDone(true)
-            .withContacts("Alejandro")
+            .withContacts(VALID_NAME_AMY)
             .build();
 
     /**
