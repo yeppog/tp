@@ -1,28 +1,24 @@
 package seedu.address.logic.parser.task;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.task.DeleteTaskCommand.COMMAND_SPECS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.task.DeleteTaskCommand;
-import seedu.address.logic.parser.Parser;
+import seedu.address.logic.parser.ArgumentMultimap;
+import seedu.address.logic.parser.ArgumentMultimapParser;
+import seedu.address.logic.parser.ArgumentParser;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 
-public class DeleteTaskCommandParser implements Parser<DeleteTaskCommand> {
-    /**
-     * Parses {@code userInput} into a new DeleteTaskCommand and returns it.
-     *
-     * @param userInput the input entered by the user
-     * @throws ParseException if {@code userInput} does not conform to the expected format
-     */
+public class DeleteTaskCommandParser extends ArgumentMultimapParser<DeleteTaskCommand> {
+    public DeleteTaskCommandParser() {
+        super(COMMAND_SPECS);
+    }
+
     @Override
-    public DeleteTaskCommand parse(String userInput) throws ParseException {
-        try {
-            Index index = ParserUtil.parseIndex(userInput);
-            return new DeleteTaskCommand(index);
-        } catch (ParseException pe) {
-            throw new ParseException(
-                    String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteTaskCommand.MESSAGE_USAGE), pe);
-        }
+    public DeleteTaskCommand parseArgumentMultimap(ArgumentMultimap argMultimap) throws ParseException {
+        Index index = ArgumentParser.parseValue(PREFIX_PREAMBLE, ParserUtil::parseIndex, argMultimap, COMMAND_SPECS);
+        return new DeleteTaskCommand(index);
     }
 }

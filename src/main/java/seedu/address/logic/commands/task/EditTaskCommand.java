@@ -2,9 +2,14 @@ package seedu.address.logic.commands.task;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
+import static seedu.address.logic.parser.CommandArgument.filled;
+import static seedu.address.logic.parser.CommandArgument.optionalMultiple;
+import static seedu.address.logic.parser.CommandArgument.optionalSingle;
+import static seedu.address.logic.parser.CommandArgument.requiredSingle;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,6 +23,7 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.CommandSpecification;
 import seedu.address.model.Model;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Contact;
@@ -28,20 +34,24 @@ import seedu.address.model.task.Timestamp;
  * Edits the details of an existing task in the address book.
  */
 public class EditTaskCommand extends TaskCommand {
-
     public static final String COMMAND_WORD = "edit";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
-    public static final String MESSAGE_USAGE =
-            COMMAND_WORD + ": Edits the details of the task identified "
-                    + "by the index number used in the displayed task list. "
-                    + "Existing values will be overwritten by the input values.\n"
-                    + "Parameters: INDEX (must be a positive integer) "
-                    + "[" + PREFIX_TITLE + "TITLE] "
-                    + "[" + PREFIX_DESCRIPTION + "DESCRIPTION] "
-                    + "[" + PREFIX_TIMESTAMP + "TIMESTAMP] "
-                    + "[" + PREFIX_TAG + "TAG]...\n" + "Example: "
-                    + FULL_COMMAND_WORD + " 1 " + PREFIX_DESCRIPTION
-                    + "Physics assignment " + PREFIX_TIMESTAMP + "25/12/2020";
+
+    public static final CommandSpecification COMMAND_SPECS = new CommandSpecification(
+            FULL_COMMAND_WORD,
+            "Edits the details of the task identified by the index number used in the displayed task list.\n"
+            + "Existing values will be overwritten by the input values.",
+            requiredSingle(PREFIX_PREAMBLE, "index"),
+            optionalSingle(PREFIX_TITLE, "title"),
+            optionalSingle(PREFIX_DESCRIPTION, "description"),
+            optionalSingle(PREFIX_TIMESTAMP, "timestamp"),
+            optionalMultiple(PREFIX_TAG, "tag")
+    ).withExample(
+            filled(PREFIX_PREAMBLE, "1"),
+            filled(PREFIX_DESCRIPTION, "Physics assignment"),
+            filled(PREFIX_TIMESTAMP, "25-12-2020")
+    );
+
 
     public static final String MESSAGE_EDIT_TASK_SUCCESS = "Edited Task: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -89,14 +99,13 @@ public class EditTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
         List<Task> taskList = model.getFilteredTaskList();
 
         if (index.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        super.canExecute();
 
         Task taskToEdit = taskList.get(index.getZeroBased());
         this.oldTask = taskToEdit;
@@ -113,8 +122,7 @@ public class EditTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
+    protected CommandResult executeUndo(Model model) throws CommandException {
         EditTaskDescriptor oldTaskDescriptor = EditTaskDescriptor.from(this.oldTask);
         List<Task> taskList = model.getFilteredTaskList();
         Task taskToEdit = taskList.get(index.getZeroBased());

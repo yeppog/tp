@@ -1,18 +1,13 @@
 package seedu.address.ui;
 
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javafx.scene.control.ListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.task.Task;
-import seedu.address.ui.exceptions.GuiException;
 
 public class TaskListViewCell extends ListCell<Task> {
-    private final Logger logger = LogsCenter.getLogger(TaskListViewCell.class);
     private final TaskListPanel.TaskEditor taskEditor;
 
     public TaskListViewCell(TaskListPanel.TaskEditor taskEditor) {
@@ -47,13 +42,6 @@ public class TaskListViewCell extends ListCell<Task> {
     private void showEditDialog(Task task) {
         EditTaskDialog editTaskDialog = new EditTaskDialog(task);
         Optional<Task> editedTask = editTaskDialog.getDialog().showAndWait();
-        if (editedTask.isPresent()) {
-            try {
-                taskEditor.updateTask(task, editedTask.get());
-            } catch (GuiException e) {
-                e.printStackTrace();
-                logger.log(Level.SEVERE, "Error when updating task", e);
-            }
-        }
+        editedTask.ifPresent(value -> taskEditor.updateTask(task, value));
     }
 }

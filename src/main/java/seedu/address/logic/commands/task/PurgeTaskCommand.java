@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.CommandSpecification;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilter;
@@ -19,11 +20,13 @@ import seedu.address.model.task.filters.TaskFilter;
 public class PurgeTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "purge";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
+    public static final CommandSpecification COMMAND_SPECS = new CommandSpecification(
+            FULL_COMMAND_WORD,
+            "Purges all tasks in the displayed task list."
+    );
+
     public static final String MESSAGE_SUCCESS = "Tasks purged!";
     public static final String MESSAGE_NO_TASK_TO_PURGE = "There are no tasks to purge.";
-    public static final String MESSAGE_USAGE = FULL_COMMAND_WORD
-            + ": Purges all tasks in the displayed task list.\n"
-            + "Example: " + FULL_COMMAND_WORD;
 
     private TreeMap<Integer, Task> deletedTasks;
     private ArrayList<TaskFilter> deletedFilters;
@@ -36,7 +39,7 @@ public class PurgeTaskCommand extends TaskCommand {
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
         List<Task> taskList = model.getFilteredTaskList();
 
@@ -54,9 +57,18 @@ public class PurgeTaskCommand extends TaskCommand {
         deletedFilters = new ArrayList<>();
         deletedFilters.addAll(model.getSelectedTaskFilters());
 
-        super.canExecute();
-
         model.deleteAllInFilteredTaskList();
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+    @Override
+    protected CommandResult executeUndo(Model model) throws CommandException {
+        model.setTaskFilters(deletedFilters);
+        for (int index : deletedTasks.keySet()) {
+            Task task = deletedTasks.get(index);
+            model.insertTask(task, index);
+        }
+
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
@@ -69,19 +81,5 @@ public class PurgeTaskCommand extends TaskCommand {
 
         // instanceof handles nulls
         return other instanceof PurgeTaskCommand;
-    }
-
-    @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
-
-        model.setTaskFilters(deletedFilters);
-        for (int index : deletedTasks.keySet()) {
-            Task task = deletedTasks.get(index);
-            model.insertTask(task, index);
-        }
-
-        return new CommandResult(MESSAGE_SUCCESS);
-
     }
 }

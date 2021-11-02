@@ -9,12 +9,12 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilter;
-import seedu.address.ui.exceptions.GuiException;
 
 public class TaskListPanel extends UiPart<Region> {
 
@@ -39,24 +39,29 @@ public class TaskListPanel extends UiPart<Region> {
      */
     public TaskListPanel(
             ObservableList<Task> taskList,
-            ObservableList<TaskFilter> availableTaskFilters,
+            ObservableList<TaskFilter> selectableTaskFilters,
             ObservableList<TaskFilter> selectedTaskFilters,
             Consumer<TaskFilter> addTaskFilter,
             Consumer<TaskFilter> removeTaskFilter,
             Consumer<Task> addTask,
             TaskEditor taskEditor) {
         super("TaskListPanel.fxml");
-        this.availableTaskFilters = availableTaskFilters;
+        this.availableTaskFilters = selectableTaskFilters;
         this.selectedTaskFilters = selectedTaskFilters;
 
         // Initialize task list
         taskListView.setItems(taskList);
         taskListView.setCellFactory(tasks -> new TaskListViewCell(taskEditor));
 
-        // Initialize list of available filters
-        filterComboBox.setItems(availableTaskFilters);
+        // Initialize list of selectable filters
         filterComboBox.setCellFactory(taskFilters -> new TaskFilterCell());
         filterComboBox.setPromptText(null);
+        Label placeholder = new Label("No more filters");
+        placeholder.getStyleClass().add("italics");
+        filterComboBox.setPlaceholder(placeholder);
+        filterComboBox.setItems(selectableTaskFilters);
+        // Workaround: Close menu when mouse down to prevent mouse up from selecting another item
+        filterComboBox.setOnAction(e -> filterComboBox.hide());
         filterComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 addTaskFilter.accept(newValue);
@@ -84,6 +89,6 @@ public class TaskListPanel extends UiPart<Region> {
 
     @FunctionalInterface
     interface TaskEditor {
-        void updateTask(Task oldTask, Task newTask) throws GuiException;
+        void updateTask(Task oldTask, Task newTask);
     }
 }

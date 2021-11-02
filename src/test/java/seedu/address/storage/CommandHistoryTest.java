@@ -17,37 +17,47 @@ class CommandHistoryTest {
     public void undo_overflow_returnsCorrectResult() {
         ModelManager model = new ModelManager();
         CommandHistory history = new CommandHistory(15);
-        AddTaskCommand command = new AddTaskCommand(new TaskBuilder().build());
-        history.pushCommand(command);
-        history.pushCommand(command);
-        history.pushCommand(command);
+        AddTaskCommand command1 = new AddTaskCommand(new TaskBuilder().build());
+        AddTaskCommand command2 = new AddTaskCommand(new TaskBuilder().build());
+        AddTaskCommand command3 = new AddTaskCommand(new TaskBuilder().build());
+        history.pushCommand(command1);
+        history.pushCommand(command2);
+        history.pushCommand(command3);
+        assertDoesNotThrow(() -> command1.execute(model));
+        assertDoesNotThrow(() -> command2.execute(model));
+        assertDoesNotThrow(() -> command3.execute(model));
         // navigate backwards
-        history.getHistoryCommand(false).ifPresent(x -> assertDoesNotThrow(() -> x.undo(model)));
-        history.getHistoryCommand(false).ifPresent(x -> assertDoesNotThrow(() -> x.undo(model)));
-        history.getHistoryCommand(false).ifPresent(x -> assertDoesNotThrow(() -> x.undo(model)));
-        history.getHistoryCommand(false).ifPresent(x -> assertThrows(CommandException.class, () -> x.undo(model)));
+        history.undo().ifPresent(x -> assertDoesNotThrow(() -> x.undo(model)));
+        history.undo().ifPresent(x -> assertDoesNotThrow(() -> x.undo(model)));
+        history.undo().ifPresent(x -> assertDoesNotThrow(() -> x.undo(model)));
+        history.undo().ifPresent(x -> assertThrows(CommandException.class, () -> x.undo(model)));
     }
 
     @Test
     public void redo_overflow_returnsCorrectResult() {
         ModelManager model = new ModelManager();
         CommandHistory history = new CommandHistory(15);
-        AddTaskCommand command = new AddTaskCommand(new TaskBuilder().build());
-        history.pushCommand(command);
-        history.pushCommand(command);
-        history.pushCommand(command);
+        AddTaskCommand command1 = new AddTaskCommand(new TaskBuilder().build());
+        AddTaskCommand command2 = new AddTaskCommand(new TaskBuilder().build());
+        AddTaskCommand command3 = new AddTaskCommand(new TaskBuilder().build());
+        history.pushCommand(command1);
+        history.pushCommand(command2);
+        history.pushCommand(command3);
+        assertDoesNotThrow(() -> command1.execute(model));
+        assertDoesNotThrow(() -> command2.execute(model));
+        assertDoesNotThrow(() -> command3.execute(model));
         // navigate backwards
-        history.getHistoryCommand(false)
+        history.undo()
                 .ifPresent(x -> assertDoesNotThrow(() -> x.undo(model)));
-        history.getHistoryCommand(false)
+        history.undo()
                 .ifPresent(x -> assertDoesNotThrow(() -> x.undo(model)));
         // go forward twice
-        history.getHistoryCommand(true)
-                .ifPresent(x -> assertDoesNotThrow(() -> x.undo(model)));
-        history.getHistoryCommand(true)
-                .ifPresent(x -> assertDoesNotThrow(() -> x.undo(model)));
+        history.redo()
+                .ifPresent(x -> assertDoesNotThrow(() -> x.execute(model)));
+        history.redo()
+                .ifPresent(x -> assertDoesNotThrow(() -> x.execute(model)));
         // ensure cannot over redo
-        history.getHistoryCommand(true)
+        history.redo()
                 .ifPresent(x -> assertThrows(CommandException.class, () -> x.undo(model)));
     }
 
@@ -55,10 +65,9 @@ class CommandHistoryTest {
     public void empty_stack_returnsCorrectResult() {
         ModelManager model = new ModelManager();
         CommandHistory history = new CommandHistory(15);
-        AddTaskCommand command = new AddTaskCommand(new TaskBuilder().build());
-        history.getHistoryCommand(true)
+        history.redo()
                 .ifPresent(x -> assertThrows(CommandException.class, () -> x.undo(model)));
-        history.getHistoryCommand(false)
+        history.undo()
                 .ifPresent(x -> assertThrows(CommandException.class, () -> x.undo(model)));
     }
 

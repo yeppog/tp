@@ -2,9 +2,7 @@ package seedu.address.storage;
 
 import java.util.Optional;
 
-import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.RedoCommand;
-import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.UndoableCommand;
 
 /**
  * UserUndoStorage contains a stack of undo instructions to be executed when the user wants to
@@ -19,7 +17,7 @@ public class CommandHistory {
     private CommandHistoryNode current;
 
     private static class CommandHistoryNode {
-        private final Command command;
+        private final UndoableCommand command;
         private CommandHistoryNode previous;
         private CommandHistoryNode next;
 
@@ -28,7 +26,7 @@ public class CommandHistory {
          *
          * @param command The command to be encapsulated.
          */
-        public CommandHistoryNode(Command command) {
+        public CommandHistoryNode(UndoableCommand command) {
             this.command = command;
             this.previous = null;
             this.next = null;
@@ -60,7 +58,7 @@ public class CommandHistory {
             return false;
         }
 
-        public Command getCommand() {
+        public UndoableCommand getCommand() {
             return this.command;
         }
 
@@ -90,10 +88,7 @@ public class CommandHistory {
      *
      * @param command Command to be inserted to the history stack
      */
-    public void pushCommand(Command command) {
-        if (command instanceof UndoCommand || command instanceof RedoCommand) {
-            return;
-        }
+    public void pushCommand(UndoableCommand command) {
         CommandHistoryNode newCommand = new CommandHistoryNode(command);
         if (this.isStackFull()) {
             this.start = this.start.next;
@@ -124,6 +119,15 @@ public class CommandHistory {
         return this.stackSize >= this.maxStackSize;
     }
 
+
+    public Optional<UndoableCommand> undo() {
+        return getHistoryCommand(false);
+    }
+
+    public Optional<UndoableCommand> redo() {
+        return getHistoryCommand(true);
+    }
+
     /**
      * Retrieves the requested command from the stack. Returns the next item in the stack if
      * isNext is true, and returns the current item in the stack is isNext is false.
@@ -131,7 +135,7 @@ public class CommandHistory {
      * @return Optional of the Command. If the stack is empty, returns an empty Optional.
      */
 
-    public Optional<Command> getHistoryCommand(boolean isNext) {
+    private Optional<UndoableCommand> getHistoryCommand(boolean isNext) {
         CommandHistoryNode toReturn = this.current;
         if (this.current == null) {
             if (isNext) {

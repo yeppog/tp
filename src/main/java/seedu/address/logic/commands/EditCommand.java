@@ -5,7 +5,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CommandArgument.filled;
+import static seedu.address.logic.parser.CommandArgument.optionalMultiple;
+import static seedu.address.logic.parser.CommandArgument.optionalSingle;
+import static seedu.address.logic.parser.CommandArgument.requiredSingle;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
@@ -18,6 +23,7 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.CommandSpecification;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
@@ -29,22 +35,25 @@ import seedu.address.model.tag.Tag;
 /**
  * Edits the details of an existing person in the address book.
  */
-public class EditCommand extends Command {
+public class EditCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "edit";
-
-    public static final String MESSAGE_USAGE =
-            COMMAND_WORD + ": Edits the details of the person identified "
+    public static final CommandSpecification COMMAND_SPECS = new CommandSpecification(
+            COMMAND_WORD,
+            "Edits the details of the person identified "
                     + "by the index number used in the displayed person list. "
-                    + "Existing values will be overwritten by the input values.\n"
-                    + "Parameters: INDEX (must be a positive integer) "
-                    + "[" + PREFIX_NAME + "NAME] "
-                    + "[" + PREFIX_PHONE + "PHONE] "
-                    + "[" + PREFIX_EMAIL + "EMAIL] "
-                    + "[" + PREFIX_ADDRESS + "ADDRESS] "
-                    + "[" + PREFIX_TAG + "TAG]...\n"
-                    + "Example: " + COMMAND_WORD + " 1 " + PREFIX_PHONE
-                    + "91234567 " + PREFIX_EMAIL + "johndoe@example.com";
+                    + "Existing values will be overwritten by the input values.",
+            requiredSingle(PREFIX_PREAMBLE, "index"),
+            optionalSingle(PREFIX_NAME, "name"),
+            optionalSingle(PREFIX_PHONE, "phone"),
+            optionalSingle(PREFIX_EMAIL, "email"),
+            optionalSingle(PREFIX_ADDRESS, "address"),
+            optionalMultiple(PREFIX_TAG, "tag")
+    ).withExample(
+            filled(PREFIX_PREAMBLE, "1"),
+            filled(PREFIX_PHONE, "91234567"),
+            filled(PREFIX_EMAIL, "johndoe@example.com")
+    );
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -56,7 +65,7 @@ public class EditCommand extends Command {
     private Person editedPerson;
 
     /**
-     * @param index index of the person in the filtered person list to edit
+     * @param index                index of the person in the filtered person list to edit
      * @param editPersonDescriptor details to edit the person with
      */
     public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
@@ -92,7 +101,7 @@ public class EditCommand extends Command {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
         List<Person> lastShownList = model.getFilteredPersonList();
 
@@ -109,7 +118,6 @@ public class EditCommand extends Command {
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
-        super.canExecute();
 
         model.setPerson(personToEdit,
                 editedPerson);
@@ -119,8 +127,7 @@ public class EditCommand extends Command {
     }
 
     @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
+    protected CommandResult executeUndo(Model model) {
         EditPersonDescriptor oldDescriptor = new EditPersonDescriptor(this.originalPerson);
         Person originalPerson = createEditedPerson(this.editedPerson,
                 oldDescriptor);
@@ -145,7 +152,6 @@ public class EditCommand extends Command {
         // state check
         EditCommand e = (EditCommand) other;
         return index.equals(e.index) && editPersonDescriptor.equals(e.editPersonDescriptor);
-
     }
 
     /**

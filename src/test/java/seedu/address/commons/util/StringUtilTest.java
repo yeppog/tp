@@ -1,5 +1,6 @@
 package seedu.address.commons.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -138,6 +139,31 @@ public class StringUtilTest {
     @Test
     public void getDetails_nullGiven_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> StringUtil.getDetails(null));
+    }
+
+    //---------------- Tests for limitString --------------------------------------
+    @Test
+    public void limitString_underLimit_returnsOriginalString() {
+        String testString = "Abcdefghij";
+        String replacementString = "...";
+        int stringLimit = 10;
+        assertEquals(StringUtil.limitString(testString, replacementString, stringLimit), testString);
+    }
+
+    @Test
+    public void limitString_overLimit_returnsUnderLimit() {
+        String testString = "Abcdefghijk";
+        String replacementString = "";
+        int stringLimit = 10;
+        assertEquals(StringUtil.limitString(testString, replacementString, stringLimit), "Abcdefghij");
+    }
+
+    @Test
+    public void limitString_overLimit_appendsReplacementString() {
+        String testString = "Abcdefghijk";
+        String replacementString = "...";
+        int stringLimit = 10;
+        assertEquals(StringUtil.limitString(testString, replacementString, stringLimit), "Abcdefg...");
     }
 
 }

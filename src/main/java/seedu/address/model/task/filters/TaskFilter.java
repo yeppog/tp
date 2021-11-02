@@ -36,4 +36,6 @@ public abstract class TaskFilter {
      * @return the string used to describe the filter in the UI
      */
     public abstract String toDisplayString();
+
+    public abstract boolean hasConflictWith(TaskFilter other);
 }

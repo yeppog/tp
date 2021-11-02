@@ -19,11 +19,10 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.commands.task.AddTaskCommand;
+import seedu.address.logic.commands.task.SetTaskCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.TaskList;
 import seedu.address.model.task.Task;
-import seedu.address.ui.exceptions.GuiException;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -161,17 +160,18 @@ public class MainWindow extends UiPart<Stage> {
      */
     void fillInnerParts() {
         TaskListPanel.TaskEditor taskEditor = (Task oldTask, Task newTask) -> {
-            logic.executeGuiAction((AddressBook addressBook, TaskList taskList) -> {
-                taskList.setTask(oldTask, newTask);
-            });
+            try {
+                logic.executeCommand(new SetTaskCommand(oldTask, newTask));
+            } catch (CommandException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Error occurred when editing task", e);
+            }
         };
 
         Consumer<Task> addTask = task -> {
             try {
-                logic.executeGuiAction((AddressBook addressBook, TaskList taskList) -> {
-                    taskList.addTask(task);
-                });
-            } catch (GuiException e) {
+                logic.executeCommand(new AddTaskCommand(task));
+            } catch (CommandException e) {
                 e.printStackTrace();
                 logger.log(Level.SEVERE, "Error occurred when adding task", e);
             }
@@ -179,7 +179,7 @@ public class MainWindow extends UiPart<Stage> {
 
         TaskListPanel taskListPanel = new TaskListPanel(
                 logic.getFilteredTaskList(),
-                logic.getAvailableTaskFilters(),
+                logic.getSelectableTaskFilters(),
                 logic.getSelectedTaskFilters(),
                 logic::addTaskFilter,
                 logic::removeTaskFilter,

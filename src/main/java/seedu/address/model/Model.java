@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Person;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilter;
@@ -138,10 +137,10 @@ public interface Model {
 
 
     /**
-     * Returns a list of available task filters.
-     * @return The list of available task filters.
+     * Returns a list of selectable task filters.
+     * @return The list of selectable task filters.
      */
-    ObservableList<TaskFilter> getAvailableTaskFilters();
+    ObservableList<TaskFilter> getSelectableTaskFilters();
 
     /**
      * Returns the list of selected filters to filter tasks by.
@@ -192,14 +191,9 @@ public interface Model {
      * Replaces the given task {@code target} with {@code editedTask}.
      * {@code target} must exist in the task list.
      * setTask uses targetIndex rather than target Person; This is because tasks may not be unique, unlike persons
+     * @return
      */
-    void setTask(Task target, Task editedTask);
-
-    /**
-     * Executes the given GUI action with the model context.
-     * @param action The GUI action to execute
-     */
-    void executeGuiAction(GuiAction action);
+    Task setTask(Task target, Task editedTask);
 
     /**
      * Returns the command history instance.

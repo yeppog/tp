@@ -1,17 +1,13 @@
 package seedu.address.logic.parser;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.EditCommand.MESSAGE_USAGE;
+import static seedu.address.logic.commands.EditCommand.COMMAND_SPECS;
+import static seedu.address.logic.commands.EditCommand.MESSAGE_NOT_EDITED;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.logic.parser.CommandArgument.optionalMultiple;
-import static seedu.address.logic.parser.CommandArgument.optionalSingle;
-import static seedu.address.logic.parser.CommandArgument.requiredSingle;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -21,59 +17,45 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
-import seedu.address.logic.parser.exceptions.IllegalPrefixException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Address;
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Name;
+import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new EditCommand object
  */
-public class EditCommandParser implements Parser<EditCommand> {
+public class EditCommandParser extends ArgumentMultimapParser<EditCommand> {
+    public EditCommandParser() {
+        super(COMMAND_SPECS);
+    }
 
-    /**
-     * Parses the given {@code String} of arguments in the context of the EditCommand
-     * and returns an EditCommand object for execution.
-     * @throws ParseException if the user input does not conform the expected format
-     */
-    public EditCommand parse(String args) throws ParseException {
-        requireNonNull(args);
-        ArgumentMultimap argMultimap;
-        Index index;
-
-        try {
-            argMultimap =
-                ArgumentTokenizer.tokenize(args,
-                        requiredSingle(PREFIX_PREAMBLE),
-                        optionalSingle(PREFIX_NAME),
-                        optionalSingle(PREFIX_PHONE),
-                        optionalSingle(PREFIX_EMAIL),
-                        optionalSingle(PREFIX_ADDRESS),
-                        optionalMultiple(PREFIX_TAG));
-
-            index = ParserUtil.parseIndex(argMultimap.getPreamble());
-        } catch (IllegalPrefixException e) {
-            throw new ParseException(String.format(e.getMessage(), MESSAGE_USAGE), e);
-        } catch (ParseException e) {
-            throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, MESSAGE_USAGE));
-        }
-
+    @Override
+    public EditCommand parseArgumentMultimap(ArgumentMultimap argMultimap) throws ParseException {
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
-        if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            editPersonDescriptor.setName(ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()));
-        }
-        if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            editPersonDescriptor.setPhone(ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get()));
-        }
-        if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            editPersonDescriptor.setEmail(ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get()));
-        }
-        if (argMultimap.getValue(PREFIX_ADDRESS).isPresent()) {
-            editPersonDescriptor.setAddress(ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get()));
-        }
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
+
+        Index index = ArgumentParser.parseValue(PREFIX_PREAMBLE, ParserUtil::parseIndex, argMultimap, COMMAND_SPECS);
+        Optional<Name> name = ArgumentParser.parseOptionalValue(PREFIX_NAME, ParserUtil::parseName, argMultimap,
+                COMMAND_SPECS);
+        Optional<Phone> phone = ArgumentParser.parseOptionalValue(PREFIX_PHONE, ParserUtil::parsePhone, argMultimap,
+                COMMAND_SPECS);
+        Optional<Email> email = ArgumentParser.parseOptionalValue(PREFIX_EMAIL, ParserUtil::parseEmail, argMultimap,
+                COMMAND_SPECS);
+        Optional<Address> address = ArgumentParser.parseOptionalValue(PREFIX_ADDRESS, ParserUtil::parseAddress,
+                argMultimap, COMMAND_SPECS);
+        Optional<Set<Tag>> tags = ArgumentParser.parseAllValues(PREFIX_TAG, EditCommandParser::parseTagsForEdit,
+                argMultimap, COMMAND_SPECS);
+
+        name.ifPresent(editPersonDescriptor::setName);
+        phone.ifPresent(editPersonDescriptor::setPhone);
+        email.ifPresent(editPersonDescriptor::setEmail);
+        address.ifPresent(editPersonDescriptor::setAddress);
+        tags.ifPresent(editPersonDescriptor::setTags);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
-            throw new ParseException(EditCommand.MESSAGE_NOT_EDITED);
+            throw new ParseException(MESSAGE_NOT_EDITED + "\n" + COMMAND_SPECS.getUsageMessage());
         }
 
         return new EditCommand(index, editPersonDescriptor);
@@ -84,7 +66,7 @@ public class EditCommandParser implements Parser<EditCommand> {
      * If {@code tags} contain only one element which is an empty string, it will be parsed into a
      * {@code Set<Tag>} containing zero tags.
      */
-    private Optional<Set<Tag>> parseTagsForEdit(Collection<String> tags) throws ParseException {
+    private static Optional<Set<Tag>> parseTagsForEdit(Collection<String> tags) throws ParseException {
         assert tags != null;
 
         if (tags.isEmpty()) {
