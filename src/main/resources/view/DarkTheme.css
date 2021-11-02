@@ -1,4 +1,4 @@
-* {
+.root {
     -fx-font-family: "Open Sans", sans-serif;
     -fx-color-bg: #0f0f14;
     -fx-color-border: derive(-fx-color-bg, 50%);
@@ -444,6 +444,11 @@
     -fx-border-width: 0;
     -fx-font-size: 13pt;
     -fx-text-fill: white;
+    -fx-font-family: 'Roboto Mono';
+}
+
+.mono {
+    -fx-font-family: 'Roboto Mono';
 }
 
 #filterField, #personListPanel, #personWebpage {

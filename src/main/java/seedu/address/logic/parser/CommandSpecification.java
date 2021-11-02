@@ -40,8 +40,20 @@ public class CommandSpecification {
         return this;
     }
 
+    public String getWord() {
+        return word;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public List<CommandArgument> getCommandArguments() {
         return commandArguments;
+    }
+
+    public List<String> getExampleCommands() {
+        return exampleCommands;
     }
 
     public CommandArgument getCommandArgumentWithPrefix(Prefix prefix) {
@@ -49,11 +61,15 @@ public class CommandSpecification {
                 .filter(argument -> argument.getPrefix().equals(prefix)).findFirst().orElse(null);
     }
 
+    public String getCommandUsage() {
+        return word + " " + getCommandArguments().stream().map(CommandArgument::toString)
+                .collect(Collectors.joining(" "));
+    }
+
     public String getUsageMessage() {
         List<String> lines = new ArrayList<>();
         lines.add(word + ": " + description);
-        lines.add(word + " " + getCommandArguments().stream().map(CommandArgument::toString)
-                .collect(Collectors.joining(" ")));
+        lines.add(getCommandUsage());
         if (!exampleCommands.isEmpty()) {
             lines.add("Examples:");
             lines.addAll(exampleCommands);
