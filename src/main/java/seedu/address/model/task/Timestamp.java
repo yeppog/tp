@@ -16,6 +16,10 @@ public class Timestamp {
 
     private final LocalDate timestamp;
 
+    private Timestamp(LocalDate date) {
+        this.timestamp = date;
+    }
+
     /**
      * Creates a TimeStamp with the given string.
      * @param timestamp the string representing the timestamp
@@ -31,6 +35,10 @@ public class Timestamp {
 
     public static Timestamp of(String timestamp) throws ParseException {
         return new Timestamp(timestamp);
+    }
+
+    public static Timestamp of(LocalDate date) {
+        return new Timestamp(date);
     }
 
     /**
@@ -65,7 +73,7 @@ public class Timestamp {
         return this.timestamp.toString();
     }
 
-    public LocalDate getTimestamp() {
+    public LocalDate getDate() {
         return this.timestamp;
     }
 
