@@ -19,7 +19,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.logic.guiactions.GuiAction;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
@@ -293,12 +292,6 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void executeGuiAction(GuiAction action) {
-        action.executeWith(addressBook, taskList);
-    }
-
-
-    @Override
     public void deleteTask(Task deletedTask) {
         taskList.removeTask(deletedTask);
         updateTaskFilters();
@@ -326,12 +319,12 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void setTask(Task target, Task editedTask) {
+    public Task setTask(Task target, Task editedTask) {
         requireAllNonNull(target, editedTask);
         Task updatedEditedTask = updateTaskContacts(editedTask);
         taskList.setTask(target, updatedEditedTask);
         updateTaskFilters();
-
+        return updatedEditedTask;
     }
 
     /**

@@ -7,8 +7,7 @@ import seedu.address.logic.parser.CommandSpecification;
 import seedu.address.model.Model;
 import seedu.address.storage.CommandHistory;
 
-public class UndoCommand extends Command {
-
+public class UndoCommand implements Command {
     public static final String COMMAND_WORD = "undo";
     public static final CommandSpecification COMMAND_SPECS = new CommandSpecification(
             COMMAND_WORD,
@@ -20,7 +19,7 @@ public class UndoCommand extends Command {
     @Override
     public CommandResult execute(Model model) throws CommandException {
         CommandHistory commandHistory = model.getCommandHistory();
-        Optional<Command> commandToUndo = commandHistory.getHistoryCommand(false);
+        Optional<UndoableCommand> commandToUndo = commandHistory.undo();
         if (commandToUndo.isPresent()) {
             CommandResult result = commandToUndo.get().undo(model);
             return new CommandResult(MESSAGE_UNDO_SUCCESS + result.getFeedbackToUser());

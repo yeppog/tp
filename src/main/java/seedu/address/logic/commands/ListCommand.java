@@ -5,7 +5,6 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.function.Predicate;
 
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CommandSpecification;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
@@ -13,8 +12,7 @@ import seedu.address.model.person.Person;
 /**
  * Lists all persons in the address book to the user.
  */
-public class ListCommand extends Command {
-
+public class ListCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "list";
     public static final CommandSpecification COMMAND_SPECS = new CommandSpecification(
             COMMAND_WORD,
@@ -26,18 +24,15 @@ public class ListCommand extends Command {
     private Predicate<? super Person> previousPredicate;
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) {
         requireNonNull(model);
-        super.canExecute();
         this.previousPredicate = model.getFilteredPersonPredicate();
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        this.canExecute = false;
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
     @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
+    protected CommandResult executeUndo(Model model) {
         model.updateFilteredPersonList(this.previousPredicate);
         return new CommandResult(MESSAGE_SUCCESS);
     }

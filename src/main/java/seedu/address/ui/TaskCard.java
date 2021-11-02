@@ -12,7 +12,6 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
-import seedu.address.ui.exceptions.GuiException;
 
 public class TaskCard extends UiPart<Region> {
     private static final String FXML = "TaskCard.fxml";
@@ -116,14 +115,8 @@ public class TaskCard extends UiPart<Region> {
                 newValue,
                 task.getContacts()
             );
-            try {
-                taskEditor.updateTask(task, newTask);
-            } catch (GuiException e) {
-                e.printStackTrace();
-            }
+            taskEditor.updateTask(task, newTask);
         });
-
-
     }
 
     private static String prependTimestampIcon(String text) {

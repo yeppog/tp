@@ -15,7 +15,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilter;
-import seedu.address.ui.exceptions.GuiException;
 
 public class TaskListPanel extends UiPart<Region> {
 
@@ -90,6 +89,6 @@ public class TaskListPanel extends UiPart<Region> {
 
     @FunctionalInterface
     interface TaskEditor {
-        void updateTask(Task oldTask, Task newTask) throws GuiException;
+        void updateTask(Task oldTask, Task newTask);
     }
 }

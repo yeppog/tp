@@ -48,18 +48,23 @@ public class DeleteTaskCommand extends TaskCommand {
      * @throws CommandException If an error occurs during command execution.
      */
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
         List<Task> taskList = model.getFilteredTaskList();
 
         if (targetIndex.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        super.canExecute();
 
         Task deletedTask = taskList.get(targetIndex.getZeroBased());
         this.deletedTask = deletedTask;
         model.deleteTask(deletedTask);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
+    }
+
+    @Override
+    protected CommandResult executeUndo(Model model) throws CommandException {
+        model.insertTask(deletedTask, targetIndex.getZeroBased());
         return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
     }
 
@@ -73,12 +78,5 @@ public class DeleteTaskCommand extends TaskCommand {
     @Override
     public int hashCode() {
         return targetIndex.hashCode();
-    }
-
-    @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
-        model.insertTask(deletedTask, targetIndex.getZeroBased());
-        return new CommandResult(String.format(MESSAGE_SUCCESS, deletedTask));
     }
 }

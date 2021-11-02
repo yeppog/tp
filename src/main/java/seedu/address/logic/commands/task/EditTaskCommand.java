@@ -99,14 +99,13 @@ public class EditTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
         List<Task> taskList = model.getFilteredTaskList();
 
         if (index.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        super.canExecute();
 
         Task taskToEdit = taskList.get(index.getZeroBased());
         this.oldTask = taskToEdit;
@@ -123,8 +122,7 @@ public class EditTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
+    protected CommandResult executeUndo(Model model) throws CommandException {
         EditTaskDescriptor oldTaskDescriptor = EditTaskDescriptor.from(this.oldTask);
         List<Task> taskList = model.getFilteredTaskList();
         Task taskToEdit = taskList.get(index.getZeroBased());

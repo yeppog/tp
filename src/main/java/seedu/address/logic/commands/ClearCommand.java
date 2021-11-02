@@ -2,8 +2,6 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import seedu.address.commons.core.Messages;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.CommandSpecification;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
@@ -12,7 +10,7 @@ import seedu.address.model.ReadOnlyAddressBook;
 /**
  * Clears the address book.
  */
-public class ClearCommand extends Command {
+public class ClearCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "clear";
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
@@ -25,23 +23,18 @@ public class ClearCommand extends Command {
     private ReadOnlyAddressBook oldAddressBook;
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
-        if (!this.canExecute) {
-            throw new CommandException(Messages.MESSAGE_UNABLE_TO_EXECUTE);
-        }
+    protected CommandResult executeDo(Model model) {
         requireNonNull(model);
 
         // Save a copy of the previous AddressBook
         this.oldAddressBook = new AddressBook(model.getAddressBook());
 
         model.setAddressBook(new AddressBook());
-        this.canExecute = false;
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
     @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
+    protected CommandResult executeUndo(Model model) {
         model.setAddressBook(this.oldAddressBook);
         return new CommandResult(MESSAGE_SUCCESS);
     }
