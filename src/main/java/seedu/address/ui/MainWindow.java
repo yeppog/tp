@@ -96,7 +96,12 @@ public class MainWindow extends UiPart<Stage> {
             }
         });
         primaryStage.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-            if (e.getCode() == KeyCode.Z && e.isShortcutDown()) {
+            if (e.getCode() == KeyCode.Y && e.isShortcutDown()
+                    || e.isShortcutDown() && e.isShiftDown() && e.getCode() == KeyCode.Z) {
+                CommandResult result = this.logic.redoCommand();
+                resultDisplay.setFeedbackToUser(result.getFeedbackToUser());
+                e.consume();
+            } else if (e.getCode() == KeyCode.Z && e.isShortcutDown()) {
                 CommandResult result = this.logic.undoCommand();
                 resultDisplay.setFeedbackToUser(result.getFeedbackToUser());
                 e.consume();
@@ -174,7 +179,7 @@ public class MainWindow extends UiPart<Stage> {
 
         TaskListPanel taskListPanel = new TaskListPanel(
                 logic.getFilteredTaskList(),
-                logic.getAvailableTaskFilters(),
+                logic.getSelectableTaskFilters(),
                 logic.getSelectedTaskFilters(),
                 logic::addTaskFilter,
                 logic::removeTaskFilter,

@@ -104,6 +104,11 @@ public interface Model {
     void deleteTask(Task deletedTask);
 
     /**
+     * Deletes the task at index. Bypass due to object inequality.
+     */
+    void deleteTaskAtLastIndex();
+
+    /**
      * Deletes the list of Filtered Tasks and their filters.
      */
     void deleteAllInFilteredTaskList();
@@ -133,10 +138,10 @@ public interface Model {
 
 
     /**
-     * Returns a list of available task filters.
-     * @return The list of available task filters.
+     * Returns a list of selectable task filters.
+     * @return The list of selectable task filters.
      */
-    ObservableList<TaskFilter> getAvailableTaskFilters();
+    ObservableList<TaskFilter> getSelectableTaskFilters();
 
     /**
      * Returns the list of selected filters to filter tasks by.

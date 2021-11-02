@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.TaskCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.CommandSpecification;
 import seedu.address.model.Model;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilter;
@@ -19,11 +20,13 @@ import seedu.address.model.task.filters.TaskFilter;
 public class PurgeTaskCommand extends TaskCommand {
     public static final String COMMAND_WORD = "purge";
     public static final String FULL_COMMAND_WORD = TaskCommand.COMMAND_WORD + " " + COMMAND_WORD;
+    public static final CommandSpecification COMMAND_SPECS = new CommandSpecification(
+            FULL_COMMAND_WORD,
+            "Purges all tasks in the displayed task list."
+    );
+
     public static final String MESSAGE_SUCCESS = "Tasks purged!";
     public static final String MESSAGE_NO_TASK_TO_PURGE = "There are no tasks to purge.";
-    public static final String MESSAGE_USAGE = FULL_COMMAND_WORD
-            + ": Purges all tasks in the displayed task list.\n"
-            + "Example: " + FULL_COMMAND_WORD;
 
     private TreeMap<Integer, Task> deletedTasks;
     private ArrayList<TaskFilter> deletedFilters;

@@ -57,7 +57,7 @@ public interface Logic {
      * Returns a list of available task filters.
      * @return The list of available task filters
      */
-    ObservableList<TaskFilter> getAvailableTaskFilters();
+    ObservableList<TaskFilter> getSelectableTaskFilters();
 
     /**
      * Returns the list of selected filters to filter tasks by.
@@ -100,9 +100,15 @@ public interface Logic {
 
     /**
      * Executes an undo command.
-     * @return The command result of the command being executed.
+     * @return The command result of the command being undone.
      */
     CommandResult undoCommand();
+
+    /**
+     * Executes a redo command.
+     * @return The command result of the command being redone.
+     */
+    CommandResult redoCommand();
 
     /**
      * Get the next or previous command in the command history.

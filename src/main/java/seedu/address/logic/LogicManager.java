@@ -48,7 +48,7 @@ public class LogicManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
         CommandResult commandResult;
-        Command command = addressBookParser.parseCommand(commandText);
+        Command command = addressBookParser.parse(commandText);
         commandResult = command.execute(model);
         model.getCommandHistory().pushCommand(command);
         model.addCommandToHistory(commandText);
@@ -91,8 +91,8 @@ public class LogicManager implements Logic {
     }
 
     @Override
-    public ObservableList<TaskFilter> getAvailableTaskFilters() {
-        return model.getAvailableTaskFilters();
+    public ObservableList<TaskFilter> getSelectableTaskFilters() {
+        return model.getSelectableTaskFilters();
     }
 
     @Override
@@ -139,6 +139,15 @@ public class LogicManager implements Logic {
     public CommandResult undoCommand() {
         try {
             return this.execute("undo");
+        } catch (CommandException | ParseException e) {
+            return new CommandResult(e.getMessage());
+        }
+    }
+
+    @Override
+    public CommandResult redoCommand() {
+        try {
+            return this.execute("redo");
         } catch (CommandException | ParseException e) {
             return new CommandResult(e.getMessage());
         }

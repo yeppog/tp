@@ -165,7 +165,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public ObservableList<TaskFilter> getAvailableTaskFilters() {
+        public ObservableList<TaskFilter> getSelectableTaskFilters() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -216,7 +216,11 @@ public class AddCommandTest {
 
         @Override
         public void deleteTask(Task task) {
+            throw new AssertionError("This method should not be called.");
+        }
 
+        @Override
+        public void deleteTaskAtLastIndex() {
             throw new AssertionError("This method should not be called.");
         }
 

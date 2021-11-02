@@ -2,20 +2,23 @@ package seedu.address.model.task.filters;
 
 import java.util.Objects;
 
-import seedu.address.model.task.Task;
-
 class DoneTaskFilter extends TaskFilter {
     DoneTaskFilter() {
         this(false);
     }
 
     private DoneTaskFilter(boolean isInverted) {
-        super(Task::isDone, isInverted);
+        super(task -> task.isDone() != isInverted, isInverted);
     }
 
     @Override
     public String toDisplayString() {
         return isInverted ? "Undone" : "Done";
+    }
+
+    @Override
+    public boolean hasConflictWith(TaskFilter other) {
+        return other instanceof DoneTaskFilter;
     }
 
     @Override
