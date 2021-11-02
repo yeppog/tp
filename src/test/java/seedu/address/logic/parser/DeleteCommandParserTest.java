@@ -1,6 +1,7 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.commands.DeleteCommand.COMMAND_SPECS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
@@ -8,6 +9,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.parser.exceptions.InvalidCommandArgumentFormatException;
 
 /**
  * As we are only doing white-box testing, our test cases do not cover path variations
@@ -18,6 +20,9 @@ import seedu.address.logic.commands.DeleteCommand;
  */
 public class DeleteCommandParserTest {
 
+    private static final String MESSAGE_INVALID_INDEX =
+            new InvalidCommandArgumentFormatException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_PREAMBLE),
+            ParserUtil.MESSAGE_INVALID_INDEX, COMMAND_SPECS).getMessage();
     private DeleteCommandParser parser = new DeleteCommandParser();
 
     @Test
@@ -27,6 +32,6 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_invalidArgs_throwsParseException() {
-        assertParseFailure(parser, "a", String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, "a", MESSAGE_INVALID_INDEX);
     }
 }

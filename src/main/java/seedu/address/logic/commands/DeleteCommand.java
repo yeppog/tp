@@ -1,6 +1,9 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
+import static seedu.address.logic.parser.CommandArgument.filled;
+import static seedu.address.logic.parser.CommandArgument.requiredSingle;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -8,6 +11,7 @@ import java.util.function.Predicate;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.CommandSpecification;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 
@@ -18,10 +22,13 @@ public class DeleteCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "delete";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Deletes the person identified by the index number used in the displayed person list.\n"
-            + "Parameters: INDEX (must be a positive integer)\n"
-            + "Example: " + COMMAND_WORD + " 1";
+    public static final CommandSpecification COMMAND_SPECS = new CommandSpecification(
+            COMMAND_WORD,
+            "Deletes the person identified by the index number used in the displayed person list.",
+            requiredSingle(PREFIX_PREAMBLE, "index")
+    ).withExample(
+            filled(PREFIX_PREAMBLE, "1")
+    );
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
 

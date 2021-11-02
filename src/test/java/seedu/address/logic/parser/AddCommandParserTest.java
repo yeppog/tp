@@ -1,6 +1,6 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.logic.commands.AddCommand.MESSAGE_USAGE;
+import static seedu.address.logic.commands.AddCommand.COMMAND_SPECS;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
@@ -28,6 +28,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.address.testutil.TypicalPersons.AMY;
@@ -36,7 +37,8 @@ import static seedu.address.testutil.TypicalPersons.BOB;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.AddCommand;
-import seedu.address.logic.parser.exceptions.MissingPrefixException;
+import seedu.address.logic.parser.exceptions.InvalidCommandArgumentFormatException;
+import seedu.address.logic.parser.exceptions.MissingCommandArgumentException;
 import seedu.address.logic.parser.exceptions.TooManyPrefixesException;
 import seedu.address.logic.parser.exceptions.UnwantedPreambleException;
 import seedu.address.model.person.Address;
@@ -61,22 +63,27 @@ public class AddCommandParserTest {
         // multiple names - failure
         assertParseFailure(parser, NAME_DESC_AMY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                         + ADDRESS_DESC_BOB + TAG_DESC_FRIEND,
-                String.format(new TooManyPrefixesException(PREFIX_NAME).getMessage(), MESSAGE_USAGE));
+                new TooManyPrefixesException(CommandArgument.unknown(PREFIX_NAME),
+                        COMMAND_SPECS).getMessage());
 
         // multiple phones - failure
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_BOB
                         + ADDRESS_DESC_BOB + TAG_DESC_FRIEND,
-                String.format(new TooManyPrefixesException(PREFIX_PHONE).getMessage(), MESSAGE_USAGE));
+                new TooManyPrefixesException(CommandArgument.unknown(PREFIX_PHONE),
+                        COMMAND_SPECS).getMessage());
 
         // multiple emails - failure
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_AMY + EMAIL_DESC_BOB
                         + ADDRESS_DESC_BOB + TAG_DESC_FRIEND,
-                String.format(new TooManyPrefixesException(PREFIX_EMAIL).getMessage(), MESSAGE_USAGE));
+                new TooManyPrefixesException(CommandArgument.unknown(PREFIX_EMAIL),
+                        COMMAND_SPECS).getMessage());
 
         // multiple addresses - failure
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_AMY
                         + ADDRESS_DESC_BOB + TAG_DESC_FRIEND,
-                String.format(new TooManyPrefixesException(PREFIX_ADDRESS).getMessage(), MESSAGE_USAGE));
+                new TooManyPrefixesException(CommandArgument.unknown(PREFIX_ADDRESS),
+                        COMMAND_SPECS).getMessage());
+
 
         // multiple tags - all accepted
         Person expectedPersonMultipleTags = new PersonBuilder(BOB).withTags(VALID_TAG_FRIEND, VALID_TAG_HUSBAND)
@@ -97,54 +104,75 @@ public class AddCommandParserTest {
     public void parse_compulsoryFieldMissing_failure() {
         // missing name prefix
         assertParseFailure(parser, VALID_NAME_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
-                String.format(new MissingPrefixException(PREFIX_NAME).getMessage(), MESSAGE_USAGE));
+                new MissingCommandArgumentException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_NAME),
+                        COMMAND_SPECS).getMessage());
 
         // missing phone prefix
         assertParseFailure(parser, NAME_DESC_BOB + VALID_PHONE_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
-                String.format(new MissingPrefixException(PREFIX_PHONE).getMessage(), MESSAGE_USAGE));
+                new MissingCommandArgumentException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_PHONE),
+                        COMMAND_SPECS).getMessage());
 
         // missing email prefix
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + VALID_EMAIL_BOB + ADDRESS_DESC_BOB,
-                String.format(new MissingPrefixException(PREFIX_EMAIL).getMessage(), MESSAGE_USAGE));
+                new MissingCommandArgumentException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_EMAIL),
+                        COMMAND_SPECS).getMessage());
 
         // missing address prefix
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + VALID_ADDRESS_BOB,
-                String.format(new MissingPrefixException(PREFIX_ADDRESS).getMessage(), MESSAGE_USAGE));
+                new MissingCommandArgumentException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_ADDRESS),
+                        COMMAND_SPECS).getMessage());
 
         // all prefixes missing
         assertParseFailure(parser, VALID_NAME_BOB + VALID_PHONE_BOB + VALID_EMAIL_BOB + VALID_ADDRESS_BOB,
-                String.format(new MissingPrefixException(PREFIX_NAME).getMessage(), MESSAGE_USAGE));
+                new MissingCommandArgumentException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_NAME),
+                        COMMAND_SPECS).getMessage());
     }
 
     @Test
     public void parse_invalidValue_failure() {
         // invalid name
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Name.MESSAGE_CONSTRAINTS);
+                        + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                new InvalidCommandArgumentFormatException(
+                        COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_NAME),
+                        Name.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage());
 
         // invalid phone
         assertParseFailure(parser, NAME_DESC_BOB + INVALID_PHONE_DESC + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Phone.MESSAGE_CONSTRAINTS);
+                        + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                new InvalidCommandArgumentFormatException(
+                        COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_PHONE),
+                        Phone.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage());
 
         // invalid email
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Email.MESSAGE_CONSTRAINTS);
+                        + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                new InvalidCommandArgumentFormatException(
+                        COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_EMAIL),
+                        Email.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage());
 
         // invalid address
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC
-                + TAG_DESC_HUSBAND + TAG_DESC_FRIEND, Address.MESSAGE_CONSTRAINTS);
+                        + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
+                new InvalidCommandArgumentFormatException(
+                        COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_ADDRESS),
+                        Address.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage());
 
         // invalid tag
         assertParseFailure(parser, NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
-                + INVALID_TAG_DESC + VALID_TAG_FRIEND, Tag.MESSAGE_CONSTRAINTS);
+                        + INVALID_TAG_DESC + VALID_TAG_FRIEND,
+                new InvalidCommandArgumentFormatException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_TAG),
+                        Tag.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage());
 
         // two invalid values, only first invalid value reported
         assertParseFailure(parser, INVALID_NAME_DESC + PHONE_DESC_BOB + EMAIL_DESC_BOB + INVALID_ADDRESS_DESC,
-                Name.MESSAGE_CONSTRAINTS);
+
+                new InvalidCommandArgumentFormatException(COMMAND_SPECS.getCommandArgumentWithPrefix(PREFIX_NAME),
+                        Name.MESSAGE_CONSTRAINTS, COMMAND_SPECS).getMessage());
 
         // non-empty preamble
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                         + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                String.format(new UnwantedPreambleException(PREAMBLE_NON_EMPTY).getMessage(), MESSAGE_USAGE));
+                new UnwantedPreambleException(PREAMBLE_NON_EMPTY, COMMAND_SPECS).getMessage());
     }
 }
