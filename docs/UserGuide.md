@@ -70,9 +70,9 @@ use via a CLI while still having the benefits of a GUI.
 - Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-- Parameters must be provided exactly
+- Parameters must be provided exactly.
   
-    - If a parameter is expected only once in the command, but you specified it multiple times,
+    - Each parameter is expected only once in the command. If you specified it multiple times,
       an error message will be shown.
       
     - If an extraneous parameter is specified, an error message will be shown. (Does not apply for tags or contacts)
@@ -201,7 +201,7 @@ Each task has a compulsory title field, and textual description, timestamp, and 
 
 **Example:**
 
-`task add Submit CS2103 UG Draft /ts16/9/2021 c/Team Member`
+`task add Submit CS2103 UG Draft ts/16-09-2021 c/Team Member`
 
 ### Listing tasks: `task list`
 
@@ -236,11 +236,11 @@ Edits an existing task in the task list
 
 **Example:**
 
-`task edit 1 ti/CS2103 Week 6 Quiz`
+`task edit 1 ti/CS2103 Week 6 Quiz ts/30-10-2021`
 
 ### Finding tasks: `task find`
 
-Finds tasks which have contain any of the given keywords in their title or description
+Finds all tasks which contain any of the given keywords in their title or description
 
 Format: `task find KEYWORD [MORE_KEYWORDS]`
 
@@ -436,9 +436,9 @@ Double-clicking on a task pane will bring the user to the Edit Task Dialog. See 
 | **Delete**      | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                   |
 | **Clear**       | `clear`                                                                                                                                                               |
 |***Task List Commands***    |
-| **Task Add**    | `task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]`                                                                                                             |
-| **Task List**   | `task list [done/ OR undone/] [t/TAG]…` |
-| **Task Edit**   | `task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG]…` <br> e.g.,`task edit 1 t/CS2103 Week 6 Quiz`                                                    |
+| **Task Add**    | `task add TITLE [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG] [c/CONTACT]`                                                                                                             |
+| **Task List**   | `task list [done/] [undone/] [t/TAG]` |
+| **Task Edit**   | `task edit INDEX [ti/TITLE] [d/DESCRIPTION] [ts/TIMESTAMP] [t/TAG] [c/CONTACT]…` <br> e.g.,`task edit 1 ti/CS2103 Week 6 Quiz`                                                    |
 | **Task Find**   | `task find KEYWORD [MORE_KEYWORDS]`|
 | **Task Delete** | `task delete INDEX`<br> e.g., `task delete 3`                                                                                                                         |
 | **Task Purge** | `task purge`                                                                                                                         |
