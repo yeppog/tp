@@ -7,24 +7,25 @@ import static seedu.address.logic.parser.CommandArgument.requiredSingle;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.parser.exceptions.MissingPrefixException;
+import seedu.address.logic.parser.exceptions.MissingCommandArgumentException;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.exceptions.TooManyPrefixesException;
+import seedu.address.logic.parser.exceptions.UnwantedCommandArgumentException;
 import seedu.address.logic.parser.exceptions.UnwantedPreambleException;
-import seedu.address.logic.parser.exceptions.UnwantedPrefixException;
 
 public class ArgumentTokenizerTest {
     private static final Prefix prefix = new Prefix("p/");
 
     @Test
     public void tokenize_expectingOptionalPreambleValidArguments_success() {
+        ArgumentTokenizer tokenizer = new ArgumentTokenizer(new CommandSpecification(
+                null, null,
+                optionalSingle(PREFIX_PREAMBLE, "preambleName")
+        ));
         try {
-            ArgumentTokenizer.tokenize("",
-                    optionalSingle(PREFIX_PREAMBLE));
-            ArgumentTokenizer.tokenize("single",
-                    optionalSingle(PREFIX_PREAMBLE));
-            ArgumentTokenizer.tokenize("multiple words",
-                    optionalSingle(PREFIX_PREAMBLE));
+            tokenizer.tokenize("");
+            tokenizer.tokenize("single");
+            tokenizer.tokenize("multiple words");
         } catch (ParseException e) {
             fail(e);
         }
@@ -32,8 +33,10 @@ public class ArgumentTokenizerTest {
 
     @Test
     public void tokenize_expectingEmptyPreambleValidArguments_success() {
+        ArgumentTokenizer tokenizer = new ArgumentTokenizer(new CommandSpecification(
+                null, null));
         try {
-            ArgumentTokenizer.tokenize("");
+            tokenizer.tokenize("");
         } catch (ParseException e) {
             fail(e);
         }
@@ -41,8 +44,10 @@ public class ArgumentTokenizerTest {
 
     @Test
     public void tokenize_expectingEmptyPreambleInvalidArguments_throwsUnwantedPrefixArguments() {
+        ArgumentTokenizer tokenizer = new ArgumentTokenizer(new CommandSpecification(
+                null, null));
         try {
-            ArgumentTokenizer.tokenize("single");
+            tokenizer.tokenize("single");
             fail();
         } catch (UnwantedPreambleException ignored) {
             // This is expected
@@ -50,7 +55,7 @@ public class ArgumentTokenizerTest {
             fail(e);
         }
         try {
-            ArgumentTokenizer.tokenize("multiple words");
+            tokenizer.tokenize("multiple words");
             fail();
         } catch (UnwantedPreambleException ignored) {
             // This is expected
@@ -61,12 +66,15 @@ public class ArgumentTokenizerTest {
 
     @Test
     public void tokenize_expectingOptionalSingleValidArguments_success() {
-        CommandArgument argument = optionalSingle(prefix);
+        ArgumentTokenizer tokenizer = new ArgumentTokenizer(new CommandSpecification(
+                null, null,
+                optionalSingle(prefix)
+        ));
         try {
-            ArgumentTokenizer.tokenize(prefix.getPrefix(), argument);
-            ArgumentTokenizer.tokenize(prefix.getPrefix() + " space", argument);
-            ArgumentTokenizer.tokenize(prefix.getPrefix() + "single", argument);
-            ArgumentTokenizer.tokenize(prefix.getPrefix() + "multiple words", argument);
+            tokenizer.tokenize(prefix.getPrefix());
+            tokenizer.tokenize(prefix.getPrefix() + " space");
+            tokenizer.tokenize(prefix.getPrefix() + "single");
+            tokenizer.tokenize(prefix.getPrefix() + "multiple words");
         } catch (ParseException e) {
             fail(e);
         }
@@ -74,17 +82,20 @@ public class ArgumentTokenizerTest {
 
     @Test
     public void tokenize_expectingOptionalSingleInvalidArguments_throwsException() {
-        CommandArgument argument = optionalSingle(prefix);
+        ArgumentTokenizer tokenizer = new ArgumentTokenizer(new CommandSpecification(
+                null, null,
+                optionalSingle(prefix)
+        ));
         try {
-            ArgumentTokenizer.tokenize("", argument);
-        } catch (MissingPrefixException ignored) {
+            tokenizer.tokenize("");
+        } catch (MissingCommandArgumentException ignored) {
             // This is expected
         } catch (ParseException e) {
             fail(e);
         }
 
         try {
-            ArgumentTokenizer.tokenize(prefix.getPrefix() + "first " + prefix.getPrefix() + "second", argument);
+            tokenizer.tokenize(prefix.getPrefix() + "first " + prefix.getPrefix() + "second");
         } catch (TooManyPrefixesException ignored) {
             // This is expected
         } catch (ParseException e) {
@@ -94,10 +105,13 @@ public class ArgumentTokenizerTest {
 
     @Test
     public void tokenize_expectingRequiredSingleValidArguments_success() {
-        CommandArgument argument = requiredSingle(prefix);
+        ArgumentTokenizer tokenizer = new ArgumentTokenizer(new CommandSpecification(
+                null, null,
+                requiredSingle(prefix)
+        ));
         try {
-            ArgumentTokenizer.tokenize(prefix.getPrefix(), argument);
-            ArgumentTokenizer.tokenize(prefix.getPrefix() + "first", argument);
+            tokenizer.tokenize(prefix.getPrefix());
+            tokenizer.tokenize(prefix.getPrefix() + "first");
         } catch (ParseException e) {
             fail(e);
         }
@@ -105,16 +119,19 @@ public class ArgumentTokenizerTest {
 
     @Test
     public void tokenize_expectingRequiredSingleInvalidArguments_throwsException() {
-        CommandArgument argument = requiredSingle(prefix);
+        ArgumentTokenizer tokenizer = new ArgumentTokenizer(new CommandSpecification(
+                null, null,
+                requiredSingle(prefix)
+        ));
         try {
-            ArgumentTokenizer.tokenize("", argument);
-        } catch (MissingPrefixException ignored) {
+            tokenizer.tokenize("");
+        } catch (MissingCommandArgumentException ignored) {
             // This is expected
         } catch (ParseException e) {
             fail(e);
         }
         try {
-            ArgumentTokenizer.tokenize(prefix.getPrefix() + "first " + prefix.getPrefix() + "second", argument);
+            tokenizer.tokenize(prefix.getPrefix() + "first " + prefix.getPrefix() + "second");
         } catch (TooManyPrefixesException ignored) {
             // This is expected
         } catch (ParseException e) {
@@ -124,16 +141,18 @@ public class ArgumentTokenizerTest {
 
     @Test
     public void tokenize_unexpectedArgument_throwUnwantedArgumentException() {
+        ArgumentTokenizer tokenizer = new ArgumentTokenizer(new CommandSpecification(
+                null, null));
         try {
-            ArgumentTokenizer.tokenize(prefix.getPrefix());
-        } catch (UnwantedPrefixException ignored) {
+            tokenizer.tokenize(prefix.getPrefix());
+        } catch (UnwantedCommandArgumentException ignored) {
             // This is expected
         } catch (ParseException e) {
             fail(e);
         }
         try {
-            ArgumentTokenizer.tokenize(prefix.getPrefix() + "first " + prefix.getPrefix() + "second");
-        } catch (UnwantedPrefixException ignored) {
+            tokenizer.tokenize(prefix.getPrefix() + "first " + prefix.getPrefix() + "second");
+        } catch (UnwantedCommandArgumentException ignored) {
             // This is expected
         } catch (ParseException e) {
             fail(e);

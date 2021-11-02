@@ -1,9 +1,9 @@
 package seedu.address.logic.parser.exceptions;
 
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
+import seedu.address.logic.parser.CommandSpecification;
 
-public class UnwantedPreambleException extends IllegalPrefixException {
-    public UnwantedPreambleException(String preamble) {
-        super(PREFIX_PREAMBLE, String.format("Unnecessary preamble present: %s\n", preamble) + "%s");
+public class UnwantedPreambleException extends IllegalCommandArgumentException {
+    public UnwantedPreambleException(String preamble, CommandSpecification specs) {
+        super(String.format("Unnecessary preamble with value \"%s\" present.", preamble), specs);
     }
 }
