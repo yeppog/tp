@@ -1,18 +1,21 @@
 package seedu.address.logic.commands.task;
 
-import org.junit.jupiter.api.Test;
-import seedu.address.logic.commands.ClearCommand;
-import seedu.address.logic.commands.Command;
-import seedu.address.logic.commands.UndoCommand;
-import seedu.address.logic.commands.UndoableCommand;
-import seedu.address.model.*;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalTasks.getTypicalTaskList;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.UndoableCommand;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.TaskList;
+import seedu.address.model.UserPrefs;
 
 class PurgeTaskCommandTest {
 
@@ -42,7 +45,7 @@ class PurgeTaskCommandTest {
         model.getCommandHistory().pushCommand(purgeTask);
 
         Model originalModel = new ModelManager(getTypicalAddressBook(), getTypicalTaskList(), new UserPrefs());
-        String successMessage = UndoCommand.MESSAGE_UNDO_SUCCESS  + PurgeTaskCommand.MESSAGE_SUCCESS;
+        String successMessage = UndoCommand.MESSAGE_UNDO_SUCCESS + PurgeTaskCommand.MESSAGE_SUCCESS;
         assertCommandSuccess(new UndoCommand(), model, successMessage, originalModel);
     }
 

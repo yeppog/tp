@@ -1,13 +1,13 @@
 package seedu.address.testutil;
 
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.model.TaskList;
 import seedu.address.model.task.Task;
-
-import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 
 public class TypicalTasks {
     public static final Task BUY_GROCERIES = new TaskBuilder().build();

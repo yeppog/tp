@@ -1,14 +1,19 @@
 package seedu.address.logic.commands.task;
 
-import org.junit.jupiter.api.Test;
-import seedu.address.model.*;
-import seedu.address.model.task.Task;
-import seedu.address.testutil.TaskBuilder;
-
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 import static seedu.address.testutil.TypicalTasks.getTypicalTaskList;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.address.model.AddressBook;
+import seedu.address.model.Model;
+import seedu.address.model.ModelManager;
+import seedu.address.model.TaskList;
+import seedu.address.model.UserPrefs;
+import seedu.address.model.task.Task;
+import seedu.address.testutil.TaskBuilder;
 
 class SetTaskCommandTest {
     @Test

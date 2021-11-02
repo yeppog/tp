@@ -20,7 +20,6 @@ import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.UndoCommand;
-import seedu.address.logic.commands.UndoableCommand;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -101,7 +100,7 @@ class EditTaskCommandTest {
         assertCommandSuccess(editTaskCommand, model, expectedMessage, expectedModel);
         model.getCommandHistory().pushCommand(editTaskCommand);
 
-        String successMessage = UndoCommand.MESSAGE_UNDO_SUCCESS  + expectedMessage;
+        String successMessage = UndoCommand.MESSAGE_UNDO_SUCCESS + expectedMessage;
         assertCommandSuccess(new UndoCommand(), model, successMessage, originalModel);
     }
 
