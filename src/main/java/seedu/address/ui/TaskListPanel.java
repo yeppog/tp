@@ -60,14 +60,14 @@ public class TaskListPanel extends UiPart<Region> {
         placeholder.getStyleClass().add("italics");
         filterComboBox.setPlaceholder(placeholder);
         filterComboBox.setItems(selectableTaskFilters);
-        // Workaround: Close menu when mouse down to prevent mouse up from selecting another item
-        filterComboBox.setOnAction(e -> filterComboBox.hide());
         filterComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                addTaskFilter.accept(newValue);
-
                 // When a filter is selected, reset the combo box's current selection
-                Platform.runLater(filterComboBox.getSelectionModel()::clearSelection);
+                Platform.runLater(() -> {
+                    filterComboBox.getSelectionModel().clearSelection();
+                    filterComboBox.hide();
+                    addTaskFilter.accept(newValue);
+                });
             }
         });
 

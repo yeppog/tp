@@ -10,6 +10,8 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.RedoCommand;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.UndoableCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
@@ -132,8 +134,8 @@ public class LogicManager implements Logic {
     @Override
     public CommandResult undoCommand() {
         try {
-            return this.execute("undo");
-        } catch (CommandException | ParseException e) {
+            return executeCommand(new UndoCommand());
+        } catch (CommandException e) {
             return new CommandResult(e.getMessage());
         }
     }
@@ -141,8 +143,8 @@ public class LogicManager implements Logic {
     @Override
     public CommandResult redoCommand() {
         try {
-            return this.execute("redo");
-        } catch (CommandException | ParseException e) {
+            return executeCommand(new RedoCommand());
+        } catch (CommandException e) {
             return new CommandResult(e.getMessage());
         }
     }

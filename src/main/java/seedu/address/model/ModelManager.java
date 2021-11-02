@@ -24,6 +24,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
+import seedu.address.model.task.filters.TagTaskFilter;
 import seedu.address.model.task.filters.TaskFilter;
 import seedu.address.model.task.filters.TaskFilters;
 import seedu.address.storage.CommandHistory;
@@ -115,6 +116,7 @@ public class ModelManager implements Model {
     @Override
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
+        userPrefs.setAddressBookFilePath(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
     }
 
@@ -334,7 +336,8 @@ public class ModelManager implements Model {
         recomputeAvailableTaskFilters();
 
         // If removing or editing the task removed a tag, remove all filters associated with that tag
-        if (selectedTaskFilters.removeIf(filter -> !availableTaskFilters.contains(filter))) {
+        if (selectedTaskFilters.removeIf(filter -> filter instanceof TagTaskFilter
+                && !availableTaskFilters.contains(filter))) {
             recalculateFilteredTaskList();
         }
     }
