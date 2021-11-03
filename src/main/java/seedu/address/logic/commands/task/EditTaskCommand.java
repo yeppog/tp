@@ -85,6 +85,7 @@ public class EditTaskCommand extends TaskCommand {
                 .or(taskToEdit::getDescription).orElse(null);
         Timestamp updatedTimestamp = editTaskDescriptor.getTimestamp()
                 .or(taskToEdit::getTimestamp).orElse(null);
+        boolean updatedDone = editTaskDescriptor.isDone().orElse(taskToEdit.isDone());
         Set<Tag> updatedTags = editTaskDescriptor.getTags()
                 .orElse(taskToEdit.getTags());
         Set<Contact> updatedContacts = editTaskDescriptor.getContacts()
@@ -94,7 +95,7 @@ public class EditTaskCommand extends TaskCommand {
                 updatedDescription,
                 updatedTimestamp,
                 updatedTags,
-                taskToEdit.isDone(),
+                updatedDone,
                 updatedContacts);
     }
 
@@ -223,7 +224,7 @@ public class EditTaskCommand extends TaskCommand {
             this.description = description;
         }
 
-        public Optional<Boolean> getDone() {
+        public Optional<Boolean> isDone() {
             return Optional.ofNullable(isDone);
         }
 
