@@ -2,14 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_DESCRIPTION;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TIMESTAMP;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_TITLE;
+import static seedu.address.logic.parser.CliSyntax.*;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.util.ArrayList;
@@ -81,6 +74,9 @@ public class CommandTestUtil {
     public static final String DESCRIPTION_DESC_REPORT = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_REPORT;
     public static final String TIMESTAMP_DESC_REPORT = " " + PREFIX_TIMESTAMP + "31-12-2021";
     public static final String TITLE_DESC_REPORT = " " + PREFIX_TITLE + VALID_TITLE_REPORT;
+
+    public static final String CONTACT_DESC_AMY = " " + PREFIX_CONTACT + VALID_NAME_AMY;
+    public static final String CONTACT_DESC_BOB = " " + PREFIX_CONTACT + VALID_NAME_BOB;
 
     public static final EditTaskCommand.EditTaskDescriptor DESC_REPORT;
     public static final EditTaskCommand.EditTaskDescriptor DESC_INTERVIEW;

@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.task.EditTaskCommand;
+import seedu.address.model.person.Name;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
 
@@ -30,6 +32,7 @@ public class EditTaskDescriptorBuilder {
         descriptor.setDescription(task.getDescription().orElse(null));
         descriptor.setTimestamp(task.getTimestamp().orElse(null));
         descriptor.setTags(task.getTags());
+        descriptor.setContacts(task.getContacts());
     }
 
     /**
@@ -63,6 +66,16 @@ public class EditTaskDescriptorBuilder {
     public EditTaskDescriptorBuilder withTags(String... tags) {
         Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
         descriptor.setTags(tagSet);
+        return this;
+    }
+
+    /**
+     * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditTaskDescriptor}
+     * that we are building.
+     */
+    public EditTaskDescriptorBuilder withContacts(String... contacts) {
+        Set<Contact> nameSet = Stream.of(contacts).map(name -> new Contact(new Name(name))).collect(Collectors.toSet());
+        descriptor.setContacts(nameSet);
         return this;
     }
 

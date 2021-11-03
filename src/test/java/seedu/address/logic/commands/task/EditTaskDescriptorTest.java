@@ -2,12 +2,7 @@ package seedu.address.logic.commands.task;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.DESC_INTERVIEW;
-import static seedu.address.logic.commands.CommandTestUtil.DESC_REPORT;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_INTERVIEW;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_CAREER;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TIMESTAMP_INTERVIEW;
-import static seedu.address.logic.commands.CommandTestUtil.VALID_TITLE_INTERVIEW;
+import static seedu.address.logic.commands.CommandTestUtil.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -52,6 +47,11 @@ public class EditTaskDescriptorTest {
         // different tags -> returns false
         editedReport = new EditTaskDescriptorBuilder(DESC_REPORT)
                 .withTags(VALID_TAG_CAREER).build();
+        assertFalse(DESC_REPORT.equals(editedReport));
+
+        // different contacts -> returns false
+        editedReport = new EditTaskDescriptorBuilder(DESC_REPORT)
+                .withContacts(VALID_NAME_AMY).build();
         assertFalse(DESC_REPORT.equals(editedReport));
     }
 }
