@@ -15,7 +15,7 @@ public class RedoCommand implements Command {
             "Redoes the last executed command."
     );
 
-    public static final String MESSAGE_UNDO_SUCCESS = "Successfully redid: ";
+    public static final String MESSAGE_REDO_SUCCESS = "Successfully redid: ";
     public static final String MESSAGE_NOT_UNDONE = "Cannot redo any further.";
 
     @Override
@@ -24,7 +24,7 @@ public class RedoCommand implements Command {
         Optional<UndoableCommand> commandToRedo = commandHistory.redo();
         if (commandToRedo.isPresent()) {
             CommandResult result = commandToRedo.get().execute(model);
-            return new CommandResult(MESSAGE_UNDO_SUCCESS + result.getFeedbackToUser());
+            return new CommandResult(MESSAGE_REDO_SUCCESS + result.getFeedbackToUser());
         } else {
             return new CommandResult(MESSAGE_NOT_UNDONE);
         }

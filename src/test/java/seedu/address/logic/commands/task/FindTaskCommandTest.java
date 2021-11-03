@@ -30,6 +30,22 @@ public class FindTaskCommandTest {
     }
 
     @Test
+    void execute_singleKeywordWithExistingFilter_filterReplaced() {
+        String expectedMessage = String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 1);
+        TaskContainsKeywordsPredicate testPredicate = preparePredicate("homework");
+        FindTaskCommand testCommand = new FindTaskCommand(testPredicate);
+        expectedModel.updateFilteredTaskList(testPredicate);
+
+        assertCommandSuccess(testCommand, model, expectedMessage, expectedModel);
+
+        TaskContainsKeywordsPredicate nextTestPredicate = preparePredicate("room");
+        FindTaskCommand nextTestCommand = new FindTaskCommand(nextTestPredicate);
+        expectedModel.updateFilteredTaskList(testPredicate);
+
+        assertCommandSuccess(nextTestCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
     void execute_zeroKeywords_allTasksFound() {
         String expectedMessage = String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 4);
         TaskContainsKeywordsPredicate testPredicate = preparePredicate("");

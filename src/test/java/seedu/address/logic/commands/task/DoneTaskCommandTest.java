@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -46,6 +47,28 @@ class DoneTaskCommandTest {
         DoneTaskCommand doneTaskCommand = new DoneTaskCommand(outOfBoundIndex);
 
         assertCommandFailure(doneTaskCommand, model, Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+    }
+
+    @Test
+    void undo_unfilteredDoneTask_success() {
+        Model originalModel = new ModelManager(
+                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
+
+        Task editedTask = new TaskBuilder().withDone(true).build();
+        DoneTaskCommand doneTaskCommand = new DoneTaskCommand(INDEX_FIRST_PERSON);
+
+        String expectedMessage = String.format(DoneTaskCommand.MESSAGE_SUCCESS, editedTask);
+        Task task = model.getTaskList().getTasks().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        Model expectedModel = new ModelManager(
+                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
+        expectedModel.setTask(task, editedTask);
+
+        assertCommandSuccess(doneTaskCommand, model, expectedMessage, expectedModel);
+        model.getCommandHistory().pushCommand(doneTaskCommand);
+
+        String successMessage = UndoCommand.MESSAGE_UNDO_SUCCESS + expectedMessage;
+        assertCommandSuccess(new UndoCommand(), model, successMessage, originalModel);
     }
 
     @Test

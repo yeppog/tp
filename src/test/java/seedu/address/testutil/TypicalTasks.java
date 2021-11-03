@@ -1,5 +1,7 @@
 package seedu.address.testutil;
 
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +25,7 @@ public class TypicalTasks {
             .withTitle("Arrange meeting")
             .withTags("work", "important")
             .withDone(true)
-            .withContacts("Alejandro")
+            .withContacts(VALID_NAME_AMY)
             .build();
 
     /**
