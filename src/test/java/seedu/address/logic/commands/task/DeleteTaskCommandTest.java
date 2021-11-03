@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
+import seedu.address.logic.commands.RedoCommand;
+import seedu.address.logic.commands.UndoCommand;
+import seedu.address.model.*;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.filters.TaskFilters;
@@ -56,6 +56,27 @@ public class DeleteTaskCommandTest {
         DeleteTaskCommand deleteTaskCommand = new DeleteTaskCommand(targetIndex);
         assertCommandFailure(deleteTaskCommand, model, Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
 
+    }
+
+    @Test
+    public void undoRedo_validIndexUnfilteredList_success() {
+        Model originalModel = new ModelManager(
+                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
+
+        Index targetIndex = Index.fromOneBased(1);
+        Task taskToDelete = model.getFilteredTaskList().get(targetIndex.getZeroBased());
+        DeleteTaskCommand deleteTaskCommand = new DeleteTaskCommand(targetIndex);
+        String expectedMessage = String.format(DeleteTaskCommand.MESSAGE_SUCCESS, taskToDelete);
+        ModelManager expectedModel = ModelManager.from(model);
+        expectedModel.deleteTask(taskToDelete);
+        assertCommandSuccess(deleteTaskCommand, model, expectedMessage, expectedModel);
+        model.getCommandHistory().pushCommand(deleteTaskCommand);
+
+        String successUndoMessage = UndoCommand.MESSAGE_UNDO_SUCCESS + expectedMessage;
+        assertCommandSuccess(new UndoCommand(), model, successUndoMessage, originalModel);
+
+        String successRedoMessage = RedoCommand.MESSAGE_REDO_SUCCESS + expectedMessage;
+        assertCommandSuccess(new RedoCommand(), model, successRedoMessage, expectedModel);
     }
 
 }
