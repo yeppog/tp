@@ -93,3 +93,11 @@
     font-display: swap;
     src: url('/fonts/OpenSans/OpenSans-SemiBoldItalic.ttf');
 }
+
+@font-face {
+    font-family: 'Roboto Mono';
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    src: url('/fonts/RobotoMono/RobotoMono-Regular.ttf');
+}
