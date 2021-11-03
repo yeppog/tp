@@ -170,6 +170,16 @@ public class EditTaskDialog extends UiPart<Region> {
         // Clear empty title error when anything is typed into the title
         title.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             titleErrorLabel.setVisible(false);
+
+            if (new KeyCodeCombination(KeyCode.ENTER).match(event)) {
+                event.consume();
+            }
+        });
+
+        description.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
+            if (new KeyCodeCombination(KeyCode.ENTER).match(event)) {
+                event.consume();
+            }
         });
 
         // Create new tag when "enter" pressed in tag input
