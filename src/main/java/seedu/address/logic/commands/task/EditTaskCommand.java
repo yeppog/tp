@@ -228,7 +228,7 @@ public class EditTaskCommand extends TaskCommand {
             return Optional.ofNullable(isDone);
         }
 
-        public void setDone(boolean done) {
+        public void setDone(Boolean done) {
             isDone = done;
         }
 
