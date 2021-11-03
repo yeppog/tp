@@ -159,6 +159,7 @@ public class EditTaskCommand extends TaskCommand {
         private String title;
         private String description;
         private Timestamp timestamp;
+        private Boolean isDone;
         private Set<Tag> tags;
         private Set<Contact> contacts;
 
@@ -173,6 +174,7 @@ public class EditTaskCommand extends TaskCommand {
             setTitle(toCopy.title);
             setDescription(toCopy.description);
             setTimestamp(toCopy.timestamp);
+            setDone(toCopy.isDone);
             setTags(toCopy.tags);
             setContacts(toCopy.contacts);
         }
@@ -190,6 +192,7 @@ public class EditTaskCommand extends TaskCommand {
             descriptor.setTags(toCopy.getTags());
             descriptor.setDescription(toCopy.getDescription().orElse(null));
             descriptor.setContacts(toCopy.getContacts());
+            descriptor.setDone(toCopy.isDone());
             return descriptor;
         }
 
@@ -218,6 +221,14 @@ public class EditTaskCommand extends TaskCommand {
 
         public void setDescription(String description) {
             this.description = description;
+        }
+
+        public Optional<Boolean> getDone() {
+            return Optional.ofNullable(isDone);
+        }
+
+        public void setDone(boolean done) {
+            isDone = done;
         }
 
         public Optional<Timestamp> getTimestamp() {

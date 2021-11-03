@@ -1,17 +1,21 @@
 package seedu.address.ui;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import javafx.scene.control.ListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.task.EditTaskCommand;
 import seedu.address.model.task.Task;
 
 public class TaskListViewCell extends ListCell<Task> {
-    private final TaskListPanel.TaskEditor taskEditor;
+    private final Consumer<? super Command> commandExecutor;
 
-    public TaskListViewCell(TaskListPanel.TaskEditor taskEditor) {
-        this.taskEditor = taskEditor;
+    public TaskListViewCell(Consumer<? super Command> commandExecutor) {
+        this.commandExecutor = commandExecutor;
     }
 
     @Override
@@ -22,7 +26,7 @@ public class TaskListViewCell extends ListCell<Task> {
             setGraphic(null);
             setText(null);
         } else {
-            setGraphic(new TaskCard(task, getIndex() + 1, taskEditor).getRoot());
+            setGraphic(new TaskCard(task, Index.fromZeroBased(getIndex()), commandExecutor).getRoot());
             addEventHandler(KeyEvent.KEY_PRESSED, event -> {
                 if (event.getCode() == KeyCode.ENTER) {
                     event.consume();
@@ -42,6 +46,8 @@ public class TaskListViewCell extends ListCell<Task> {
     private void showEditDialog(Task task) {
         EditTaskDialog editTaskDialog = new EditTaskDialog(task);
         Optional<Task> editedTask = editTaskDialog.getDialog().showAndWait();
-        editedTask.ifPresent(value -> taskEditor.updateTask(task, value));
+        editedTask.ifPresent(value ->
+                commandExecutor.accept(new EditTaskCommand(Index.fromZeroBased(getIndex()),
+                        EditTaskCommand.EditTaskDescriptor.from(value))));
     }
 }
