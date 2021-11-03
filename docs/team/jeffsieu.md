@@ -10,7 +10,7 @@ It adds task-tracking functionalities to the base application, while boasting in
 
 Given below are my contributions to the project.
 
-- **New feature**: Added the ability to filter tasks by tags (GUI: [`#57`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/57), CLI: [`#75`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/75), [#144](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/144)).
+- **New feature**: Added the ability to filter tasks by tags (GUI: [`#57`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/57), CLI: [`#75`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/75), [`#144`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/144)).
   - What it does: allows the user to filter the main task list by certain conditions.
   - Justification: the user may have many tasks; allowing a way to quickly narrow down the scope of displayed tasks is beneficial to efficiency.
   - Highlights: filters are implemented as abstract classes to allow for extensibility (e.g., filter by date range).
