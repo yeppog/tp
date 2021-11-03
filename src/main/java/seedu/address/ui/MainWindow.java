@@ -17,10 +17,10 @@ import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
+import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.commands.task.AddTaskCommand;
-import seedu.address.logic.commands.task.SetTaskCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.task.Task;
 
@@ -159,21 +159,21 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        TaskListPanel.TaskEditor taskEditor = (Task oldTask, Task newTask) -> {
-            try {
-                logic.executeCommand(new SetTaskCommand(oldTask, newTask));
-            } catch (CommandException e) {
-                e.printStackTrace();
-                logger.log(Level.SEVERE, "Error occurred when editing task", e);
-            }
-        };
-
         Consumer<Task> addTask = task -> {
             try {
                 logic.executeCommand(new AddTaskCommand(task));
             } catch (CommandException e) {
                 e.printStackTrace();
                 logger.log(Level.SEVERE, "Error occurred when adding task", e);
+            }
+        };
+
+        Consumer<Command> commandExecutor = command -> {
+            try {
+                logic.executeCommand(command);
+            } catch (CommandException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Error occurred when doing GUI action", e);
             }
         };
 
@@ -184,7 +184,7 @@ public class MainWindow extends UiPart<Stage> {
                 logic::addTaskFilter,
                 logic::removeTaskFilter,
                 addTask,
-                taskEditor
+                commandExecutor
         );
         taskListPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
 
