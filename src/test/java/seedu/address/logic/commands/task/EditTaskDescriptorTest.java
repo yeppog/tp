@@ -2,7 +2,13 @@ package seedu.address.logic.commands.task;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.logic.commands.CommandTestUtil.*;
+import static seedu.address.logic.commands.CommandTestUtil.DESC_INTERVIEW;
+import static seedu.address.logic.commands.CommandTestUtil.DESC_REPORT;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_INTERVIEW;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_CAREER;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TIMESTAMP_INTERVIEW;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TITLE_INTERVIEW;
 
 import org.junit.jupiter.api.Test;
 

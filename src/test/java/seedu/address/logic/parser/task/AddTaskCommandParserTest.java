@@ -1,6 +1,16 @@
 package seedu.address.logic.parser.task;
 
-import static seedu.address.logic.commands.CommandTestUtil.*;
+import static seedu.address.logic.commands.CommandTestUtil.CONTACT_DESC_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.CONTACT_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.DESCRIPTION_DESC_REPORT;
+import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_CAREER;
+import static seedu.address.logic.commands.CommandTestUtil.TIMESTAMP_DESC_REPORT;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_DESCRIPTION_REPORT;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_CAREER;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TIMESTAMP_REPORT;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_TITLE_REPORT;
 import static seedu.address.logic.commands.task.AddTaskCommand.COMMAND_SPECS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;

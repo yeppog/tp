@@ -2,11 +2,18 @@ package seedu.address.logic.parser;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PREAMBLE;
-import static seedu.address.logic.parser.CommandArgument.*;
+import static seedu.address.logic.parser.CommandArgument.optionalMultiple;
+import static seedu.address.logic.parser.CommandArgument.optionalSingle;
+import static seedu.address.logic.parser.CommandArgument.requiredSingle;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.parser.exceptions.*;
+import seedu.address.logic.parser.exceptions.ArgumentContainsSlashException;
+import seedu.address.logic.parser.exceptions.MissingCommandArgumentException;
+import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.logic.parser.exceptions.TooManyPrefixesException;
+import seedu.address.logic.parser.exceptions.UnwantedCommandArgumentException;
+import seedu.address.logic.parser.exceptions.UnwantedPreambleException;
 
 public class ArgumentTokenizerTest {
     private static final Prefix prefix = new Prefix("p/");
