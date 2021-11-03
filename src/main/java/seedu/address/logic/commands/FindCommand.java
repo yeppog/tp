@@ -30,8 +30,8 @@ public class FindCommand extends UndoableCommand {
     );
 
     private final NameContainsKeywordsPredicate predicate;
-
     private Predicate<? super Person> previousPredicate;
+    private String displayedMessage;
 
     /**
      * Constructor to initialise a FindCommand object.
@@ -46,15 +46,15 @@ public class FindCommand extends UndoableCommand {
         requireNonNull(model);
         this.previousPredicate = model.getFilteredPersonPredicate();
         model.updateFilteredPersonList(predicate);
-        return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+        displayedMessage = String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW,
+                model.getFilteredPersonList().size());
+        return new CommandResult(displayedMessage);
     }
 
     @Override
     protected CommandResult executeUndo(Model model) {
         model.updateFilteredPersonList(this.previousPredicate);
-        return new CommandResult(
-                String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
+        return new CommandResult(displayedMessage);
     }
 
     @Override
