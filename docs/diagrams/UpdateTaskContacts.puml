@@ -1,0 +1,39 @@
+@startuml
+mainframe **ref** update each task contact
+
+box "Logic" #LightBlue
+participant ":ModelManager" as MM
+end box
+box "Model" #Pink
+participant "originalTask:Task" as task
+participant ":Contact" as contact
+participant "newCopy:Task" as newTask
+end box
+participant "updatedContacts:Set<Contact>" as updated
+
+
+MM -> MM : updateTaskContacts()
+activate MM
+ref over MM
+    get personlist
+end Ref
+
+MM -> updated ** : new HashSet<>()
+
+MM -> task : getContacts()
+
+
+loop For each contact
+MM -> contact : contact.getName()
+alt personlist contains name
+MM -> updated : updatedContacts.add(new Contact(contactName, true));
+else else
+MM -> updated : updatedContacts.add(new Contact(contactName, false));
+end
+end
+
+MM -> newTask ** : Create copy of originalTask with updatedContacts
+
+return newCopy
+
+@enduml

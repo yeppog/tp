@@ -5,7 +5,6 @@ participant ":EditTaskCommandParser" as ETCP
 participant "desc:EditTaskDescriptor" as ed
 participant "copy:EditTaskDescriptor" as copy
 participant "e:EditTaskCommand" as e
-participant ":CommandResult" as result
 end box
 
 [-> ETCP ** : parse(arguments)

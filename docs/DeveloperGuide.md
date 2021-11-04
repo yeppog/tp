@@ -170,7 +170,7 @@ Each edit is represented by an `EditTaskDescriptor` object, which contains the n
 
 Step 1: The user adds a task to the task list.
 
-Step 2: The user types in the command `task edit 1 d\Example description` (suppose this string is called `s`) 
+Step 2: The user types in the command `task edit 1 d/Example description` (suppose this string is called `s`) 
 The `EditTaskCommand` is created together with its corresponding `EditTaskDescriptor` as shown below.
 
 ![Sequence diagram](images/EditTaskCommandParse.png)
@@ -343,6 +343,58 @@ everytime a new successful command is executed.
 
 
 ![Activity Diagram showing the process of retrieving an executed command string](images/InputHistoryActivityDiagram.png)
+
+### Contacts feature
+
+#### Current Implementation
+
+`Contact` objects found in `Task`s contain a `Name`, which is used to compare each `Contact` with`AddressBook`, checking if a `Person` with the same name exists.
+Each contact contains a `isInAddressBook` boolean value to keep track of this.
+
+The checking of contacts is done in 2 scenarios: 
+
+1. when an action is executed that may change `Task`s' contacts (eg `task edit`, `task add`) or `Addressbook` (eg `add`, `delete`), or 
+
+2. when there is a change in a `Person`'s name through `edit`.
+
+#### Scenario 1: Change in `AddressBook` or `Task` (If applicable)
+
+As `ModelManager` may not know which task is affected, `updateAllTasksContacts()` is called to create a new defensive copy of every task in the task list.
+
+Each new copy is updated with the correct `isInAddressBook` by comparing every `Contact` in the `Task` with every `Person` in AddressBook.
+The copy then replaces the original task in the task list.
+
+#### Scenario 2: Editing name of `Person` in `AddressBook`
+
+Given the original and updated `Name`, `ModelManager` needs to overwrite tasks' contacts with the old name to that with the new name.
+
+`ModelManager`'s `changeAllTaskContactNames(Name oldName, Name newName)` is called instead of `updateAllTasksContacts()`, 
+which replaces all tasks that contain the oldName with a copy containing the newName.
+
+Since a name change implies that `oldName` and `newName` was and is present in the AddressBook respectively, `isInAddressBook` is guaranteed to be true as long as the `Contact` exists.
+There is thus no need to check and change `isInAddressBook`.
+
+#### Example usage
+
+1. User launches TaskMaster2103 and adds a Person with name `EXAMPLE_NAME`.
+
+2. TaskMaster2103 adds the Person to the `AddressBook`. It then checks if any task requires updating, as illustrated in the 2 sequence diagrams below.
+
+![Update all tasks contacts](images/UpdateAllTaskContacts.png)
+
+The sequence diagram below shows how each Task's contact set is updated. (Note: Most activation bars and return statements have been omitted to reduce clutter.)
+
+![Ref: Updating contacts for 1 task](images/UpdateTaskContacts.png)
+
+3. Changes are reflected in the updated GUI. The user will see the new added `Person`, along with any changes to the Task contacts. (Green if person exists in `AddressBook`, grey otherwise)
+
+#### Alternatives
+
+Searching through the task list, tasks' `Contact`s list and AddressBook may be computationally expensive. `updateAllTasksContacts()` goes to every `Task`, 
+and for every `Contact` in the task, it is compared to every `Person` in the AddressBook, assuming the worst-case (contact name does not exist in `AddressBook`).
+
+A data structure, such as a HashTable could perhaps be used to store the locations of all `Person` names in the task list.
+This way, despite a trade-off in terms of space, only affected tasks are directly be accessed and replaced with an updated copy.
 
 ### Task filter feature
 
