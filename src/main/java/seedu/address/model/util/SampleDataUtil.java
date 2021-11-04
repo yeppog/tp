@@ -1,11 +1,15 @@
 package seedu.address.model.util;
 
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.ReadOnlyTaskList;
+import seedu.address.model.TaskList;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -13,6 +17,8 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.task.Contact;
+import seedu.address.model.task.Task;
+import seedu.address.model.task.Timestamp;
 
 /**
  * Contains utility methods for populating {@code AddressBook} with sample data.
@@ -47,6 +53,36 @@ public class SampleDataUtil {
             sampleAb.addPerson(samplePerson);
         }
         return sampleAb;
+    }
+
+    public static Task[] getSampleTasks() {
+        Set<Contact> contacts = new HashSet<>();
+        contacts.add(new Contact(new Name("Jeremy")));
+        contacts.add(new Contact(new Name("Roy Balakrishnan"), true));
+        HashSet<Tag> tags = new HashSet<Tag>();
+        tags.add(new Tag("todo"));
+        tags.add(new Tag("urgent"));
+        return new Task[] {
+            new Task("Finish CS2103 tasks", "1. Settle merge conflicts \n2. Create new PR"
+                        + "\n3. Triage PE-D Bugs",
+                        Timestamp.of(LocalDate.now()),
+                        tags,
+                        contacts),
+            new Task("Finish CS2105 Assignment", "Finish up the last question",
+                        Timestamp.of(LocalDate.now()), new HashSet<Tag>(), new HashSet<Contact>()),
+            new Task("Submit CS2100 Assignment", "Upload to Luminus", Timestamp.of(LocalDate.now()),
+                        tags, true, new HashSet<Contact>()),
+            new Task("Finish this mod", "Submit this project", Timestamp.of(LocalDate.now()), tags,
+                        contacts)
+        };
+    }
+
+    public static ReadOnlyTaskList getSampleTaskList() {
+        TaskList sampleTl = new TaskList();
+        for (Task sampleTask: getSampleTasks()) {
+            sampleTl.addTask(sampleTask);
+        }
+        return sampleTl;
     }
 
     /**
