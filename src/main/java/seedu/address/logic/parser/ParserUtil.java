@@ -23,7 +23,7 @@ import seedu.address.model.task.Timestamp;
 public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX =
-            "Index is not a non-zero unsigned integer from 1 to Integer.MAX_VALUE";
+            "Index is not a non-zero unsigned integer from 1 to 2147483647 (max int value)";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
