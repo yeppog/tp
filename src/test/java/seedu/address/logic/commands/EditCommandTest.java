@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
@@ -26,8 +27,10 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.TaskList;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.model.task.Task;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
+import seedu.address.testutil.TaskBuilder;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for EditCommand.
@@ -47,6 +50,37 @@ public class EditCommandTest {
         Model expectedModel = new ModelManager(
                 new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
         expectedModel.setPerson(model.getFilteredPersonList().get(0), editedPerson);
+
+        assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_nameFieldSpecifiedUnfilteredList_success() {
+        Model model = new ModelManager(getTypicalAddressBook(), getTypicalTaskList(), new UserPrefs());
+
+        Index indexLastPerson = Index.fromOneBased(model.getFilteredPersonList().size());
+        Person lastPerson = model.getFilteredPersonList().get(indexLastPerson.getZeroBased());
+        Person newLastPerson = new PersonBuilder(lastPerson).withName("Test name").build();
+        model.setPerson(lastPerson, newLastPerson);
+
+        Index indexLastTask = Index.fromOneBased(model.getFilteredTaskList().size());
+        Task lastTask = model.getFilteredTaskList().get(indexLastTask.getZeroBased());
+        Task newLastTask = new TaskBuilder(lastTask).withContacts("Test name").build();
+        model.setTask(lastTask, newLastTask);
+
+        PersonBuilder personInList = new PersonBuilder(newLastPerson);
+        Person editedPerson = personInList.withName(VALID_NAME_AMY).build();
+        TaskBuilder taskInList = new TaskBuilder(newLastTask);
+        Task editedTask = taskInList.withContacts(VALID_NAME_AMY).build();
+
+        EditPersonDescriptor descriptor = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY).build();
+        EditCommand editCommand = new EditCommand(indexLastPerson, descriptor);
+
+        String expectedMessage = String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson);
+
+        Model expectedModel = new ModelManager(
+                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()) , new UserPrefs());
+        expectedModel.setPerson(newLastPerson, editedPerson);
 
         assertCommandSuccess(editCommand, model, expectedMessage, expectedModel);
     }

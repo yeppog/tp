@@ -3,6 +3,7 @@ package seedu.address.model.task;
 import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -12,9 +13,14 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Represents a timestamp for a task.
  */
 public class Timestamp {
-    public static final String MESSAGE_CONSTRAINTS = "Timestamp should be in YYYY-MM-DD format";
+    public static final String MESSAGE_CONSTRAINTS = "Timestamp should be in DD-MM-YYYY format";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private final LocalDate timestamp;
+
+    private Timestamp(LocalDate date) {
+        this.timestamp = date;
+    }
 
     /**
      * Creates a TimeStamp with the given string.
@@ -23,7 +29,7 @@ public class Timestamp {
     private Timestamp(String timestamp) throws ParseException {
         requireNonNull(timestamp);
         try {
-            this.timestamp = LocalDate.parse(timestamp);
+            this.timestamp = LocalDate.parse(timestamp, formatter);
         } catch (DateTimeParseException pe) {
             throw new ParseException(MESSAGE_CONSTRAINTS);
         }
@@ -33,11 +39,15 @@ public class Timestamp {
         return new Timestamp(timestamp);
     }
 
+    public static Timestamp of(LocalDate date) {
+        return new Timestamp(date);
+    }
+
     /**
      * Factory method for mapping
      *
-     * @param timestamp
-     * @return
+     * @param timestamp Timestamp string to parse.
+     * @return TimeStamp object corresponding to string.
      */
     public static Timestamp tryParse(String timestamp) {
         try {
@@ -62,10 +72,10 @@ public class Timestamp {
 
     @Override
     public String toString() {
-        return this.timestamp.toString();
+        return this.timestamp.format(formatter);
     }
 
-    public LocalDate getTimestamp() {
+    public LocalDate getDate() {
         return this.timestamp;
     }
 

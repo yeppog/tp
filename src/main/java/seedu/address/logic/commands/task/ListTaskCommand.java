@@ -45,11 +45,16 @@ public class ListTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
-        super.canExecute();
         this.previousFilters = model.getOldTaskFilters();
         model.setTaskFilters(taskFilters);
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+    @Override
+    public CommandResult executeUndo(Model model) throws CommandException {
+        model.setTaskFilters(this.previousFilters);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 
@@ -64,11 +69,5 @@ public class ListTaskCommand extends TaskCommand {
     public int hashCode() {
         return taskFilters.hashCode();
     }
-
-    @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
-        model.setTaskFilters(this.previousFilters);
-        return new CommandResult(MESSAGE_SUCCESS);
-    }
 }
+

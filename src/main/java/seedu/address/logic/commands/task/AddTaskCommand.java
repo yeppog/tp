@@ -45,8 +45,14 @@ public class AddTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         model.addTask(task);
+        return new CommandResult(String.format(MESSAGE_SUCCESS, task));
+    }
+
+    @Override
+    protected CommandResult executeUndo(Model model) throws CommandException {
+        model.deleteTaskAtLastIndex();
         return new CommandResult(String.format(MESSAGE_SUCCESS, task));
     }
 
@@ -61,10 +67,5 @@ public class AddTaskCommand extends TaskCommand {
     public int hashCode() {
         return task.hashCode();
     }
-
-    @Override
-    public CommandResult undo(Model model) throws CommandException {
-        model.deleteTaskAtLastIndex();
-        return new CommandResult(String.format(MESSAGE_SUCCESS, task));
-    }
 }
+

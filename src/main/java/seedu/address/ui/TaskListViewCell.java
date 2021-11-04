@@ -1,22 +1,21 @@
 package seedu.address.ui;
 
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.function.Consumer;
 
 import javafx.scene.control.ListCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.Command;
+import seedu.address.logic.commands.task.EditTaskCommand;
 import seedu.address.model.task.Task;
-import seedu.address.ui.exceptions.GuiException;
 
 public class TaskListViewCell extends ListCell<Task> {
-    private final Logger logger = LogsCenter.getLogger(TaskListViewCell.class);
-    private final TaskListPanel.TaskEditor taskEditor;
+    private final Consumer<? super Command> commandExecutor;
 
-    public TaskListViewCell(TaskListPanel.TaskEditor taskEditor) {
-        this.taskEditor = taskEditor;
+    public TaskListViewCell(Consumer<? super Command> commandExecutor) {
+        this.commandExecutor = commandExecutor;
     }
 
     @Override
@@ -27,7 +26,7 @@ public class TaskListViewCell extends ListCell<Task> {
             setGraphic(null);
             setText(null);
         } else {
-            setGraphic(new TaskCard(task, getIndex() + 1, taskEditor).getRoot());
+            setGraphic(new TaskCard(task, Index.fromZeroBased(getIndex()), commandExecutor).getRoot());
             addEventHandler(KeyEvent.KEY_PRESSED, event -> {
                 if (event.getCode() == KeyCode.ENTER) {
                     event.consume();
@@ -47,13 +46,8 @@ public class TaskListViewCell extends ListCell<Task> {
     private void showEditDialog(Task task) {
         EditTaskDialog editTaskDialog = new EditTaskDialog(task);
         Optional<Task> editedTask = editTaskDialog.getDialog().showAndWait();
-        if (editedTask.isPresent()) {
-            try {
-                taskEditor.updateTask(task, editedTask.get());
-            } catch (GuiException e) {
-                e.printStackTrace();
-                logger.log(Level.SEVERE, "Error when updating task", e);
-            }
-        }
+        editedTask.ifPresent(value ->
+                commandExecutor.accept(new EditTaskCommand(Index.fromZeroBased(getIndex()),
+                        EditTaskCommand.EditTaskDescriptor.from(value))));
     }
 }

@@ -39,8 +39,8 @@ public class CommandTestUtil {
     public static final String VALID_PHONE_BOB = "22222222";
     public static final String VALID_EMAIL_AMY = "amy@example.com";
     public static final String VALID_EMAIL_BOB = "bob@example.com";
-    public static final Timestamp VALID_TIMESTAMP_INTERVIEW = Timestamp.tryParse("2021-07-05");
-    public static final Timestamp VALID_TIMESTAMP_REPORT = Timestamp.tryParse("2021-12-31");
+    public static final Timestamp VALID_TIMESTAMP_INTERVIEW = Timestamp.tryParse("05-07-2021");
+    public static final Timestamp VALID_TIMESTAMP_REPORT = Timestamp.tryParse("31-12-2021");
     public static final String VALID_ADDRESS_AMY = "Block 312, Amy Street 1";
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
     public static final String VALID_TAG_HUSBAND = "husband";
@@ -79,7 +79,7 @@ public class CommandTestUtil {
 
     public static final String TAG_DESC_CAREER = " " + PREFIX_TAG + VALID_TAG_CAREER;
     public static final String DESCRIPTION_DESC_REPORT = " " + PREFIX_DESCRIPTION + VALID_DESCRIPTION_REPORT;
-    public static final String TIMESTAMP_DESC_REPORT = " " + PREFIX_TIMESTAMP + "2021-12-31";
+    public static final String TIMESTAMP_DESC_REPORT = " " + PREFIX_TIMESTAMP + "31-12-2021";
     public static final String TITLE_DESC_REPORT = " " + PREFIX_TITLE + VALID_TITLE_REPORT;
 
     public static final EditTaskCommand.EditTaskDescriptor DESC_REPORT;

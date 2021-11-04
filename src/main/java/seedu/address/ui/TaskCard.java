@@ -1,6 +1,7 @@
 package seedu.address.ui;
 
 import java.util.Comparator;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
@@ -9,10 +10,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.core.index.Index;
+import seedu.address.logic.commands.task.DoneTaskCommand;
 import seedu.address.model.task.Contact;
 import seedu.address.model.task.Task;
 import seedu.address.model.task.Timestamp;
-import seedu.address.ui.exceptions.GuiException;
 
 public class TaskCard extends UiPart<Region> {
     private static final String FXML = "TaskCard.fxml";
@@ -39,12 +41,12 @@ public class TaskCard extends UiPart<Region> {
     /**
      * Creates a card representing a task. Used in a task list to display a task.
      * @param task The task to represent
-     * @param oneIndex The position of the task in the list in one-based indexing
+     * @param index The position of the task in the list
      */
-    public TaskCard(Task task, int oneIndex, TaskListPanel.TaskEditor taskEditor) {
+    public TaskCard(Task task, Index index, Consumer<? super DoneTaskCommand> doneConsumer) {
         super(FXML);
 
-        name.setText(oneIndex + ".  " + task.getTitle());
+        name.setText(index.getOneBased() + ".  " + task.getTitle());
 
         if (task.getDescription().isEmpty()) {
             description.setVisible(false);
@@ -86,13 +88,13 @@ public class TaskCard extends UiPart<Region> {
             contacts.setManaged(false);
         } else {
             task.getContacts().stream()
-                    .filter(Contact::getIsInAddressBook)
+                    .filter(Contact::isInAddressBook)
                     .sorted(Comparator.comparing(contact -> contact.getName().fullName))
                     .map(contact -> new Label(contact.getName().fullName))
                     .forEach(contacts.getChildren()::add);
 
             task.getContacts().stream()
-                    .filter(contact -> !contact.getIsInAddressBook())
+                    .filter(contact -> !contact.isInAddressBook())
                     .sorted(Comparator.comparing(contact -> contact.getName().fullName))
                     .map(contact -> {
                         Label label = new Label(contact.getName().fullName);
@@ -108,22 +110,8 @@ public class TaskCard extends UiPart<Region> {
         isCompleted.setText("");
         isCompleted.setSelected(task.isDone());
         isCompleted.selectedProperty().addListener((observableValue, oldValue, newValue) -> {
-            Task newTask = new Task(
-                task.getTitle(),
-                task.getDescription().orElse(null),
-                task.getTimestamp().orElse(null),
-                task.getTags(),
-                newValue,
-                task.getContacts()
-            );
-            try {
-                taskEditor.updateTask(task, newTask);
-            } catch (GuiException e) {
-                e.printStackTrace();
-            }
+            doneConsumer.accept(new DoneTaskCommand(index));
         });
-
-
     }
 
     private static String prependTimestampIcon(String text) {

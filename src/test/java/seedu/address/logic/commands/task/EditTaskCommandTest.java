@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
@@ -78,6 +79,29 @@ class EditTaskCommandTest {
         EditTaskCommand editTaskCommand = new EditTaskCommand(outOfBoundIndex, descriptor);
 
         assertCommandFailure(editTaskCommand, model, Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
+    }
+
+    @Test
+    void undo_unfilteredEditedAddressBook_success() {
+        Model originalModel = new ModelManager(
+                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
+
+        Task editedTask = new TaskBuilder().build();
+        EditTaskCommand.EditTaskDescriptor descriptor = new EditTaskDescriptorBuilder(editedTask).build();
+        EditTaskCommand editTaskCommand = new EditTaskCommand(INDEX_FIRST_PERSON, descriptor);
+
+        String expectedMessage = String.format(EditTaskCommand.MESSAGE_EDIT_TASK_SUCCESS, editedTask);
+        Task task = model.getTaskList().getTasks().get(INDEX_FIRST_PERSON.getZeroBased());
+
+        Model expectedModel = new ModelManager(
+                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
+        expectedModel.setTask(task, editedTask);
+
+        assertCommandSuccess(editTaskCommand, model, expectedMessage, expectedModel);
+        model.getCommandHistory().pushCommand(editTaskCommand);
+
+        String successMessage = UndoCommand.MESSAGE_UNDO_SUCCESS + expectedMessage;
+        assertCommandSuccess(new UndoCommand(), model, successMessage, originalModel);
     }
 
     @Test

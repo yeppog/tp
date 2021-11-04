@@ -42,9 +42,8 @@ public class DoneTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
-        super.canExecute();
         boolean isDone = changeTaskIsDone(model);
         displayedString = isDone
                 ? MESSAGE_SUCCESS
@@ -54,14 +53,8 @@ public class DoneTaskCommand extends TaskCommand {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return this == o || (o instanceof DoneTaskCommand && index.equals(((DoneTaskCommand) o).index));
-    }
-
-    @Override
-    public CommandResult undo(Model model) throws CommandException {
+    protected CommandResult executeUndo(Model model) throws CommandException {
         requireNonNull(model);
-        super.canUndo();
         changeTaskIsDone(model);
         return new CommandResult(String.format(displayedString, this.completedTask));
     }
@@ -82,7 +75,12 @@ public class DoneTaskCommand extends TaskCommand {
 
         this.completedTask = completedTask;
         model.setTask(task, completedTask);
-
         return completedTask.isDone();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || (o instanceof DoneTaskCommand && index.equals(((DoneTaskCommand) o).index));
+    }
+
 }

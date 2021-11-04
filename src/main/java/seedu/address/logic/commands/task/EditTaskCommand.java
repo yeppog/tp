@@ -85,6 +85,7 @@ public class EditTaskCommand extends TaskCommand {
                 .or(taskToEdit::getDescription).orElse(null);
         Timestamp updatedTimestamp = editTaskDescriptor.getTimestamp()
                 .or(taskToEdit::getTimestamp).orElse(null);
+        boolean updatedDone = editTaskDescriptor.isDone().orElse(taskToEdit.isDone());
         Set<Tag> updatedTags = editTaskDescriptor.getTags()
                 .orElse(taskToEdit.getTags());
         Set<Contact> updatedContacts = editTaskDescriptor.getContacts()
@@ -94,19 +95,18 @@ public class EditTaskCommand extends TaskCommand {
                 updatedDescription,
                 updatedTimestamp,
                 updatedTags,
-                taskToEdit.isDone(),
+                updatedDone,
                 updatedContacts);
     }
 
     @Override
-    public CommandResult execute(Model model) throws CommandException {
+    protected CommandResult executeDo(Model model) throws CommandException {
         requireNonNull(model);
         List<Task> taskList = model.getFilteredTaskList();
 
         if (index.getZeroBased() >= taskList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_TASK_DISPLAYED_INDEX);
         }
-        super.canExecute();
 
         Task taskToEdit = taskList.get(index.getZeroBased());
         this.oldTask = taskToEdit;
@@ -123,8 +123,7 @@ public class EditTaskCommand extends TaskCommand {
     }
 
     @Override
-    public CommandResult undo(Model model) throws CommandException {
-        super.canUndo();
+    protected CommandResult executeUndo(Model model) throws CommandException {
         EditTaskDescriptor oldTaskDescriptor = EditTaskDescriptor.from(this.oldTask);
         List<Task> taskList = model.getFilteredTaskList();
         Task taskToEdit = taskList.get(index.getZeroBased());
@@ -161,6 +160,7 @@ public class EditTaskCommand extends TaskCommand {
         private String title;
         private String description;
         private Timestamp timestamp;
+        private Boolean isDone;
         private Set<Tag> tags;
         private Set<Contact> contacts;
 
@@ -175,6 +175,7 @@ public class EditTaskCommand extends TaskCommand {
             setTitle(toCopy.title);
             setDescription(toCopy.description);
             setTimestamp(toCopy.timestamp);
+            setDone(toCopy.isDone);
             setTags(toCopy.tags);
             setContacts(toCopy.contacts);
         }
@@ -192,6 +193,7 @@ public class EditTaskCommand extends TaskCommand {
             descriptor.setTags(toCopy.getTags());
             descriptor.setDescription(toCopy.getDescription().orElse(null));
             descriptor.setContacts(toCopy.getContacts());
+            descriptor.setDone(toCopy.isDone());
             return descriptor;
         }
 
@@ -220,6 +222,14 @@ public class EditTaskCommand extends TaskCommand {
 
         public void setDescription(String description) {
             this.description = description;
+        }
+
+        public Optional<Boolean> isDone() {
+            return Optional.ofNullable(isDone);
+        }
+
+        public void setDone(Boolean done) {
+            isDone = done;
         }
 
         public Optional<Timestamp> getTimestamp() {

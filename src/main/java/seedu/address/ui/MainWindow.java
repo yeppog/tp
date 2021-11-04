@@ -17,13 +17,12 @@ import javafx.stage.Stage;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.Logic;
+import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.commands.task.AddTaskCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.TaskList;
 import seedu.address.model.task.Task;
-import seedu.address.ui.exceptions.GuiException;
 
 /**
  * The Main Window. Provides the basic application layout containing
@@ -160,20 +159,21 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        TaskListPanel.TaskEditor taskEditor = (Task oldTask, Task newTask) -> {
-            logic.executeGuiAction((AddressBook addressBook, TaskList taskList) -> {
-                taskList.setTask(oldTask, newTask);
-            });
-        };
-
         Consumer<Task> addTask = task -> {
             try {
-                logic.executeGuiAction((AddressBook addressBook, TaskList taskList) -> {
-                    taskList.addTask(task);
-                });
-            } catch (GuiException e) {
+                logic.executeCommand(new AddTaskCommand(task));
+            } catch (CommandException e) {
                 e.printStackTrace();
                 logger.log(Level.SEVERE, "Error occurred when adding task", e);
+            }
+        };
+
+        Consumer<Command> commandExecutor = command -> {
+            try {
+                logic.executeCommand(command);
+            } catch (CommandException e) {
+                e.printStackTrace();
+                logger.log(Level.SEVERE, "Error occurred when doing GUI action", e);
             }
         };
 
@@ -184,7 +184,7 @@ public class MainWindow extends UiPart<Stage> {
                 logic::addTaskFilter,
                 logic::removeTaskFilter,
                 addTask,
-                taskEditor
+                commandExecutor
         );
         taskListPanelPlaceholder.getChildren().add(taskListPanel.getRoot());
 
