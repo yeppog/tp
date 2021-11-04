@@ -503,7 +503,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. User requests add a person.
 
-2. TaskMaster2103 shows a list of updated tasks.
+2. TaskMaster2103 shows a list of updated persons.
 
    Use case ends.
 
@@ -514,6 +514,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - 1a1. TaskMaster2103 shows an error message.
 
       Use case resumes at step 1.
+    
+- 2a. Taskmaster2103 adds a person who is a contact in a task.
+ 
+    - 2a1. TaskMaster2103 updates the tasks' contacts.
+    
+    Use case ends.
 
 #### Use case: UCP02 - Edit a person
 
@@ -547,6 +553,13 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
       Use case resumes at step 2.
 
+- 4a. TaskMaster2103 edits a person's name who is a contact in a task.
+
+    - 4a1. TaskMaster2103 updates the tasks' contact's name.
+
+  Use case ends.
+
+
 #### Use case: UCP03 - Delete a person
 
 ##### MSS
@@ -569,6 +582,12 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - 3a1. TaskMaster2103 shows an error message.
 
       Use case resumes at step 2.
+    
+- 4a. TaskMaster2103 deletes a person who is a contact in a task.
+ 
+    - 4a1. TaskMaster2103 updates the tasks' contacts.
+    
+    Use case ends.
 
 #### Use case: UCP04 - Search for a person
 
