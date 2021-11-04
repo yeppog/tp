@@ -13,7 +13,7 @@ end box
 
 
 note over ed
-Only edited values\nare set in desc
+Only edited values are set in desc
 end note
 
 activate ETCP
