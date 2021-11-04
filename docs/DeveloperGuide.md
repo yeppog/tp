@@ -173,12 +173,12 @@ Step 1: The user adds a task to the task list.
 Step 2: The user types in the command `task edit 1 d\Example description` (suppose this string is called `s`) 
 The `EditTaskCommand` is created together with its corresponding `EditTaskDescriptor` as shown below.
 
-![Sequence diagram](img/EditTaskCommandParse.png)
+![Sequence diagram](images/EditTaskCommandParse.png)
 
 Step 3: The returned command is then executed. The copy of `EditTaskDescriptor` is used and destroyed and used during the `EditTaskCommand#createEditedTask` method.
 The new edited copy of the task then replaces the current task in the task list (The task to edit is unmodified).
 
-![Sequence diagram](img/EditTaskCommandExecute.png)
+![Sequence diagram](images/EditTaskCommandExecute.png)
 
 Step 4: The GUI is updated to show the task at index 1 with the new description "Example Description".
 
