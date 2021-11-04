@@ -163,14 +163,14 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Current Implementation
 
-The task editing mechanism is done almost entirely within `EditTaskCommand` and the `EditTaskCommandParser` objects within the `Logic` component. 
+The task editing mechanism is done almost entirely within `EditTaskCommand` and the `EditTaskCommandParser` objects within the `Logic` component.
 Each edit is represented by an `EditTaskDescriptor` object, which contains the new value(s) to edit the data in the current task to.
 
 #### Example usage of `task edit`
 
 Step 1: The user adds a task to the task list.
 
-Step 2: The user types in the command `task edit 1 d/Example description` (suppose this string is called `s`) 
+Step 2: The user types in the command `task edit 1 d/Example description` (suppose this string is called `s`)
 The `EditTaskCommand` is created together with its corresponding `EditTaskDescriptor` as shown below.
 
 ![Sequence diagram](images/EditTaskCommandParse.png)
@@ -197,7 +197,7 @@ where the `get` methods return `Optional<T>` objects containing the value to be 
 
 `EditTaskDescriptor` also has:
 1. A constructor which accepts another `EditTaskDescriptor`, which creates a defensive copy of the original, called solely within the constructor of `EditTaskCommand`.
-2. A `isAnyFieldEdited` method to facilitate error handling when the user does not provide any arguments to the command. 
+2. A `isAnyFieldEdited` method to facilitate error handling when the user does not provide any arguments to the command.
 
 ### Delete Feature
 
@@ -232,11 +232,11 @@ state. A simple description of the stack can be seen below:
 Stack when commands are executed:
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> null
                                                                    ^current
-                                                                   
+
 Stack when a single undo is called
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> null
                                                            ^current
-                                                           
+
 Stack after adding a command to the above state
 
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
@@ -248,7 +248,7 @@ null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> DeleteCommand3
 1. User launches TaskMaster2103 and a new `CommandHistory` object is initialised in `Model`.
 2. User invokes any valid command into TaskMaster2103 that successfully gets executed.
 3. The successfully invoked command gets stored in the `CommandHistory` stack through `LogicManager`.
-4. The user can now invoke `undo`, and when the user does so, the top-most `Command` in `CommandHistory` 
+4. The user can now invoke `undo`, and when the user does so, the top-most `Command` in `CommandHistory`
    will be returned.
 5. The top-most `Command` that was returned with have its `undo()` method executed.
 6. The `undo()` method mutates `Model` to restore the state before the initial execution of the command.
@@ -270,8 +270,8 @@ Each `Command` will have a different way of implementing `undo()`, depending on 
 2. GUI View Commands:
 
     - Find/Sort/Filter: Restores the previous `Predicate` or `List<Filters>` that was in the `FilteredList`
-    
-    
+
+
 ### Redo feature
 
 #### Current Implementation
@@ -287,15 +287,15 @@ state. A simple description of the stack with redo and undo actions can be seen 
 Stack when commands are executed:
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
                                                                    ^current
-                                                                   
+
 Stack when two undo commands are called
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
                                       ^current
-                                                           
+
 Stack after a single redo command is called
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
                                                          ^current
-                                      
+
 Stack after adding a command to the above state
 
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> DeleteCommand4 <-> null
@@ -329,7 +329,7 @@ Input history works similar to a terminal, where the up and down arrow keys can 
 #### Current implementation
 
 The Input History feature uses a doubly linked list to store the string commands in the stack, and the up and down arrow
-keys allow for traversing and returning the previous and next command respectively. 
+keys allow for traversing and returning the previous and next command respectively.
 
 #### Example usage
 
@@ -351,9 +351,9 @@ everytime a new successful command is executed.
 `Contact` objects found in `Task`s contain a `Name`, which is used to compare each `Contact` with`AddressBook`, checking if a `Person` with the same name exists.
 Each contact contains a `isInAddressBook` boolean value to keep track of this.
 
-The checking of contacts is done in 2 scenarios: 
+The checking of contacts is done in 2 scenarios:
 
-1. when an action is executed that may change `Task`s' contacts (eg `task edit`, `task add`) or `Addressbook` (eg `add`, `delete`), or 
+1. when an action is executed that may change `Task`s' contacts (eg `task edit`, `task add`) or `Addressbook` (eg `add`, `delete`), or
 
 2. when there is a change in a `Person`'s name through `edit`.
 
@@ -368,7 +368,7 @@ The copy then replaces the original task in the task list.
 
 Given the original and updated `Name`, `ModelManager` needs to overwrite tasks' contacts with the old name to that with the new name.
 
-`ModelManager`'s `changeAllTaskContactNames(Name oldName, Name newName)` is called instead of `updateAllTasksContacts()`, 
+`ModelManager`'s `changeAllTaskContactNames(Name oldName, Name newName)` is called instead of `updateAllTasksContacts()`,
 which replaces all tasks that contain the oldName with a copy containing the newName.
 
 Since a name change implies that `oldName` and `newName` was and is present in the AddressBook respectively, `isInAddressBook` is guaranteed to be true as long as the `Contact` exists.
@@ -390,7 +390,7 @@ The sequence diagram below shows how each Task's contact set is updated. (Note: 
 
 #### Alternatives
 
-Searching through the task list, tasks' `Contact`s list and AddressBook may be computationally expensive. `updateAllTasksContacts()` goes to every `Task`, 
+Searching through the task list, tasks' `Contact`s list and AddressBook may be computationally expensive. `updateAllTasksContacts()` goes to every `Task`,
 and for every `Contact` in the task, it is compared to every `Person` in the AddressBook, assuming the worst-case (contact name does not exist in `AddressBook`).
 
 A data structure, such as a HashTable could perhaps be used to store the locations of all `Person` names in the task list.
@@ -461,7 +461,7 @@ Deleting tasks may cause associated tags to be deleted from the entire task list
 
 ##### Finding tasks
 
-Searching for tasks using a series of keywords also involves adding a `TaskFilter` to the `ModelManager`, but in this case it is needed to check whether an existing `TaskFilter` corresponding to a previous keyword search is still present. If so, this previous filter is removed and replaced with a new filter. This `TaskFilter` should be unique in the set  regardless of the keywords that are being searched for. This is implemented via a `KeywordTaskFilter` which extends `TaskFilter`. The `FindTaskCommand` will first remove the previous instance of `KeywordTaskFilter` before adding the new instance into `ModelManager`. 
+Searching for tasks using a series of keywords also involves adding a `TaskFilter` to the `ModelManager`, but in this case it is needed to check whether an existing `TaskFilter` corresponding to a previous keyword search is still present. If so, this previous filter is removed and replaced with a new filter. This `TaskFilter` should be unique in the set  regardless of the keywords that are being searched for. This is implemented via a `KeywordTaskFilter` which extends `TaskFilter`. The `FindTaskCommand` will first remove the previous instance of `KeywordTaskFilter` before adding the new instance into `ModelManager`.
 
 ![Activity diagram showing the task filter list's update when searching tasks with a keyword](images/FindTaskUpdateKeywordTaskFilterActivityDiagram.png)
 
@@ -566,11 +566,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - 1a1. TaskMaster2103 shows an error message.
 
       Use case resumes at step 1.
-    
+
 - 2a. Taskmaster2103 adds a person who is a contact in a task.
- 
+
     - 2a1. TaskMaster2103 updates the tasks' contacts.
-    
+
     Use case ends.
 
 #### Use case: UCP02 - Edit a person
@@ -634,11 +634,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
     - 3a1. TaskMaster2103 shows an error message.
 
       Use case resumes at step 2.
-    
+
 - 4a. TaskMaster2103 deletes a person who is a contact in a task.
- 
+
     - 4a1. TaskMaster2103 updates the tasks' contacts.
-    
+
     Use case ends.
 
 #### Use case: UCP04 - Search for a person
