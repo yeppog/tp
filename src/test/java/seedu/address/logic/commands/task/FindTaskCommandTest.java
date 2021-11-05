@@ -9,6 +9,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.Messages;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -53,6 +54,24 @@ public class FindTaskCommandTest {
         expectedModel.updateFilteredTaskList(testPredicate);
         assertCommandSuccess(testCommand, model, expectedMessage, expectedModel);
     }
+
+    @Test
+    void undo_singleKeywordWithExistingFilter_success() {
+        Model originalModel = new ModelManager(getTypicalAddressBook(), getTypicalTaskList(), new UserPrefs());
+
+        String expectedMessage = String.format(Messages.MESSAGE_TASKS_LISTED_OVERVIEW, 1);
+        TaskContainsKeywordsPredicate testPredicate = preparePredicate("homework");
+        FindTaskCommand findTaskCommand = new FindTaskCommand(testPredicate);
+        expectedModel.updateFilteredTaskList(testPredicate);
+
+        assertCommandSuccess(findTaskCommand, model, expectedMessage, expectedModel);
+        model.getCommandHistory().pushCommand(findTaskCommand);
+
+        String successMessage = UndoCommand.MESSAGE_UNDO_SUCCESS + expectedMessage;
+        assertCommandSuccess(new UndoCommand(), model, successMessage, originalModel);
+
+    }
+
 
 
     /**

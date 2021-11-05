@@ -3,10 +3,10 @@ layout: page
 title: User Guide
 ---
 
-# User Guide V1.3
+# TaskMaster2103 V1.4
 
-TaskMaster2103 V1.3 is a desktop app for students to manage their tasks and contacts, optimized for
-use via a CLI while still having the benefits of a GUI.
+TaskMaster2103 V1.4 is a desktop app for students to manage their tasks and contacts, optimized for
+use via a CLI while still having the benefits of a GUI option if needed.
 
 ## Table of Contents
 
@@ -15,6 +15,7 @@ use via a CLI while still having the benefits of a GUI.
    1. [Address Book Commands](#ab3comm)
    2. [Task List Commands](#tasklistcomm)
    3. [Other Shortcuts/Commands](#shortcuts)
+   4. [GUI Guide](#gui)
 3. [FAQ](#faq)
 4. [Command Summary](#commandsummary)
 
@@ -346,7 +347,7 @@ If your changes to the data file makes its format invalid, TaskMaster will disca
 </div>
 
 ---
-
+<a name="gui"></a>
 ## Using the GUI
 
 The following image shows an example of the main menu. The task list is shown on the left of the app, while the address book is shown on the right.
