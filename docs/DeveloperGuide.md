@@ -163,14 +163,14 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Current Implementation
 
-The task editing mechanism is done almost entirely within `EditTaskCommand` and the `EditTaskCommandParser` objects within the `Logic` component. 
+The task editing mechanism is done almost entirely within `EditTaskCommand` and the `EditTaskCommandParser` objects within the `Logic` component.
 Each edit is represented by an `EditTaskDescriptor` object, which contains the new value(s) to edit the data in the current task to.
 
 #### Example usage of `task edit`
 
 Step 1: The user adds a task to the task list.
 
-Step 2: The user types in the command `task edit 1 d\Example description` (suppose this string is called `s`) 
+Step 2: The user types in the command `task edit 1 d\Example description` (suppose this string is called `s`)
 The `GUI` parses and executes `s` by passing it to the `Logic` component, as seen below.
 
 ![Sequence diagram](http://www.plantuml.com/plantuml/png/TLDDZzem4BtxLupI2-nk_m27Qlc8gggWea9FHK9kF4ij4XlP3cN_VSUEumJlBXVicJTltZnFdgtZnhLDpNZhDA-Sl7A7e1NxeszGhFL9LWLyMilJNxUeMsGNWijANhXoKCn2ViCLFw4fW5jORpB4N0Y3rYwqFc-viH4sNsmpt9xRyr8t3LTYXDilSrmff7iVMxu12xHLAbZHnSYBqnqQnJssqfVNZx0-Tu_6N4V0vUx4t4-qRUq2meGZGoM0_EqytcY1DNcybUgS4SGK5MQs8dL7uVi7um9ae6M_Ft-Xbu0Pu0shrk74JXdTAKh6KvYuB1vKrEUpp2SeJnx2myECfKtmfXfqhL4ZJEAOS7Dg6rIEA7oOicL70IEESaIIezxoq4zfluDNDFwPVgZw5Rg1uShh5kr1SODWqO5Ku1yvJEwBMDQqZErGP99GH46XVenxV9nvwdu5f5O7DIdA6sykDO8OmiKq6PFAkv4K_eD-FvBBn2ALmDjJu9YEf8pd3QksmXTKLbunN46_X1Ae319U3CCYzGoGzzhw0S8AJx9-lY0gxywKTqPxZraVntH8sVY8MVGk67SCHuitPTY7eluohIuvukXlhtteAMY9S4S33O9Tx90Q9OOa8ypHrMuWl9zFZ-b7LTEUA5Pq7-NWuTrdIo8tvMut_reUozMt_V6WzlFTz-Fkrt99uS7Mo999ZS7aS9z-HYNQfluF)
@@ -192,7 +192,7 @@ where the `get` methods return `Optional<T>` objects containing the value to be 
 
 `EditTaskDescriptor` also has:
 1. A constructor which accepts another `EditTaskDescriptor`, which creates a defensive copy of the original, called solely within the constructor of `EditTaskCommand`.
-2. A `isAnyFieldEdited` method to facilitate error handling when the user does not provide any arguments to the command. 
+2. A `isAnyFieldEdited` method to facilitate error handling when the user does not provide any arguments to the command.
 
 ### Delete Feature
 
@@ -227,11 +227,11 @@ state. A simple description of the stack can be seen below:
 Stack when commands are executed:
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> null
                                                                    ^current
-                                                                   
+
 Stack when a single undo is called
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> null
                                                            ^current
-                                                           
+
 Stack after adding a command to the above state
 
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
@@ -243,7 +243,7 @@ null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> DeleteCommand3
 1. User launches TaskMaster2103 and a new `CommandHistory` object is initialised in `Model`.
 2. User invokes any valid command into TaskMaster2103 that successfully gets executed.
 3. The successfully invoked command gets stored in the `CommandHistory` stack through `LogicManager`.
-4. The user can now invoke `undo`, and when the user does so, the top-most `Command` in `CommandHistory` 
+4. The user can now invoke `undo`, and when the user does so, the top-most `Command` in `CommandHistory`
    will be returned.
 5. The top-most `Command` that was returned with have its `undo()` method executed.
 6. The `undo()` method mutates `Model` to restore the state before the initial execution of the command.
@@ -265,8 +265,8 @@ Each `Command` will have a different way of implementing `undo()`, depending on 
 2. GUI View Commands:
 
     - Find/Sort/Filter: Restores the previous `Predicate` or `List<Filters>` that was in the `FilteredList`
-    
-    
+
+
 ### Redo feature
 
 #### Current Implementation
@@ -282,15 +282,15 @@ state. A simple description of the stack with redo and undo actions can be seen 
 Stack when commands are executed:
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
                                                                    ^current
-                                                                   
+
 Stack when two undo commands are called
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
                                       ^current
-                                                           
+
 Stack after a single redo command is called
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
                                                          ^current
-                                      
+
 Stack after adding a command to the above state
 
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> DeleteCommand4 <-> null
@@ -324,7 +324,7 @@ Input history works similar to a terminal, where the up and down arrow keys can 
 #### Current implementation
 
 The Input History feature uses a doubly linked list to store the string commands in the stack, and the up and down arrow
-keys allow for traversing and returning the previous and next command respectively. 
+keys allow for traversing and returning the previous and next command respectively.
 
 #### Example usage
 
@@ -404,7 +404,7 @@ Deleting tasks may cause associated tags to be deleted from the entire task list
 
 ##### Finding tasks
 
-Searching for tasks using a series of keywords also involves adding a `TaskFilter` to the `ModelManager`, but in this case it is needed to check whether an existing `TaskFilter` corresponding to a previous keyword search is still present. If so, this previous filter is removed and replaced with a new filter. This `TaskFilter` should be unique in the set  regardless of the keywords that are being searched for. This is implemented via a `KeywordTaskFilter` which extends `TaskFilter`. The `FindTaskCommand` will first remove the previous instance of `KeywordTaskFilter` before adding the new instance into `ModelManager`. 
+Searching for tasks using a series of keywords also involves adding a `TaskFilter` to the `ModelManager`, but in this case it is needed to check whether an existing `TaskFilter` corresponding to a previous keyword search is still present. If so, this previous filter is removed and replaced with a new filter. This `TaskFilter` should be unique in the set  regardless of the keywords that are being searched for. This is implemented via a `KeywordTaskFilter` which extends `TaskFilter`. The `FindTaskCommand` will first remove the previous instance of `KeywordTaskFilter` before adding the new instance into `ModelManager`.
 
 ![Activity diagram showing the task filter list's update when searching tasks with a keyword](images/FindTaskUpdateKeywordTaskFilterActivityDiagram.png)
 

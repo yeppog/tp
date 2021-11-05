@@ -3,7 +3,7 @@ layout: page
 title: About Us
 ---
 
-We are a team of five based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg).
+We are a team of five students based in the [School of Computing, National University of Singapore](http://www.comp.nus.edu.sg).
 We hope to build upon the functionalities of AB3 and make it something unique and meaningful!
 
 For any inquiries, please reach out to us at the email `renweilin@u.nus.edu`
