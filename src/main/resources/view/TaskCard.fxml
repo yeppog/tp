@@ -12,14 +12,14 @@
     <children>
         <VBox spacing="4.0">
             <children>
-            <HBox fillHeight="false" prefWidth="200.0" spacing="3.0">
+            <HBox fx:id="textBox" fillHeight="false" prefWidth="200.0">
                <children>
                       <AnchorPane HBox.hgrow="ALWAYS">
                           <children>
                               <Label fx:id="name" styleClass="cell_big_label" text="\$name" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                           </children>
                       </AnchorPane>
-                  <AnchorPane prefWidth="200.0">
+                  <AnchorPane HBox.hgrow="NEVER">
                      <children>
                               <CheckBox fx:id="isCompleted" mnemonicParsing="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>

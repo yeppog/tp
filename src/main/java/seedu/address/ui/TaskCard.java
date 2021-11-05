@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.index.Index;
@@ -38,6 +39,9 @@ public class TaskCard extends UiPart<Region> {
     @FXML
     private FlowPane contacts;
 
+    @FXML
+    private HBox textBox;
+
     /**
      * Creates a card representing a task. Used in a task list to display a task.
      * @param task The task to represent
@@ -47,6 +51,7 @@ public class TaskCard extends UiPart<Region> {
         super(FXML);
 
         name.setText(index.getOneBased() + ".  " + task.getTitle());
+        name.prefWidthProperty().bind(textBox.widthProperty().subtract(20));
 
         if (task.getDescription().isEmpty()) {
             description.setVisible(false);
