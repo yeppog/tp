@@ -72,12 +72,12 @@ use via a CLI while still having the benefits of a GUI option if needed.
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
 - Parameters must be provided exactly.
-  
+
     - Each parameter is expected only once in the command. If you specified it multiple times,
       an error message will be shown.
-      
+
     - If an extraneous parameter is specified, an error message will be shown. (Does not apply for tags or contacts)
-    
+
     - Parameter or argument values cannot contain the character `/`. An error message will be shown if `/` is present in the argument value. For example, `task add 1/2` is invalid, and can be replaced with valid alternatives such as `task add 1 or 2` instead.
 
 </div>
@@ -314,7 +314,7 @@ Redo the previous command, returning the user back to the previous state, up to 
 
 Format: `redo`
 
-This command can also be invoked through using the shortcut `CTRL + Y` or `CMD + Y` or `CTRL + SHIFT + Z` 
+This command can also be invoked through using the shortcut `CTRL + Y` or `CMD + Y` or `CTRL + SHIFT + Z`
 or `CMD + SHIFT + Z`.
 
 
@@ -356,8 +356,8 @@ The following image shows an example of the main menu. The task list is shown on
 
 ### 1. CLI
 
-- A Command Line Interface is provided for users to type commands. 
-- If not focused on the CLI, pressing the `/` key will allow the user to focus on the text box and immediately begin typing. 
+- A Command Line Interface is provided for users to type commands.
+- If not focused on the CLI, pressing the `/` key will allow the user to focus on the text box and immediately begin typing.
 - To retrieve previously typed commands, you may see "Retrieving previous commands" in the "Other Shortcuts/Commands" section above.
 
 ### 2. Filter Dropdown
