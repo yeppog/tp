@@ -1,0 +1,27 @@
+@startuml
+autoactivate on
+box "Logic" #LightBlue
+participant ":ModelManager" as MM
+end box
+box "Model" #Pink
+participant ":TaskList" as taskList
+end box
+
+[-> MM : addPerson()
+
+ref over MM
+    add person into taskList
+end Ref
+
+MM -> MM : updateAllTaskContacts()
+loop For each task in taskList
+    ref over MM
+        update each task contact
+    end ref
+    MM -> taskList : setTask(updatedTask)
+    return
+end
+
+return
+return
+@enduml

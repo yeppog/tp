@@ -30,7 +30,7 @@ Below are my contributions to the project.
     - Justification: to align with a true CLI interface, this function is built innately in most terminals and we wanted
     to give the same feel to the CLI users of the application. Users who chose CLI are likely to be more comfortable with
       terminal environments and it only feels right to have this feature in.
- 
+
     - Highlights: Pressing up cycles through previous commands, and pressing down cycles through the preceeding commands.
     The feature also keeps track of whatever one has currently typed. Pressing up or down after typing something that
       has not been executed stores the typed command down, and can be accessed simply by pressing down to the very last
