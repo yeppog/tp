@@ -18,7 +18,7 @@ Given below are my contributions to the project.
   - What it does: allows users mass-delete tasks
   - Justification: users may want to clear out tasks. For example, work-related tasks after the semester is complete.
   - Highlights: unlike `clear`, purge tasks purge all currently-filtered or listed tasks; users are able to effortlessly designate what kind of task to delete.
-    
+
 - **Code contributed**: [RepoSense link](https://nus-cs2103-ay2122s1.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2021-09-17&tabOpen=true&tabType=authorship&tabAuthor=koh-jx&tabRepo=AY2122S1-CS2103-F09-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false)
 
 - **Enhancements to new/existing features**
@@ -26,9 +26,9 @@ Given below are my contributions to the project.
   - Extended `edit` for tasks  ([#42](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/42))
 
 - **Testing** ([#53](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/53), [#186](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/186), [#189](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/189))
-  - Added test cases for `undo`, `redo`, `task done`, `task edit`, `task purge` and other task-related commands and parsers.   
+  - Added test cases for `undo`, `redo`, `task done`, `task edit`, `task purge` and other task-related commands and parsers.
   - Integrated contacts into existing test cases
-  - Set up test utils for task-related tests  
+  - Set up test utils for task-related tests
 
 - **Documentation**
   - Add documentation for contacts, `task edit`, NFRs and glossary in Developer Guide ([#74](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/74), [#194](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/194))
