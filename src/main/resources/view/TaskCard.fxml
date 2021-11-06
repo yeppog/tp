@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.TextFlow?>
 
 <VBox spacing="8.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <children>
@@ -14,9 +15,13 @@
             <children>
             <HBox fx:id="textBox" fillHeight="false" prefWidth="200.0">
                <children>
-                      <AnchorPane HBox.hgrow="ALWAYS">
+                      <AnchorPane HBox.hgrow="SOMETIMES">
                           <children>
-                              <Label fx:id="name" styleClass="cell_big_label" text="\$name" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TextFlow fx:id="nameTextFlow">
+                           <children>
+                                    <Label fx:id="name" styleClass="cell_big_label" text="\$name" />
+                           </children>
+                        </TextFlow>
                           </children>
                       </AnchorPane>
                   <AnchorPane HBox.hgrow="NEVER">
