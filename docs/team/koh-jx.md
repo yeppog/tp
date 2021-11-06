@@ -1,12 +1,12 @@
 ---
 layout: page
-title: Jeff Sieu's Project Portfolio Page
+title: Koh Jia Xian's Project Portfolio Page
 
 ---
 ## Project: TaskMaster2103
 
 TaskMaster2103 is an extension to [AddressBook - Level 3](https://se-education.org/addressbook-level3/), a CLI-based address book JavaFX application.
-TaskMaster2103 offers task-related features and a streamlined GUI to better accommodate your needs as a student.
+TaskMaster2103 offers task-related features, and a streamlined GUI to better accommodate your academic needs.
 
 Given below are my contributions to the project.
 - **New Feature**: Added AddressBook integration and GUI into tasks ([#81](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/88))
@@ -36,3 +36,4 @@ Given below are my contributions to the project.
 
 - Community:
   - PRs reviewed (with non-trivial comments) include [#175](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/175), [#79](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/79), [#58](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/58)
+  
