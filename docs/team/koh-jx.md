@@ -36,4 +36,3 @@ Given below are my contributions to the project.
 
 - Community:
   - PRs reviewed (with non-trivial comments) include [#175](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/175), [#79](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/79), [#58](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/58)
-  
