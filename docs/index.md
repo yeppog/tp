@@ -16,7 +16,7 @@ For detailed documentation on the project, please visit the [TaskMaster2103 prod
 
 Prerequisites: JDK11, Gradle
 
-For **running the application**: Head to our [releases](https://github.com/AY2122S1-CS2103-F09-2/tp/releases) page and grab the latest `.jar` file.
+For **running the application**: Head to our [releases](https://github.com/AY2122S1-CS2103-F09-2/tp/releases) page and download the latest `.jar` file.
 
 For **contributing to the project**:
 
