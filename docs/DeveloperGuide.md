@@ -163,19 +163,24 @@ This section describes some noteworthy details on how certain features are imple
 
 #### Current Implementation
 
-The task editing mechanism is done almost entirely within `EditTaskCommand` and the `EditTaskCommandParser` objects within the `Logic` component. 
+The task editing mechanism is done almost entirely within `EditTaskCommand` and the `EditTaskCommandParser` objects within the `Logic` component.
 Each edit is represented by an `EditTaskDescriptor` object, which contains the new value(s) to edit the data in the current task to.
 
 #### Example usage of `task edit`
 
 Step 1: The user adds a task to the task list.
 
-Step 2: The user types in the command `task edit 1 d\Example description` (suppose this string is called `s`) 
-The `GUI` parses and executes `s` by passing it to the `Logic` component, as seen below.
+Step 2: The user types in the command `task edit 1 d/Example description` (suppose this string is called `s`)
+The `EditTaskCommand` is created together with its corresponding `EditTaskDescriptor` as shown below.
 
-![Sequence diagram](http://www.plantuml.com/plantuml/png/TLDDZzem4BtxLupI2-nk_m27Qlc8gggWea9FHK9kF4ij4XlP3cN_VSUEumJlBXVicJTltZnFdgtZnhLDpNZhDA-Sl7A7e1NxeszGhFL9LWLyMilJNxUeMsGNWijANhXoKCn2ViCLFw4fW5jORpB4N0Y3rYwqFc-viH4sNsmpt9xRyr8t3LTYXDilSrmff7iVMxu12xHLAbZHnSYBqnqQnJssqfVNZx0-Tu_6N4V0vUx4t4-qRUq2meGZGoM0_EqytcY1DNcybUgS4SGK5MQs8dL7uVi7um9ae6M_Ft-Xbu0Pu0shrk74JXdTAKh6KvYuB1vKrEUpp2SeJnx2myECfKtmfXfqhL4ZJEAOS7Dg6rIEA7oOicL70IEESaIIezxoq4zfluDNDFwPVgZw5Rg1uShh5kr1SODWqO5Ku1yvJEwBMDQqZErGP99GH46XVenxV9nvwdu5f5O7DIdA6sykDO8OmiKq6PFAkv4K_eD-FvBBn2ALmDjJu9YEf8pd3QksmXTKLbunN46_X1Ae319U3CCYzGoGzzhw0S8AJx9-lY0gxywKTqPxZraVntH8sVY8MVGk67SCHuitPTY7eluohIuvukXlhtteAMY9S4S33O9Tx90Q9OOa8ypHrMuWl9zFZ-b7LTEUA5Pq7-NWuTrdIo8tvMut_reUozMt_V6WzlFTz-Fkrt99uS7Mo999ZS7aS9z-HYNQfluF)
+![Sequence diagram](images/EditTaskCommandParse.png)
 
-Step 3: The GUI is updated to show the task at index 1 with the new description "Example Description".
+Step 3: The returned command is then executed. The copy of `EditTaskDescriptor` is used and destroyed and used during the `EditTaskCommand#createEditedTask` method.
+The new edited copy of the task then replaces the current task in the task list (The task to edit is unmodified).
+
+![Sequence diagram](images/EditTaskCommandExecute.png)
+
+Step 4: The GUI is updated to show the task at index 1 with the new description "Example Description".
 
 
 #### `EditTaskDescriptor` implementation
@@ -192,7 +197,7 @@ where the `get` methods return `Optional<T>` objects containing the value to be 
 
 `EditTaskDescriptor` also has:
 1. A constructor which accepts another `EditTaskDescriptor`, which creates a defensive copy of the original, called solely within the constructor of `EditTaskCommand`.
-2. A `isAnyFieldEdited` method to facilitate error handling when the user does not provide any arguments to the command. 
+2. A `isAnyFieldEdited` method to facilitate error handling when the user does not provide any arguments to the command.
 
 ### Delete Feature
 
@@ -227,11 +232,11 @@ state. A simple description of the stack can be seen below:
 Stack when commands are executed:
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> null
                                                                    ^current
-                                                                   
+
 Stack when a single undo is called
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> null
                                                            ^current
-                                                           
+
 Stack after adding a command to the above state
 
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
@@ -243,7 +248,7 @@ null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand2 <-> DeleteCommand3
 1. User launches TaskMaster2103 and a new `CommandHistory` object is initialised in `Model`.
 2. User invokes any valid command into TaskMaster2103 that successfully gets executed.
 3. The successfully invoked command gets stored in the `CommandHistory` stack through `LogicManager`.
-4. The user can now invoke `undo`, and when the user does so, the top-most `Command` in `CommandHistory` 
+4. The user can now invoke `undo`, and when the user does so, the top-most `Command` in `CommandHistory`
    will be returned.
 5. The top-most `Command` that was returned with have its `undo()` method executed.
 6. The `undo()` method mutates `Model` to restore the state before the initial execution of the command.
@@ -265,8 +270,8 @@ Each `Command` will have a different way of implementing `undo()`, depending on 
 2. GUI View Commands:
 
     - Find/Sort/Filter: Restores the previous `Predicate` or `List<Filters>` that was in the `FilteredList`
-    
-    
+
+
 ### Redo feature
 
 #### Current Implementation
@@ -282,15 +287,15 @@ state. A simple description of the stack with redo and undo actions can be seen 
 Stack when commands are executed:
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
                                                                    ^current
-                                                                   
+
 Stack when two undo commands are called
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
                                       ^current
-                                                           
+
 Stack after a single redo command is called
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> null
                                                          ^current
-                                      
+
 Stack after adding a command to the above state
 
 null <-> DeleteCommand1 <-> DeleteCommand2 <-> DeleteCommand3 <-> DeleteCommand4 <-> null
@@ -324,7 +329,7 @@ Input history works similar to a terminal, where the up and down arrow keys can 
 #### Current implementation
 
 The Input History feature uses a doubly linked list to store the string commands in the stack, and the up and down arrow
-keys allow for traversing and returning the previous and next command respectively. 
+keys allow for traversing and returning the previous and next command respectively.
 
 #### Example usage
 
@@ -338,6 +343,58 @@ everytime a new successful command is executed.
 
 
 ![Activity Diagram showing the process of retrieving an executed command string](images/InputHistoryActivityDiagram.png)
+
+### Contacts feature
+
+#### Current Implementation
+
+`Contact` objects found in `Task`s contain a `Name`, which is used to compare each `Contact` with`AddressBook`, checking if a `Person` with the same name exists.
+Each contact contains a `isInAddressBook` boolean value to keep track of this.
+
+The checking of contacts is done in 2 scenarios:
+
+1. when an action is executed that may change `Task`s' contacts (eg `task edit`, `task add`) or `Addressbook` (eg `add`, `delete`), or
+
+2. when there is a change in a `Person`'s name through `edit`.
+
+#### Scenario 1: Change in `AddressBook` or `Task` (If applicable)
+
+As `ModelManager` may not know which task is affected, `updateAllTasksContacts()` is called to create a new defensive copy of every task in the task list.
+
+Each new copy is updated with the correct `isInAddressBook` by comparing every `Contact` in the `Task` with every `Person` in AddressBook.
+The copy then replaces the original task in the task list.
+
+#### Scenario 2: Editing name of `Person` in `AddressBook`
+
+Given the original and updated `Name`, `ModelManager` needs to overwrite tasks' contacts with the old name to that with the new name.
+
+`ModelManager`'s `changeAllTaskContactNames(Name oldName, Name newName)` is called instead of `updateAllTasksContacts()`,
+which replaces all tasks that contain the oldName with a copy containing the newName.
+
+Since a name change implies that `oldName` and `newName` was and is present in the AddressBook respectively, `isInAddressBook` is guaranteed to be true as long as the `Contact` exists.
+There is thus no need to check and change `isInAddressBook`.
+
+#### Example usage
+
+1. User launches TaskMaster2103 and adds a Person with name `EXAMPLE_NAME`.
+
+2. TaskMaster2103 adds the Person to the `AddressBook`. It then checks if any task requires updating, as illustrated in the 2 sequence diagrams below.
+
+![Update all tasks contacts](images/UpdateAllTaskContacts.png)
+
+The sequence diagram below shows how each Task's contact set is updated. (Note: Most activation bars and return statements have been omitted to reduce clutter.)
+
+![Ref: Updating contacts for 1 task](images/UpdateTaskContacts.png)
+
+3. Changes are reflected in the updated GUI. The user will see the new added `Person`, along with any changes to the Task contacts. (Green if person exists in `AddressBook`, grey otherwise)
+
+#### Alternatives
+
+Searching through the task list, tasks' `Contact`s list and AddressBook may be computationally expensive. `updateAllTasksContacts()` goes to every `Task`,
+and for every `Contact` in the task, it is compared to every `Person` in the AddressBook, assuming the worst-case (contact name does not exist in `AddressBook`).
+
+A data structure, such as a HashTable could perhaps be used to store the locations of all `Person` names in the task list.
+This way, despite a trade-off in terms of space, only affected tasks are directly be accessed and replaced with an updated copy.
 
 ### Task filter feature
 
@@ -404,7 +461,7 @@ Deleting tasks may cause associated tags to be deleted from the entire task list
 
 ##### Finding tasks
 
-Searching for tasks using a series of keywords also involves adding a `TaskFilter` to the `ModelManager`, but in this case it is needed to check whether an existing `TaskFilter` corresponding to a previous keyword search is still present. If so, this previous filter is removed and replaced with a new filter. This `TaskFilter` should be unique in the set  regardless of the keywords that are being searched for. This is implemented via a `KeywordTaskFilter` which extends `TaskFilter`. The `FindTaskCommand` will first remove the previous instance of `KeywordTaskFilter` before adding the new instance into `ModelManager`. 
+Searching for tasks using a series of keywords also involves adding a `TaskFilter` to the `ModelManager`, but in this case it is needed to check whether an existing `TaskFilter` corresponding to a previous keyword search is still present. If so, this previous filter is removed and replaced with a new filter. This `TaskFilter` should be unique in the set  regardless of the keywords that are being searched for. This is implemented via a `KeywordTaskFilter` which extends `TaskFilter`. The `FindTaskCommand` will first remove the previous instance of `KeywordTaskFilter` before adding the new instance into `ModelManager`.
 
 ![Activity diagram showing the task filter list's update when searching tasks with a keyword](images/FindTaskUpdateKeywordTaskFilterActivityDiagram.png)
 
@@ -426,87 +483,6 @@ Each of the following expressions return a `TaskFilter`:
 ##### Alternatives
 
 1. Task filters could be implemented using a `FunctionalInterface` having a `boolean filter(Task task)` method. However, this does not allow a task filter to contain extra information like having a custom string representation.
-
-### \[Proposed\] Undo/redo feature
-
-#### Proposed Implementation
-
-The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
-
-- `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-- `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-- `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
-
-These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
-
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
-
-Step 1. The user launches the application for the first time. The `VersionedAddressBook` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
-
-![UndoRedoState0](images/UndoRedoState0.png)
-
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitAddressBook()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `addressBookStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
-
-![UndoRedoState1](images/UndoRedoState1.png)
-
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitAddressBook()`, causing another modified address book state to be saved into the `addressBookStateList`.
-
-![UndoRedoState2](images/UndoRedoState2.png)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitAddressBook()`, so the address book state will not be saved into the `addressBookStateList`.
-
-</div>
-
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoAddressBook()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
-
-![UndoRedoState3](images/UndoRedoState3.png)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial AddressBook state, then there are no previous AddressBook states to restore. The `undo` command uses `Model#canUndoAddressBook()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
-
-</div>
-
-The following sequence diagram shows how the undo operation works:
-
-![UndoSequenceDiagram](images/UndoSequenceDiagram.png)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
-
-</div>
-
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `addressBookStateList.size() - 1`, pointing to the latest address book state, then there are no undone AddressBook states to restore. The `redo` command uses `Model#canRedoAddressBook()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-
-</div>
-
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitAddressBook()`, `Model#undoAddressBook()` or `Model#redoAddressBook()`. Thus, the `addressBookStateList` remains unchanged.
-
-![UndoRedoState4](images/UndoRedoState4.png)
-
-Step 6. The user executes `clear`, which calls `Model#commitAddressBook()`. Since the `currentStatePointer` is not pointing at the end of the `addressBookStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
-
-![UndoRedoState5](images/UndoRedoState5.png)
-
-The following activity diagram summarizes what happens when a user executes a new command:
-
-<img src="images/CommitActivityDiagram.png" width="250" />
-
-#### Design considerations:
-
-**Aspect: How undo & redo executes:**
-
-- **Alternative 1 (current choice):** Saves the entire address book.
-
-  - Pros: Easy to implement.
-  - Cons: May have performance issues in terms of memory usage.
-
-- **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
-  - Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
-  - Cons: We must ensure that the implementation of each individual command are correct.
-
-_{more aspects and alternatives to be added}_
 
 ### \[Proposed\] Data archiving
 
@@ -579,7 +555,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. User requests add a person.
 
-2. TaskMaster2103 shows a list of updated tasks.
+2. TaskMaster2103 shows a list of updated persons.
 
    Use case ends.
 
@@ -587,9 +563,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 - 1a. An invalid field is specified
 
-  - 1a1. TaskMaster2103 shows an error message.
+    - 1a1. TaskMaster2103 shows an error message.
 
-    Use case resumes at step 1.
+      Use case resumes at step 1.
+
+- 2a. Taskmaster2103 adds a person who is a contact in a task.
+
+    - 2a1. TaskMaster2103 updates the tasks' contacts.
+
+    Use case ends.
 
 #### Use case: UCP02 - Edit a person
 
@@ -613,15 +595,22 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 - 3a. The given index is invalid.
 
-  - 3a1. TaskMaster2103 shows an error message.
+    - 3a1. TaskMaster2103 shows an error message.
 
-    Use case resumes at step 2.
+      Use case resumes at step 2.
 
 - 3b1. A field is specified wrongly.
 
-  - 3a1. TaskMaster2103 shows an error message.
+    - 3a1. TaskMaster2103 shows an error message.
 
-    Use case resumes at step 2.
+      Use case resumes at step 2.
+
+- 4a. TaskMaster2103 edits a person's name who is a contact in a task.
+
+    - 4a1. TaskMaster2103 updates the tasks' contact's name.
+
+  Use case ends.
+
 
 #### Use case: UCP03 - Delete a person
 
@@ -642,9 +631,15 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 - 3a. The given index is invalid.
 
-  - 3a1. TaskMaster2103 shows an error message.
+    - 3a1. TaskMaster2103 shows an error message.
 
-    Use case resumes at step 2.
+      Use case resumes at step 2.
+
+- 4a. TaskMaster2103 deletes a person who is a contact in a task.
+
+    - 4a1. TaskMaster2103 updates the tasks' contacts.
+
+    Use case ends.
 
 #### Use case: UCP04 - Search for a person
 
@@ -669,9 +664,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 - 1a. The task does not contain a title.
 
-  - 1a1. TaskMaster2103 shows an error message.
+    - 1a1. TaskMaster2103 shows an error message.
 
-    Use case resumes at step 1.
+      Use case resumes at step 1.
 
 #### Use case: UCT02 - Edit a task
 
@@ -692,9 +687,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 - 3a. The given index is invalid.
 
-  - 3a1. TaskMaster2103 shows an error message.
+    - 3a1. TaskMaster2103 shows an error message.
 
-    Use case resumes at step 2.
+      Use case resumes at step 2.
 
 #### Use case: UCT03 - Delete a task
 
@@ -715,9 +710,9 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 - 3a. The given index is invalid.
 
-  - 3a1. TaskMaster2103 shows an error message.
+    - 3a1. TaskMaster2103 shows an error message.
 
-    Use case resumes at step 2.
+      Use case resumes at step 2.
 
 #### Use case: UCT04 - Mark a task as done
 
@@ -741,31 +736,30 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 - 3a. The given index is invalid.
 
-  - 3a1. TaskMaster2103 shows an error message.
+    - 3a1. TaskMaster2103 shows an error message.
 
-    Use case resumes at step 2.
+      Use case resumes at step 2.
 
 #### Use case: UCT05 - Filter task list by done status
 
 ##### MSS
 
-1. User requests to list tasks that are undone.
+1. User requests to list tasks that are done.
 
-2. TaskMaster2103 shows a list of tasks.
-
-   Use case ends.
-
-#### Use case: UCT06 - Filter task list by done status
-
-##### MSS
-
-1. User requests to list tasks that are undone.
-
-2. TaskMaster2103 shows a list of tasks.
+2. TaskMaster2103 shows a list of done tasks.
 
    Use case ends.
 
-#### Use case: UCT07 - Filter task list by tag
+##### Extensions
+
+- 1a. User requests to list tasks that are undone.
+
+    - 1a1. TaskMaster2103 shows a list of undone tasks.
+
+      Use case ends.
+
+
+#### Use case: UCT06 - Filter task list by tag
 
 ##### MSS
 
@@ -775,7 +769,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
    Use case ends.
 
-#### Use case: UCT08 - Search task list by keywords
+#### Use case: UCT07 - Search task list by keywords
 
 ##### MSS
 
@@ -785,7 +779,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
    Use case ends.
 
-#### Use case: UCT09 - Undo previous command
+#### Use case: UCT08 - Undo previous command
 
 ##### MSS
 
@@ -799,17 +793,69 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 - 2a. There are no previously entered commands.
 
-  - 2a1. TaskMaster2103 shows an error message.
+    - 2a1. TaskMaster2103 shows an error message.
 
-    Use case ends.
+      Use case ends.
 
 - 2b. The undo limit is reached.
 
-  - 3a1. TaskMaster2103 shows an error message.
+    - 3a1. TaskMaster2103 shows an error message.
 
-    Use case ends.
+      Use case ends.
 
-_{More to be added}_
+#### Use case: UCT08 - Redo previous command
+
+##### MSS
+
+1. User requests to undo a previously <u>undone command (UCT07)</u>.
+
+2. TaskMaster2103 redoes the previously undone command.
+
+   Use case ends.
+
+##### Extensions
+
+- 2a. There are no previously undone commands.
+
+    - 2a1. TaskMaster2103 shows an error message.
+
+      Use case ends.
+
+- 2b. The redo limit is reached.
+
+    - 3a1. TaskMaster2103 shows an error message.
+
+      Use case ends.
+
+
+#### Use case: UCT10 - Purge command
+
+##### MSS
+
+1. User requests to <u>filter the list by tag(UCT05)</u>.
+
+2. TaskMaster2103 shows a list of filtered tasks.
+
+2. User requests to purge all tasks.
+
+3. TaskMaster2103 purges all tasks visible under the filter, but not the currently-applied filters.
+
+   Use case ends.
+
+##### Extensions
+
+- 1a. User requests to <u>filter the list by done (UCT06)</u>
+
+  Use case resumes at step 2.
+
+- 1b. User requests to <u>filter the list by keywords (UCT07)</u>
+
+  Use case resumes at step 2.
+
+- 2a. The list is empty.
+
+  Use case ends.
+
 
 ### Non-Functional Requirements
 
