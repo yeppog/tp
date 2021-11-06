@@ -161,7 +161,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 
 - `find John` returns `john` and `John Doe`
-- `find alex david` returns `Alex Yeoh`, `David Li`<br>
+- `find teammate1 teaching` returns `Teammate1`, `Teaching Assistant`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 ### Deleting a person : `delete`
@@ -379,18 +379,16 @@ Upon clicking the Add Task Dialog button, the following popup window should appe
 
 ![result for pressing +new button](images/guiAddTaskDialog.png)
 
-Enter relevant text into the text fields.
+Enter relevant text into the text fields. 
 
-**[TODO: PLACE FILLED ADD TASK DIALOG HERE]**
+To add tags or contacts, type the tag into the text field and press the `Enter` key. The tag should be displayed as seen below.
 
-To add tags, type the tag into the text field and press the `Enter` key. The tag should be displayed as seen below.
-
-![result for adding new tag](images/guiAddTag.png)
+![result for adding new tag](images/guiAddTaskDialogFilled.png)
 
 To finish adding a task, click the `Save` button. The task should be added to the task list.
 
-- Pressing the `Enter` key on text fields other than the "Tags" field should add the task to the task list.
-- If invalid arguments are provided, the task will still be added without the invalid arguments upon clicking "Save" or the `Enter` key.
+- Text typed in the tags and contact text fields will not be added to the task if `Enter` is not pressed to add the tag/contact.
+
 
 ### The Task pane
 
