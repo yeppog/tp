@@ -25,18 +25,18 @@ Given below are my contributions to the project.
   - Highlights: To solve this, ***every command and command parser*** had to be refactored to include information about every parameter accepted, and their *multiplicity* (optional or not, can accept multiple or not). Once this was done, however, it allowed for many useful abstractions like auto-generation of command usage message, and detailed error messages that tell the user how exactly the format is wrong.
 - **Code contributed**: [RepoSense link](https://nus-cs2103-ay2122s1.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2021-09-17&tabOpen=true&tabType=authorship&tabAuthor=jeffsieu&tabRepo=AY2122S1-CS2103-F09-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code~other&authorshipIsBinaryFileTypeChecked=false)
 - **Enhancement to existing features**
-  - Rethemed the GUI to have a more uniform aesthetic [`#179`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/179).
-  - Update help window [`#184`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/184)
-  - Slash to focus on command input [`#56`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/56)
+  - Rethemed the GUI to have a more uniform aesthetic ([`#179`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/179)).
+  - Revamped the help window to be auto-generated ([`#184`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/184)).
+  - Implemented slash-to-focus on the command input ([`#56`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/56)).
 
 - **Testing**
-  - Added test cases for task-related commands. [`#58`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/58)
+  - Added test cases for task-related commands ([`#58`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/58)).
 
 - **Documentation**
   - Added `task add`, `task edit` and `task delete` use cases in [`#32`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/32)
-  - Added `task filter` in Developer Guide [`#71`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/71), [`#77`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/77)
+  - Added `task filter` in Developer Guide ([`#71`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/71), [`#77`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/77)).
 
 - **GUI**
-  - Added GUI task list with checkboxes in [`#40`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/40), [`#51`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/51), [`#57`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/57)
+  - Added GUI task list with checkboxes ([`#40`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/40), [`#51`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/51), [`#57`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/57)).
 - Community:
-  - PRs reviewed (with non-trivial comments):[`#44`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/44)[`#70`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/70), [`#89`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/89)
+  - PRs reviewed (with non-trivial comments): [`#44`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/44), [`#70`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/70), [`#89`](https://github.com/AY2122S1-CS2103-F09-2/tp/pull/89)
