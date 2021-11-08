@@ -36,7 +36,7 @@ Below are my contributions to the project.
       has not been executed stores the typed command down, and can be accessed simply by pressing down to the very last
       command.
       
-- **Code contributed**: [Reposense link](https://nus-cs2103-ay2122s1.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2021-09-17&tabOpen=true&tabType=authorship&tabAuthor=yeppog&tabRepo=AY2122S1-CS2103-F09-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false)]
+- **Code contributed**: [Reposense link](https://nus-cs2103-ay2122s1.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2021-09-17&tabOpen=true&tabType=authorship&tabAuthor=yeppog&tabRepo=AY2122S1-CS2103-F09-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false)
 
 - **Enhancements to existing features**: Improved the preliminary design of the help window.
 
@@ -49,7 +49,8 @@ Below are my contributions to the project.
     - Highlights: also added a hyperlink to the hosted User Guide that opens the browser, to prevent unneccesary copy
     pasting of the guide link.
 
-- **Testing**: Added test cases for respective commands or features that were added by myself.
+- **Testing**: Added test cases for respective commands or features that were added by myself (`InputHistory` and
+  `CommandHistory`).
 
 - **Documentation**: 
   
