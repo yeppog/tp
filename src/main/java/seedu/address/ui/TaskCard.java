@@ -2,14 +2,14 @@ package seedu.address.ui;
 
 import java.util.Comparator;
 import java.util.function.Consumer;
-import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
-import seedu.address.commons.core.LogsCenter;
+import javafx.scene.text.TextFlow;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.task.DoneTaskCommand;
 import seedu.address.model.task.Contact;
@@ -18,7 +18,6 @@ import seedu.address.model.task.Timestamp;
 
 public class TaskCard extends UiPart<Region> {
     private static final String FXML = "TaskCard.fxml";
-    private static final Logger logger = LogsCenter.getLogger(UiManager.class);
 
     @FXML
     private Label name;
@@ -38,6 +37,12 @@ public class TaskCard extends UiPart<Region> {
     @FXML
     private FlowPane contacts;
 
+    @FXML
+    private HBox textBox;
+
+    @FXML
+    private TextFlow nameTextFlow;
+
     /**
      * Creates a card representing a task. Used in a task list to display a task.
      * @param task The task to represent
@@ -47,6 +52,10 @@ public class TaskCard extends UiPart<Region> {
         super(FXML);
 
         name.setText(index.getOneBased() + ".  " + task.getTitle());
+
+        nameTextFlow.prefWidthProperty().bind(textBox.widthProperty().subtract(20).multiply(0.95));
+        name.prefWidthProperty().bind(nameTextFlow.widthProperty().subtract(5));
+
 
         if (task.getDescription().isEmpty()) {
             description.setVisible(false);
@@ -78,7 +87,6 @@ public class TaskCard extends UiPart<Region> {
                         .orElse("");
             timestamp.setText(text);
             if (task.isOverdue()) {
-                logger.info(Boolean.toString(task.isOverdue()));
                 timestamp.getStyleClass().add("overdue");
             }
         }

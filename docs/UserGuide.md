@@ -3,10 +3,10 @@ layout: page
 title: User Guide
 ---
 
-# User Guide V1.3
+# TaskMaster2103 V1.4
 
-TaskMaster2103 V1.3 is a desktop app for students to manage their tasks and contacts, optimized for
-use via a CLI while still having the benefits of a GUI.
+TaskMaster2103 V1.4 is a desktop app for students to manage their tasks and contacts, optimized for
+use via a CLI while still having the benefits of a GUI option if needed.
 
 ## Table of Contents
 
@@ -15,6 +15,7 @@ use via a CLI while still having the benefits of a GUI.
    1. [Address Book Commands](#ab3comm)
    2. [Task List Commands](#tasklistcomm)
    3. [Other Shortcuts/Commands](#shortcuts)
+   4. [GUI Guide](#gui)
 3. [FAQ](#faq)
 4. [Command Summary](#commandsummary)
 
@@ -71,12 +72,12 @@ use via a CLI while still having the benefits of a GUI.
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
 - Parameters must be provided exactly.
-  
+
     - Each parameter is expected only once in the command. If you specified it multiple times,
       an error message will be shown.
-      
+
     - If an extraneous parameter is specified, an error message will be shown. (Does not apply for tags or contacts)
-    
+
     - Parameter or argument values cannot contain the character `/`. An error message will be shown if `/` is present in the argument value. For example, `task add 1/2` is invalid, and can be replaced with valid alternatives such as `task add 1 or 2` instead.
 
 </div>
@@ -160,7 +161,7 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 
 - `find John` returns `john` and `John Doe`
-- `find alex david` returns `Alex Yeoh`, `David Li`<br>
+- `find teammate1 teaching` returns `Teammate1`, `Teaching Assistant`<br>
   ![result for 'find alex david'](images/findAlexDavidResult.png)
 
 ### Deleting a person : `delete`
@@ -313,7 +314,7 @@ Redo the previous command, returning the user back to the previous state, up to 
 
 Format: `redo`
 
-This command can also be invoked through using the shortcut `CTRL + Y` or `CMD + Y` or `CTRL + SHIFT + Z` 
+This command can also be invoked through using the shortcut `CTRL + Y` or `CMD + Y` or `CTRL + SHIFT + Z`
 or `CMD + SHIFT + Z`.
 
 
@@ -346,7 +347,7 @@ If your changes to the data file makes its format invalid, TaskMaster will disca
 </div>
 
 ---
-
+<a name="gui"></a>
 ## Using the GUI
 
 The following image shows an example of the main menu. The task list is shown on the left of the app, while the address book is shown on the right.
@@ -355,8 +356,8 @@ The following image shows an example of the main menu. The task list is shown on
 
 ### 1. CLI
 
-- A Command Line Interface is provided for users to type commands. 
-- If not focused on the CLI, pressing the `/` key will allow the user to focus on the text box and immediately begin typing. 
+- A Command Line Interface is provided for users to type commands.
+- If not focused on the CLI, pressing the `/` key will allow the user to focus on the text box and immediately begin typing.
 - To retrieve previously typed commands, you may see "Retrieving previous commands" in the "Other Shortcuts/Commands" section above.
 
 ### 2. Filter Dropdown
@@ -378,18 +379,16 @@ Upon clicking the Add Task Dialog button, the following popup window should appe
 
 ![result for pressing +new button](images/guiAddTaskDialog.png)
 
-Enter relevant text into the text fields.
+Enter relevant text into the text fields. 
 
-**[TODO: PLACE FILLED ADD TASK DIALOG HERE]**
+To add tags or contacts, type the tag into the text field and press the `Enter` key. The tag should be displayed as seen below.
 
-To add tags, type the tag into the text field and press the `Enter` key. The tag should be displayed as seen below.
-
-![result for adding new tag](images/guiAddTag.png)
+![result for adding new tag](images/guiAddTaskDialogFilled.png)
 
 To finish adding a task, click the `Save` button. The task should be added to the task list.
 
-- Pressing the `Enter` key on text fields other than the "Tags" field should add the task to the task list.
-- If invalid arguments are provided, the task will still be added without the invalid arguments upon clicking "Save" or the `Enter` key.
+- Text typed in the tags and contact text fields will not be added to the task if `Enter` is not pressed to add the tag/contact.
+
 
 ### The Task pane
 

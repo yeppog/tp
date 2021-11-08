@@ -1,0 +1,38 @@
+@startuml
+autoactivate on
+box "Logic" #LightBlue
+participant ":EditTaskCommandParser" as ETCP
+participant "desc:EditTaskDescriptor" as ed
+participant "copy:EditTaskDescriptor" as copy
+participant "e:EditTaskCommand" as e
+end box
+
+[-> ETCP ** : parse(arguments)
+
+
+
+note over ed
+Only edited values are set in desc
+end note
+
+activate ETCP
+ETCP -> ed ** :
+activate ed
+return desc
+ETCP -> ed ++: setDescription\n("Example description")
+return
+
+ETCP -> e ** : new EditTask\nCommand\n(index, desc)
+activate e
+
+note over copy
+Defensive copy of desc created
+end note
+e -> copy ** : new EditTask\nDesciptor(desc)
+activate copy
+return copy
+destroy ed
+
+return e
+return e
+@enduml

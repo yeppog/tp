@@ -29,4 +29,18 @@ public class AddTaskCommandTest {
 
         assertCommandSuccess(addTaskCommand, model, expectedMessage, expectedModel);
     }
+
+    @Test
+    void execute_validTaskMultipleContactsTags_taskAdded() {
+        Task task = new TaskBuilder()
+                .withContacts("Alice", "Bob")
+                .withTags("Tag1", "Tag2").build();
+        AddTaskCommand addTaskCommand = new AddTaskCommand(task);
+        String expectedMessage = String.format(MESSAGE_SUCCESS, task);
+        Model expectedModel = new ModelManager(
+                new AddressBook(model.getAddressBook()), new TaskList(model.getTaskList()), new UserPrefs());
+        expectedModel.addTask(task);
+
+        assertCommandSuccess(addTaskCommand, model, expectedMessage, expectedModel);
+    }
 }

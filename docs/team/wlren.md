@@ -2,47 +2,17 @@
 layout: page
 title: Ren Weilin's Project Portfolio Page
 ---
+## Project: TaskMaster2103
 
-## Technical skills
+TaskMaster2103 is an extension to [AddressBook - Level 3](https://se-education.org/addressbook-level3/), a CLI-based address book JavaFX application.
+It adds extensive task-tracking functionalities to the base application, and has seamless GUI integration that complement the main CLI commands.
 
-Programming competencies:  Java, Dart, Python, C#, HTML/CSS, JavaScript, PHP
+Given below are my contributions to the project.
 
-Technologies: Flutter, Unity, AWS (Cloud Practitioner certified)
-
-## Work Experience
-
-#### Game Development Intern, Rock Nano Global
-
-- Designed and implemented various components of 3D game with C# and Unity Editor, including inventory and mission systems, greatly enhancing game experience
-- Collaborated closely with cross-functioning team including art, game design, technology and QA to ensure smooth transition of project from pre-production to production status
-- Resolved numerous bugs and JIRA tasks, including a bug which caused development backlog, improved development speed
-
-
-## Projects and Competitions
-
-#### [Multiverse](https://github.com/wlren/multiverse)
-- Attained highest level of “Artemis” (top 8% in cohort of 700) in CP2106 Independent Software
-  Development Project
-
-- Identified poor UX in NUS Campus related applications and designed a solution of a mobile
-    application which integrates 4 campus applications under a single dashboard
-
-- Co-built android application using Flutter and Firebase, with emphasis on proper Software
-    Development Life Cycle, using Mockito as unit testing library
-
-#### Bovine Identification
-
-- Developed a livestock identification algorithm that accurately identifies specific cattle based on
-  muzzle photos with Python and OpenCV, as a solution for livestock insurance
-- Achieved accuracy of 93.3% of matching muzzle photos to individual cattle
-- Awarded $10000 of funding by the I&E Practicum@SoC to pursue project as a start-up
-
-#### [TrailMix](https://github.com/wlren/trailmix)
-
-- Developed Flutter application with Google Map APIs to guide user through key attractions in
-  Sungei Buloh Wetland Reserve
-- Attained app rating of 5/5 stars on Google Play Store across all reviews.
-
-## Additional Information
-
-Fluent in English, Chinese (spoken and written)
+- **New Feature**: Added time stamp validation to tasks
+- **Enhancement to existing features**:
+- **Testing**:
+- **Code contributed**: [RepoSense link](https://nus-cs2103-ay2122s1.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2021-09-17&tabOpen=true&tabType=authorship&tabAuthor=wlren&tabRepo=AY2122S1-CS2103-F09-2%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code~other&authorshipIsBinaryFileTypeChecked=false)
+- **Documentation**:
+- **Project management**:
+- **Community**:
